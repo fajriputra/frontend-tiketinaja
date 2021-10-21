@@ -1,0 +1,24 @@
+@import "assets/scss/_colorVariables.scss";
+@import "assets/scss/_fontVariables.scss";
+
+.line-wrapper {
+  margin: $size-20 auto;
+
+  @media (min-width: 768px) {
+    margin: $size-30 auto;
+  }
+
+  .line {
+    border: 1px solid $line;
+    width: 20%;
+  }
+
+  .or {
+    color: #aaaaaa;
+    font-size: $size-14;
+
+    @media (min-width: 768px) {
+      font-size: $size-16;
+    }
+  }
+}

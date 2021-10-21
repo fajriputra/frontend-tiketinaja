@@ -1,0 +1,23 @@
+@import "assets/scss/_fontVariables.scss";
+@import "assets/scss/_colorVariables.scss";
+
+.card__wrapper {
+  margin: 0 auto 30px;
+
+  @media (min-width: 768px) {
+    height: 100%;
+    margin: 0 $size-48 0 0;
+  }
+
+  .detail__movie--image {
+    width: 200px;
+    // height: 100%;
+    margin-bottom: 0;
+    border-radius: inherit;
+
+    @media (min-width: 768px) {
+      width: 236px;
+      height: 362px;
+    }
+  }
+}

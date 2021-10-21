@@ -1,0 +1,108 @@
+@import "assets/scss/_colorVariables.scss";
+@import "assets/scss/_fontVariables.scss";
+
+.content__seat--wrapper {
+  background-color: $white;
+  border: none;
+  padding: 0;
+  margin-right: 0;
+
+  .content__seat {
+    background-color: inherit;
+    border: inherit;
+    padding: $size-40 $size-16;
+    margin-right: inherit;
+    margin-bottom: $size-30;
+
+    @media (min-width: 768px) {
+      padding: 100px;
+    }
+
+    &--screen {
+      font-size: $size-14;
+      color: $body;
+    }
+
+    .line.seat {
+      height: 8px;
+      color: #9570fe;
+      border-radius: $size-10;
+      margin-bottom: $size-24;
+    }
+
+    &--box {
+      margin-bottom: $size-30;
+    }
+
+    &--text {
+      font-size: $size-18;
+      color: #000;
+      font-weight: 600;
+      margin-bottom: $size-20;
+
+      @media (min-width: 768px) {
+        margin-bottom: $size-24;
+      }
+    }
+
+    // mobile seat
+    .content__mobile--image {
+      width: $size-18;
+      height: $size-18;
+      margin-bottom: $size-10;
+      margin-right: $size-10;
+    }
+
+    .content__mobile--text {
+      font-size: $size-14;
+      color: $body;
+    }
+
+    &--available {
+      font-size: $size-14;
+      color: $body;
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      row-gap: $size-16;
+
+      @media (min-width: 768px) {
+        display: flex;
+        justify-content: space-evenly;
+      }
+
+      .choose__seat--info {
+        display: flex;
+        align-items: center;
+
+        .box__available {
+          width: $size-25;
+          height: $size-25;
+          margin-right: $size-16;
+          background-color: #d6d8e7;
+          border-radius: 4px;
+        }
+        .box__selected {
+          width: $size-25;
+          height: $size-25;
+          margin-right: $size-16;
+          background-color: $primaryColor;
+          border-radius: 4px;
+        }
+        .box__love {
+          width: $size-25;
+          height: $size-25;
+          margin-right: $size-16;
+          background-color: #f589d7;
+          border-radius: 4px;
+        }
+        .box__sold {
+          width: $size-25;
+          height: $size-25;
+          margin-right: $size-16;
+          background-color: $label;
+          border-radius: 4px;
+        }
+      }
+    }
+  }
+}

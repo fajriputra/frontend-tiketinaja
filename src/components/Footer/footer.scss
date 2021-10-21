@@ -1,0 +1,13 @@
+@import "assets/scss/_fontVariables.scss";
+@import "assets/scss/_colorVariables.scss";
+
+.footer__text {
+  color: $label;
+  margin: 50px auto;
+  text-align: left;
+  font-size: $size-14;
+
+  @media (min-width: 768px) {
+    text-align: center;
+  }
+}

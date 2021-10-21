@@ -1,0 +1,44 @@
+@import "assets/scss/_fontVariables.scss";
+@import "assets/scss/_colorVariables.scss";
+
+.hero {
+  &__content {
+    padding-top: 0;
+
+    @media (min-width: 768px) {
+      padding-top: 156px;
+    }
+
+    &--text {
+      font-family: "Mulish", sans-serif;
+      padding-bottom: $size-30;
+
+      @media (min-width: 768px) {
+        padding-bottom: 0;
+      }
+
+      p {
+        font-size: $size-16;
+        color: #a0a3bd;
+
+        @media (min-width: 768px) {
+          font-size: $size-24;
+        }
+      }
+
+      h1 {
+        font-size: $size-48;
+        color: $primaryColor;
+
+        @media (min-width: 768px) {
+          font-size: $size-56;
+        }
+      }
+    }
+  }
+
+  &__content--image {
+    margin-bottom: 0;
+    height: 420px;
+  }
+}

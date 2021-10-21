@@ -1,0 +1,52 @@
+@import "assets/scss/_colorVariables.scss";
+@import "assets/scss/_fontVariables.scss";
+
+.content__payment {
+  background-color: #f5f6f8;
+  padding-top: 0;
+  padding-bottom: $size-50;
+  font-family: "Mulish", sans-serif;
+
+  @media (min-width: 768px) {
+    padding: 70px 0;
+  }
+
+  &--info {
+    background-color: $white;
+    border-radius: 8px;
+    padding: $size-40;
+    margin-bottom: $size-40;
+    border: none;
+    margin-right: 0;
+  }
+
+  .btn__action {
+    &.prev:hover {
+      background-color: $primaryColor;
+      color: $white;
+    }
+
+    &.order {
+      background-color: $primaryColor;
+      color: $white;
+      margin-bottom: 0;
+
+      &:hover {
+        background-color: transparent;
+        color: $primaryColor;
+      }
+    }
+  }
+
+  .content__info--person {
+    background-color: $white;
+    padding: $size-30;
+    border: none;
+    margin-right: 0;
+    margin-bottom: 0;
+
+    @media (min-width: 768px) {
+      padding: $size-40;
+    }
+  }
+}

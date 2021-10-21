@@ -1,0 +1,30 @@
+@import "assets/scss/_colorVariables.scss";
+@import "assets/scss/_fontVariables.scss";
+
+form {
+  .form-group {
+    margin-bottom: $size-20;
+
+    @media (min-width: 768px) {
+      margin-bottom: $size-30;
+    }
+
+    label.form-label {
+      color: #696f79;
+    }
+  }
+
+  .alert {
+    display: flex;
+    align-items: center;
+    height: 50px;
+    margin-bottom: 0;
+    background-color: #fae0ae;
+
+    .icon-warning {
+      width: $size-20;
+      height: $size-20;
+      margin-right: $size-18;
+    }
+  }
+}

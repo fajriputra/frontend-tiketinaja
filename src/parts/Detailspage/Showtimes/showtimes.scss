@@ -1,0 +1,163 @@
+@import "assets/scss/_fontVariables.scss";
+@import "assets/scss/_colorVariables.scss";
+
+.showtimes {
+  font-family: "Mulish", sans-serif;
+  background-color: #f5f6f8;
+  padding: 50px 0;
+
+  @media (min-width: 768px) {
+    padding: 70px 0;
+  }
+
+  &__heading {
+    text-align: center;
+
+    &--title {
+      color: $title;
+      font-weight: 600;
+    }
+  }
+
+  .input__wrapper {
+    margin: $size-40 auto $size-48;
+
+    .input__control {
+      width: 100%;
+      border: none;
+      outline: none;
+      background-color: $inputBg;
+      height: 45px;
+
+      @media (min-width: 768px) {
+        width: 284px;
+      }
+
+      &:focus {
+        box-shadow: none;
+      }
+    }
+  }
+
+  &__list {
+    display: grid;
+    grid-template-columns: repeat(1, 1fr);
+    gap: $size-30;
+
+    @media (min-width: 768px) {
+      grid-template-columns: repeat(3, 1fr);
+      justify-content: center;
+    }
+
+    &--card {
+      background-color: #fff;
+      border: none;
+      margin-right: 0;
+
+      .showtimes__head {
+        display: flex;
+
+        @media (max-width: 768px) {
+          flex-flow: column;
+          justify-content: center;
+          align-items: center;
+        }
+
+        .showtimes__wrapper--image {
+          width: 100px;
+          margin-bottom: $size-12;
+
+          @media (min-width: 768px) {
+            margin-bottom: 0;
+            margin-right: $size-40;
+          }
+
+          .img-cover {
+            height: auto;
+          }
+        }
+
+        .showtimes__text {
+          &--title {
+            display: none;
+            font-size: $size-24;
+            font-weight: 600;
+            color: #000;
+
+            @media (min-width: 768px) {
+              display: block;
+            }
+          }
+
+          &--subtitle {
+            font-size: $size-13;
+            letter-spacing: 1px;
+            font-weight: 300;
+            color: $label;
+            margin-bottom: 0;
+            text-align: center;
+            line-height: $size-28;
+
+            @media (min-width: 768px) {
+              text-align: left;
+              font-size: $size-12;
+              line-height: $size-18;
+            }
+
+            .text__location {
+              display: block;
+            }
+          }
+        }
+      }
+    }
+
+    .showtimes__time {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: $size-16;
+      margin-bottom: $size-24;
+
+      &--content {
+        .time__schedules {
+          color: $label;
+          font-size: $size-12;
+
+          @media (min-width: 768px) {
+            font-size: $size-16;
+          }
+        }
+      }
+    }
+
+    .showtimes__price {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: $size-30;
+      font-size: $size-14;
+
+      @media (min-width: 768px) {
+        font-size: $size-16;
+      }
+
+      &--text {
+        color: #6b6b6b;
+      }
+
+      &--seat {
+        color: #000;
+        font-weight: 600;
+      }
+    }
+
+    .btn-book {
+      font-size: $size-14;
+      // height: 45px;
+
+      @media (min-width: 768px) {
+        font-size: $size-16;
+      }
+    }
+  }
+}

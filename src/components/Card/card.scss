@@ -1,0 +1,14 @@
+@import "assets/scss/_fontVariables.scss";
+@import "assets/scss/_colorVariables.scss";
+
+.movies__card {
+  margin-right: $size-16;
+  border-radius: 8px;
+  padding: $size-16;
+  border: 2px solid $line;
+
+  @media (min-width: 768px) {
+    margin-right: $size-24;
+    padding: $size-32;
+  }
+}

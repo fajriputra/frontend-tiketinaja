@@ -1,0 +1,174 @@
+@import "assets/scss/_colorVariables.scss";
+@import "assets/scss/_fontVariables.scss";
+
+.signin {
+  position: relative;
+  max-width: 100%;
+  overflow: hidden;
+  background-color: $mainBg;
+  padding: 30px 24px 55px;
+  margin-bottom: 0;
+
+  @media (min-width: 768px) {
+    padding: 0;
+  }
+
+  &__logo--mobile {
+    width: 130px;
+    margin-bottom: $size-30;
+    padding: 0;
+  }
+
+  &__overlay {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(43, 21, 107, 0.63);
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  &__background {
+    width: 100%;
+    height: 800px;
+    object-fit: cover;
+  }
+
+  .test {
+    position: relative;
+  }
+
+  &__logo {
+    width: 300px;
+  }
+
+  &__title {
+    font-family: "Inter", sans-serif;
+    color: $white;
+    margin-bottom: 0;
+    font-weight: normal;
+  }
+
+  &__form {
+    height: 100%;
+  }
+
+  form {
+    font-family: "Inter", sans-serif;
+    width: auto;
+
+    @media (min-width: 768px) {
+      width: 400px;
+    }
+
+    .signin__text--heading {
+      font-weight: 600;
+      margin-bottom: $size-12;
+      font-size: $size-28;
+      color: $title;
+
+      @media (min-width: 768px) {
+        font-size: $size-48;
+      }
+    }
+
+    .signin__text--subheading {
+      font-size: $size-16;
+      margin-bottom: $size-30;
+      color: #aaaaaa;
+
+      @media (min-width: 768px) {
+        font-size: $size-18;
+        margin-bottom: $size-40;
+      }
+    }
+
+    .form-group {
+      margin-bottom: $size-20;
+
+      @media (min-width: 768px) {
+        margin-bottom: $size-24;
+      }
+
+      label.form-label {
+        font-family: "Mulish", sans-serif;
+        color: $label;
+      }
+
+      .eye-pass {
+        position: absolute;
+        width: $size-18;
+        right: $size-25;
+        top: $size-42;
+
+        @media (min-width: 768px) {
+          top: $size-45;
+        }
+      }
+    }
+
+    .btn-signin {
+      margin: $size-20 auto;
+      font-size: $size-16;
+      padding: $size-12 $size-30;
+
+      @media (min-width: 768px) {
+        font-size: $size-18;
+        margin: $size-30 auto;
+      }
+    }
+
+    .forgot-password {
+      color: #8692a6;
+      font-weight: 500;
+      font-size: $size-14;
+
+      @media (min-width: 768px) {
+        font-size: $size-16;
+      }
+
+      span {
+        color: $primaryColor;
+        border-bottom: 1px solid $primaryColor;
+      }
+    }
+
+    .signin__button {
+      font-family: "Mulish", sans-serif;
+      margin-bottom: $size-30;
+
+      @media (min-width: 768px) {
+        margin-bottom: 0;
+      }
+
+      &--btn-google {
+        padding: $size-12 $size-24;
+        font-weight: 600 !important;
+
+        @media (min-width: 768px) {
+          padding: $size-12 $size-50 $size-12 $size-24;
+        }
+      }
+
+      &--btn-fb {
+        font-weight: 600;
+        padding: $size-12 $size-24;
+
+        @media (min-width: 768px) {
+          padding: $size-12 $size-50 $size-12 $size-24;
+        }
+      }
+
+      .signin__sosmed {
+        width: $size-25;
+        height: $size-25;
+
+        &--text {
+          color: #a0a3bd;
+        }
+      }
+    }
+  }
+}

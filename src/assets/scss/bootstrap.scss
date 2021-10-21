@@ -1,0 +1,215 @@
+/*!
+ * Bootstrap v5.0.2 (https://getbootstrap.com/)
+ * Copyright 2011-2021 The Bootstrap Authors
+ * Copyright 2011-2021 Twitter, Inc.
+ * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
+ */
+
+// scss-docs-start import-stack
+// Configuration
+
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Mulish:wght@300;400;500;600;700&family=Open+Sans:wght@400;500&display=swap");
+
+@import "functions";
+@import "variables";
+@import "mixins";
+@import "utilities";
+
+// Layout & components
+@import "root";
+@import "reboot";
+@import "type";
+@import "images";
+@import "containers";
+@import "grid";
+@import "fontVariables";
+@import "colorVariables";
+@import "tables";
+@import "forms";
+@import "buttons";
+@import "transitions";
+@import "dropdown";
+@import "button-group";
+@import "nav";
+@import "navbar";
+@import "card";
+@import "accordion";
+@import "breadcrumb";
+@import "pagination";
+@import "badge";
+@import "alert";
+@import "progress";
+@import "list-group";
+@import "close";
+@import "toasts";
+@import "modal";
+@import "tooltip";
+@import "popover";
+@import "carousel";
+@import "spinners";
+@import "offcanvas";
+
+// Helpers
+@import "helpers";
+
+// Utilities
+@import "utilities/api";
+// scss-docs-end import-stack
+
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+section,
+header {
+  margin-bottom: 50px;
+
+  @media (min-width: 768px) {
+    margin-bottom: 70px;
+  }
+}
+
+.img-cover {
+  object-fit: cover;
+  height: 100%;
+  width: 100%;
+}
+
+.img-contain {
+  object-fit: contain;
+  height: 100%;
+  width: 100%;
+}
+
+p,
+.p {
+  margin: 0;
+}
+
+.btn {
+  outline: none;
+  border: none;
+
+  &:focus {
+    box-shadow: none;
+  }
+}
+
+.btn-primary {
+  background-color: $primaryColor;
+
+  &:hover {
+    background-color: $hoverColor;
+  }
+
+  &:focus {
+    box-shadow: none !important;
+  }
+}
+
+.btn-view {
+  font-size: $size-14;
+  text-decoration: none;
+  color: $primaryColor;
+  font-weight: 600;
+
+  @media (min-width: 768px) {
+    font-size: $size-16;
+  }
+
+  &:hover {
+    color: $hoverColor;
+  }
+}
+
+.btn-details {
+  border: 1px solid $primaryColor;
+  font-size: $size-12;
+  color: $primaryColor;
+  padding: 0.5rem $size-12;
+
+  @media (min-width: 768px) {
+    font-size: $size-14;
+  }
+
+  &:hover {
+    color: $white;
+    background-color: $primaryColor;
+  }
+}
+
+.btn-book {
+  font-size: $size-12;
+  padding: 0.5rem $size-12;
+  border: 1px solid $primaryColor;
+
+  @media (min-width: 768px) {
+    font-size: $size-14;
+  }
+
+  &:hover {
+    color: $primaryColor;
+    background-color: $white;
+  }
+}
+
+.button__wrapper {
+  display: flex;
+  flex-flow: column;
+
+  @media (min-width: 768px) {
+    flex-flow: row;
+    justify-content: space-between;
+  }
+
+  .btn__action {
+    font-weight: 700;
+    color: $primaryColor;
+    width: 100%;
+    height: $size-50;
+    border: 2px solid $primaryColor;
+    margin-bottom: $size-16;
+
+    @media (min-width: 768px) {
+      width: 200px;
+      margin-bottom: 0;
+    }
+
+    &.change:hover {
+      background-color: $primaryColor;
+      color: $white;
+    }
+
+    &.checkout {
+      background-color: $primaryColor;
+      color: $white;
+      margin-bottom: 0;
+
+      &:hover {
+        background-color: transparent;
+        color: $primaryColor;
+      }
+    }
+  }
+}
+
+.content__heading {
+  font-size: $size-18;
+  font-weight: bold;
+  color: $title;
+  margin-bottom: $size-24;
+
+  @media (min-width: 768px) {
+    font-size: $size-24;
+  }
+}
+
+.shadow {
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.08);
+}
+
+.line {
+  color: $line;
+}

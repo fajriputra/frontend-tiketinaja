@@ -1,0 +1,27 @@
+@import "assets/scss/_colorVariables.scss";
+@import "assets/scss/_fontVariables.scss";
+
+.content__info--body {
+  .content__wrapper--info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    .content__text--title {
+      color: #6b6b6b;
+      margin-bottom: 0;
+      font-size: $size-20;
+    }
+
+    .content__text--name {
+      color: $title;
+      margin-bottom: 0;
+      font-size: $size-20;
+
+      &.total__price {
+        color: #000;
+        font-weight: 600;
+      }
+    }
+  }
+}

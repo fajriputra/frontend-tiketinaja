@@ -1,0 +1,31 @@
+@import "assets/scss/_colorVariables.scss";
+@import "assets/scss/_fontVariables.scss";
+
+.content__movie--select {
+  justify-content: space-between;
+  align-items: center;
+  background-color: $white;
+  border: none;
+  padding: $size-30 $size-48;
+  margin-bottom: $size-48;
+  margin-right: 0;
+
+  .content__movie--name {
+    font-size: $size-24;
+    color: #000;
+    font-weight: 600;
+    margin-bottom: 0;
+  }
+
+  .btn-change {
+    background-color: $inputBg;
+    padding: $size-10 $size-24;
+    color: $primaryColor;
+    font-weight: 600;
+
+    &:hover {
+      background-color: $mainBg;
+      color: $hoverColor;
+    }
+  }
+}

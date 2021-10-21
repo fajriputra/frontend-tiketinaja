@@ -1,0 +1,106 @@
+@import "assets/scss/_fontVariables.scss";
+@import "assets/scss/_colorVariables.scss";
+
+.sitelink {
+  font-family: "Mulish", sans-serif;
+  color: $label;
+
+  &__logo {
+    margin-bottom: $size-20;
+
+    @media (min-width: 768px) {
+      margin-right: 90px;
+      margin-bottom: 0;
+    }
+
+    &--image {
+      width: 130px;
+      height: auto;
+      margin-bottom: $size-20;
+
+      @media (min-width: 768px) {
+        width: 200px;
+        margin-bottom: $size-24;
+      }
+    }
+
+    .sitelink__info {
+      font-size: $size-14;
+    }
+  }
+
+  &__list--wrapper {
+    padding-top: $size-16;
+    margin-right: $size-50;
+
+    &:last-child {
+      margin-right: 0;
+    }
+
+    h5 {
+      font-size: $size-16;
+      font-weight: bold;
+      margin-bottom: $size-16;
+      color: #000;
+
+      @media (min-width: 768px) {
+        margin-bottom: $size-24;
+      }
+    }
+
+    .list-group {
+      @media (max-width: 768px) {
+        flex-flow: wrap;
+      }
+
+      .list-group-item {
+        padding: 0 0 $size-14 0;
+        border: none;
+        font-size: $size-14;
+
+        a {
+          color: $label;
+          text-decoration: none;
+
+          @media (max-width: 768px) {
+            margin-right: $size-40;
+          }
+        }
+
+        &:last-child a:last-of-type {
+          margin-right: 0;
+        }
+
+        .sponsor__logo {
+          width: 80px;
+          height: $size-44;
+          margin-bottom: 0;
+          margin-right: $size-40;
+
+          @media (min-width: 768px) {
+            width: 120px;
+            margin-right: 0;
+          }
+        }
+
+        &:last-child .sponsor__logo:last-of-type {
+          margin-right: 0;
+        }
+
+        span {
+          display: none;
+          font-weight: 600;
+
+          @media (min-width: 768px) {
+            display: inline-block;
+          }
+        }
+
+        .icon-sosmed {
+          width: $size-30;
+          height: $size-30;
+        }
+      }
+    }
+  }
+}

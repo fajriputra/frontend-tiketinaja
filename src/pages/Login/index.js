@@ -1,0 +1,134 @@
+import React from "react";
+
+import LogoTickitzAuth from "assets/images/logo-tickitz-white.png";
+import LogoTickitz from "assets/images/logo-tickitz-blue.png";
+import Background from "assets/images/bg-auth.png";
+
+// icons
+import { ReactComponent as IconGoogle } from "assets/images/icons/icon-google.svg";
+import { ReactComponent as IconFacebook } from "assets/images/icons/icon-fb.svg";
+
+// hooks
+import useTogglePassword from "hooks/useTogglePassword";
+
+import InputText from "components/UI/Form/InputText";
+import Button from "components/UI/Button";
+
+import "./login.scss";
+import LineBreak from "components/LineBreak";
+
+const LoginPage = () => {
+  const [inputType, Icon] = useTogglePassword();
+
+  return (
+    <section className="signin">
+      <div className="d-md-none">
+        <Button type="link" href="/" className="btn signin__logo--mobile">
+          <img src={LogoTickitz} alt="Logo mobile" className="img-cover" />
+        </Button>
+      </div>
+      <div className="row">
+        <div className="col-md-7 d-none d-md-block test p-0">
+          <div className="signin__overlay">
+            <img
+              src={LogoTickitzAuth}
+              alt="Banner auth"
+              className="signin__logo"
+            />
+            <h3 className="signin__title">wait, watch, wow!</h3>
+          </div>
+          <img
+            src={Background}
+            alt="Banner auth"
+            className="signin__background"
+          />
+        </div>
+        <div className="col-md-5 m-0">
+          <div className="signin__form d-md-flex justify-content-md-center align-items-md-center">
+            <form>
+              <div className="signin__text">
+                <h1 className="signin__text--heading">Sign In</h1>
+                <p className="signin__text--subheading">
+                  Sign in with your data that you entered during your
+                  registration
+                </p>
+              </div>
+
+              <div className="form-group position-relative">
+                <label htmlFor="email" className="form-label">
+                  Email
+                </label>
+                <InputText
+                  type="email"
+                  name="email"
+                  placeholder="Write your email"
+                />
+              </div>
+              <div className="form-group position-relative">
+                <label htmlFor="password" className="form-label">
+                  Password
+                </label>
+                <InputText
+                  type={inputType}
+                  name="password"
+                  placeholder="Write your password"
+                />
+
+                <span className="eye-pass">{Icon}</span>
+              </div>
+
+              <Button className="btn btn-signin w-100" isPrimary>
+                Sign In
+              </Button>
+
+              <Button
+                type="link"
+                href="/forgot-password"
+                style={{ textDecoration: "none" }}
+              >
+                <p className="forgot-password text-center">
+                  Forgot your password? <span>Reset now </span>
+                </p>
+              </Button>
+
+              <LineBreak />
+
+              <div
+                className="
+                  d-flex
+                  justify-content-evenly
+                  justify-content-md-between
+                  signin__button
+                "
+              >
+                <Button
+                  className="btn signin__button--btn-google d-flex align-items-center shadow"
+                  style={{ borderRadius: "0.375rem" }}
+                >
+                  <IconGoogle className="signin__sosmed me-0" />
+                  <span className="ms-3 signin__sosmed--text d-none d-md-block">
+                    Google
+                  </span>
+                </Button>
+                <Button
+                  className="btn btn
+                    signin__button--btn-fb
+                    d-flex
+                    align-items-center shadow"
+                  style={{ borderRadius: "0.375rem" }}
+                >
+                  <IconFacebook className="signin__sosmed me-0" />
+                  <span className="ms-3 signin__sosmed--text d-none d-md-block">
+                    Facebook
+                  </span>
+                </Button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+};
+
+export default LoginPage;

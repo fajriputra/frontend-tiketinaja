@@ -1,0 +1,64 @@
+@import "assets/scss/_fontVariables.scss";
+@import "assets/scss/_colorVariables.scss";
+
+.now__movies {
+  background-color: #f5f6f8;
+  padding: 50px 0;
+
+  @media (min-width: 768px) {
+    padding: 70px 0;
+  }
+
+  &--text {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: $primaryColor;
+    font-family: "Mulish", sans-serif;
+    padding-bottom: $size-40;
+
+    h4 {
+      font-weight: 700;
+      margin-bottom: 0;
+
+      &::after {
+        content: "";
+        width: 100px;
+        display: none;
+        margin: 0.3rem auto 0;
+        border: 2px solid #5f2eea;
+        border-radius: $size-15;
+
+        @media (min-width: 768px) {
+          display: block;
+        }
+      }
+    }
+  }
+
+  &--list {
+    display: flex;
+    overflow: auto;
+
+    &::-webkit-scrollbar {
+      display: none;
+    }
+
+    .card-hover {
+      &:hover .hover-state {
+        display: block;
+        margin-top: 1rem;
+      }
+
+      .now__movies--image {
+        width: 160px;
+        border-radius: inherit;
+        margin-bottom: 0;
+      }
+
+      .hover-state {
+        display: none;
+      }
+    }
+  }
+}

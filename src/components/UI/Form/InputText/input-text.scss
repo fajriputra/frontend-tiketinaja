@@ -1,0 +1,23 @@
+@import "assets/scss/_colorVariables.scss";
+@import "assets/scss/_fontVariables.scss";
+
+.form-control {
+  padding: $size-12 $size-20;
+  border-radius: 0.375rem;
+  border-color: $line;
+  background-color: $inputBg;
+  font-size: $size-14;
+
+  @media (min-width: 768px) {
+    font-size: $size-16;
+  }
+
+  &::placeholder {
+    font-family: "Mulish", sans-serif;
+    color: #a0a3bd !important;
+  }
+
+  &:focus {
+    box-shadow: none;
+  }
+}

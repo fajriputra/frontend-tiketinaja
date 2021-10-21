@@ -1,0 +1,31 @@
+@import "assets/scss/_fontVariables.scss";
+@import "assets/scss/_colorVariables.scss";
+
+.content__movie--head {
+  font-family: "Mulish", sans-serif;
+  text-align: center;
+
+  @media (min-width: 768px) {
+    text-align: left;
+  }
+
+  .content__movie--title {
+    font-size: $size-20;
+    color: $title;
+    font-weight: 700;
+
+    @media (min-width: 768px) {
+      font-size: $size-32;
+    }
+  }
+
+  .content__movie--category {
+    font-size: $size-16;
+    color: $body;
+    margin-bottom: $size-30;
+
+    @media (min-width: 768px) {
+      font-size: $size-18;
+    }
+  }
+}

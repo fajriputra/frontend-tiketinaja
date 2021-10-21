@@ -1,0 +1,57 @@
+@import "assets/scss/_colorVariables.scss";
+
+.header-nav {
+  padding-top: 30px;
+
+  .navbar {
+    font-family: "Mulish", sans-serif;
+
+    .logo-brand {
+      @media (max-width: 768px) {
+        width: 130px;
+      }
+      width: 200px;
+    }
+
+    &-toggler {
+      border: none;
+      outline: none;
+
+      &:focus {
+        box-shadow: none;
+      }
+    }
+
+    .nav-item {
+      &.active {
+        .nav-link {
+          color: $primaryColor;
+        }
+      }
+
+      a {
+        &.nav-link {
+          color: $navLink;
+          font-weight: 600;
+
+          &:hover {
+            color: $hoverColor;
+            transition: all 200ms;
+          }
+        }
+      }
+      &.dropdown {
+        list-style: none;
+      }
+    }
+
+    .icon-search {
+      width: 18px;
+      height: 18px;
+
+      &:hover {
+        cursor: pointer;
+      }
+    }
+  }
+}

@@ -1,0 +1,25 @@
+@import "assets/scss/_fontVariables.scss";
+@import "assets/scss/_colorVariables.scss";
+
+.meta__wrapper {
+  font-family: "Mulish", sans-serif;
+
+  &--title {
+    font-size: $size-14;
+    color: $title;
+
+    @media (min-width: 768px) {
+      font-size: $size-18;
+    }
+  }
+
+  &--category {
+    color: #a0a3bd;
+    font-size: $size-12;
+    margin-bottom: $size-22;
+
+    @media (min-width: 768px) {
+      font-size: $size-14;
+    }
+  }
+}

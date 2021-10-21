@@ -1,0 +1,19 @@
+@import "assets/scss/_colorVariables.scss";
+@import "assets/scss/_fontVariables.scss";
+
+.total__payment--mobile {
+  padding: 1.5rem;
+  margin-bottom: 2.5rem;
+
+  .total__payment--text {
+    margin-bottom: 0;
+    color: #aaaaaa;
+  }
+
+  .total__payment--price {
+    margin-bottom: 0;
+    color: $title;
+    font-weight: 600;
+    font-size: $size-20;
+  }
+}

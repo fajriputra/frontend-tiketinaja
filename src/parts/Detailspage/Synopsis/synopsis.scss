@@ -1,0 +1,26 @@
+@import "assets/scss/_colorVariables.scss";
+@import "assets/scss/_fontVariables.scss";
+
+.content__synopsis {
+  font-family: "Mulish", sans-serif;
+
+  &--title {
+    font-size: $size-16;
+    color: $title;
+
+    @media (min-width: 768px) {
+      font-size: $size-20;
+    }
+  }
+
+  &--subtitle {
+    font-size: $size-13;
+    color: $body;
+    text-align: justify;
+    line-height: $size-32;
+
+    @media (min-width: 768px) {
+      font-size: $size-16;
+    }
+  }
+}

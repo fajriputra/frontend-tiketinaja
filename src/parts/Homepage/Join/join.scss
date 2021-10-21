@@ -1,0 +1,76 @@
+@import "assets/scss/_fontVariables.scss";
+@import "assets/scss/_colorVariables.scss";
+
+.join {
+  &__content {
+    box-shadow: 0px $size-16 $size-32 rgba(186, 186, 186, 0.3);
+    border-radius: 0.5rem;
+    padding: $size-50 0;
+    font-family: "Mulish", sans-serif;
+
+    &--title {
+      font-size: $size-14;
+      color: #a0a3bd;
+
+      @media (min-width: 768px) {
+        font-size: $size-24;
+      }
+
+      span {
+        font-size: $size-32;
+        color: $primaryColor;
+        font-weight: 700;
+
+        @media (min-width: 768px) {
+          font-size: $size-48;
+        }
+      }
+    }
+
+    &--form {
+      display: flex;
+      flex-flow: column;
+      margin: $size-30;
+
+      @media (min-width: 768px) {
+        flex-flow: row;
+        margin: $size-40 auto;
+        justify-content: center;
+      }
+
+      input.form-control {
+        background-color: $white;
+        width: auto;
+        margin-bottom: $size-16;
+
+        @media (min-width: 768px) {
+          width: 306px;
+          margin-bottom: 0;
+        }
+      }
+
+      .btn-join {
+        font-weight: 600;
+        font-size: $size-14;
+        padding: $size-10 $size-30;
+
+        @media (min-width: 768px) {
+          margin-left: $size-16;
+        }
+      }
+    }
+
+    &--text {
+      width: 220px;
+      margin: auto;
+      font-size: $size-12;
+      text-align: center;
+      color: $label;
+
+      @media (min-width: 768px) {
+        width: auto;
+        font-size: $size-14;
+      }
+    }
+  }
+}
