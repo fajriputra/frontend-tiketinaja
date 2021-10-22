@@ -23,8 +23,6 @@ import "./login.scss";
 import { showError, showSuccess } from "helpers/notification";
 
 const initialState = {
-  email: "",
-  password: "",
   error: "",
   success: "",
 };
@@ -38,37 +36,48 @@ const statusList = {
 
 const LoginPage = () => {
   const history = useHistory();
-  const [user, setUser] = useState(initialState);
+  const [notif, setNotif] = useState(initialState);
   const [status, setStatus] = useState(statusList.idle);
   const [inputType, Icon] = useTogglePassword();
+
+  const { error, success } = notif;
 
   const {
     register,
     handleSubmit,
     formState: { errors },
     trigger,
+    reset,
   } = useForm();
-
-  const { email, password, success } = user;
 
   useEffect(() => {
     document.title = "Ticketing | Login";
     window.scrollTo(0, 0);
   });
 
-  // const handleChange = (e) => {
-  //   const { name, value } = e.target;
+  const onSubmit = async (data) => {
+    setStatus(statusList.process);
+    try {
+      const res = await axios.post("/auth/login", data);
+      setNotif({ ...notif, error: "", success: res.data.message });
 
-  //   setUser({ ...user, [name]: value, error: "", success: "" });
-  // };
+      localStorage.setItem("token", res.data.data.token);
 
-  const onSubmit = async (e) => {
-    e.preventDefault();
-    // setStatus(statusList.process);
-    console.log(email, password);
-    axios.post("/auth/login", { email, password }).then((res) => {
-      console.log(res);
-    });
+      setTimeout(() => {
+        setNotif("");
+        history.push("/");
+      }, 3000);
+    } catch (err) {
+      err.response.data.message &&
+        setNotif({ ...notif, error: err.response.data.message, success: "" });
+
+      setTimeout(() => {
+        setNotif("");
+        reset({ ...data, email: "", password: "" });
+      }, 3000);
+      setStatus(statusList.error);
+    }
+    setStatus(statusList.success);
   };
 
   return (
@@ -96,7 +105,7 @@ const LoginPage = () => {
         </div>
         <div className="col-md-5 m-0">
           <div className="signin__form d-md-flex justify-content-md-center align-items-md-center">
-            <form onSubmit={onSubmit}>
+            <form onSubmit={handleSubmit(onSubmit)}>
               <div className="signin__text">
                 <h1 className="signin__text--heading">Sign In</h1>
                 <p className="signin__text--subheading">
@@ -104,13 +113,14 @@ const LoginPage = () => {
                   registration
                 </p>
               </div>
+              {error && showError(error)}
               {success && showSuccess(success)}
               <div className="form-group position-relative">
                 <label htmlFor="email" className="form-label">
                   Email
                 </label>
                 <InputText
-                  inputClassName={errors?.email && " invalid"}
+                  inputClassName={errors?.email && "invalid"}
                   type="email"
                   name="email"
                   placeholder="Write your email"
@@ -125,8 +135,8 @@ const LoginPage = () => {
                     trigger("email");
                   }}
                 />
-                {errors.email && (
-                  <p className="error-helpers">{errors.email.message}</p>
+                {errors?.email && (
+                  <p className="error-helpers">{errors?.email?.message}</p>
                 )}
               </div>
               <div className="form-group position-relative">
@@ -134,14 +144,14 @@ const LoginPage = () => {
                   Password
                 </label>
                 <InputText
-                  inputClassName={errors?.password && " invalid"}
+                  inputClassName={errors?.password && "invalid"}
                   type={inputType}
                   name="password"
                   placeholder="Write your password"
                   {...register("password", {
                     required: "Password is required",
                     minLength: {
-                      value: 3,
+                      value: 6,
                       message: "Password must be at least 6 characters",
                     },
                     maxLength: {
@@ -153,8 +163,8 @@ const LoginPage = () => {
                     trigger("password");
                   }}
                 />
-                {errors.password && (
-                  <p className="error-helpers">{errors.password.message}</p>
+                {errors?.password && (
+                  <p className="error-helpers">{errors?.password.message}</p>
                 )}
                 <span className="eye-pass">{Icon}</span>
               </div>

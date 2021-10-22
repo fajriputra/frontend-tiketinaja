@@ -2,11 +2,11 @@ import React from "react";
 
 import "./detail-title.scss";
 
-const DetailTitle = (props) => {
+const DetailTitle = ({ data }) => {
   return (
     <div className="content__movie--head">
-      <h1 className="content__movie--title">Spider-Man: Homecoming</h1>
-      <p className="content__movie--category">Adventure, Action, Sci-Fi</p>
+      <h1 className="content__movie--title">{data[0]?.name}</h1>
+      <p className="content__movie--category">{data[0]?.category.join(", ")}</p>
     </div>
   );
 };

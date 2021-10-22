@@ -52,8 +52,13 @@
 
       .now__movies--image {
         width: 160px;
+        height: 250px;
         border-radius: inherit;
         margin-bottom: 0;
+
+        img {
+          border-radius: inherit;
+        }
       }
 
       .hover-state {
