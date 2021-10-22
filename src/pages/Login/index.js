@@ -1,4 +1,6 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { useHistory } from "react-router-dom";
+import { useForm } from "react-hook-form";
 
 import LogoTickitzAuth from "assets/images/logo-tickitz-white.png";
 import LogoTickitz from "assets/images/logo-tickitz-blue.png";
@@ -11,14 +13,63 @@ import { ReactComponent as IconFacebook } from "assets/images/icons/icon-fb.svg"
 // hooks
 import useTogglePassword from "hooks/useTogglePassword";
 
+import LineBreak from "components/LineBreak";
 import InputText from "components/UI/Form/InputText";
 import Button from "components/UI/Button";
 
+import axios from "helpers/axios";
+
 import "./login.scss";
-import LineBreak from "components/LineBreak";
+import { showError, showSuccess } from "helpers/notification";
+
+const initialState = {
+  email: "",
+  password: "",
+  error: "",
+  success: "",
+};
+
+const statusList = {
+  idle: "idle",
+  process: "process",
+  success: "success",
+  error: "error",
+};
 
 const LoginPage = () => {
+  const history = useHistory();
+  const [user, setUser] = useState(initialState);
+  const [status, setStatus] = useState(statusList.idle);
   const [inputType, Icon] = useTogglePassword();
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    trigger,
+  } = useForm();
+
+  const { email, password, success } = user;
+
+  useEffect(() => {
+    document.title = "Ticketing | Login";
+    window.scrollTo(0, 0);
+  });
+
+  // const handleChange = (e) => {
+  //   const { name, value } = e.target;
+
+  //   setUser({ ...user, [name]: value, error: "", success: "" });
+  // };
+
+  const onSubmit = async (e) => {
+    e.preventDefault();
+    // setStatus(statusList.process);
+    console.log(email, password);
+    axios.post("/auth/login", { email, password }).then((res) => {
+      console.log(res);
+    });
+  };
 
   return (
     <section className="signin">
@@ -45,7 +96,7 @@ const LoginPage = () => {
         </div>
         <div className="col-md-5 m-0">
           <div className="signin__form d-md-flex justify-content-md-center align-items-md-center">
-            <form>
+            <form onSubmit={onSubmit}>
               <div className="signin__text">
                 <h1 className="signin__text--heading">Sign In</h1>
                 <p className="signin__text--subheading">
@@ -53,31 +104,66 @@ const LoginPage = () => {
                   registration
                 </p>
               </div>
-
+              {success && showSuccess(success)}
               <div className="form-group position-relative">
                 <label htmlFor="email" className="form-label">
                   Email
                 </label>
                 <InputText
+                  inputClassName={errors?.email && " invalid"}
                   type="email"
                   name="email"
                   placeholder="Write your email"
+                  {...register("email", {
+                    required: "Email is required",
+                    pattern: {
+                      value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+                      message: "Must be a valid email address",
+                    },
+                  })}
+                  onKeyUp={() => {
+                    trigger("email");
+                  }}
                 />
+                {errors.email && (
+                  <p className="error-helpers">{errors.email.message}</p>
+                )}
               </div>
               <div className="form-group position-relative">
                 <label htmlFor="password" className="form-label">
                   Password
                 </label>
                 <InputText
+                  inputClassName={errors?.password && " invalid"}
                   type={inputType}
                   name="password"
                   placeholder="Write your password"
+                  {...register("password", {
+                    required: "Password is required",
+                    minLength: {
+                      value: 3,
+                      message: "Password must be at least 6 characters",
+                    },
+                    maxLength: {
+                      value: 16,
+                      message: "Password already exceeds 16 characters",
+                    },
+                  })}
+                  onKeyUp={() => {
+                    trigger("password");
+                  }}
                 />
-
+                {errors.password && (
+                  <p className="error-helpers">{errors.password.message}</p>
+                )}
                 <span className="eye-pass">{Icon}</span>
               </div>
 
-              <Button className="btn btn-signin w-100" isPrimary>
+              <Button
+                className="btn btn-signin w-100"
+                isPrimary
+                isLoading={status === statusList.process}
+              >
                 Sign In
               </Button>
 

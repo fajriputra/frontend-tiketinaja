@@ -14,7 +14,9 @@ import UserProfile from "components/UserProfile";
 const Header = (props) => {
   const [isCollapse, setIsCollapse] = useState(true);
 
-  const isLogin = false;
+  const isLogin = localStorage.getItem("token")
+    ? localStorage.getItem("token")
+    : null;
 
   const getNavLinkClass = (path) => {
     return props.location.pathname === path ? " active" : "";
