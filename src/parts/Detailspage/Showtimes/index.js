@@ -14,6 +14,7 @@ import axios from "helpers/axios";
 import "./showtimes.scss";
 import InputSelect from "components/UI/Form/InputSelect";
 import { formatAMPM } from "helpers/formatTime";
+import { formatRp } from "helpers/formatRp";
 
 const Showtimes = () => {
   const [loading, setLoading] = useState(false);
@@ -28,7 +29,7 @@ const Showtimes = () => {
     const getSchedule = async () => {
       try {
         setLoading(true);
-        const res = await axios.get(`/schedule?location=${value}`);
+        const res = await axios.get(`/schedule?location=${value}&limit=12`);
 
         const { data, pagination } = res.data;
 
@@ -125,7 +126,7 @@ const Showtimes = () => {
                     return (
                       <div className="showtimes__time--content" key={index}>
                         <Button className="btn time__schedules p-0">
-                          {tm >= 12 ? `${tm}pm` : `${tm}am`}
+                          {formatAMPM(tm)}
                         </Button>
                       </div>
                     );
@@ -134,7 +135,9 @@ const Showtimes = () => {
 
                 <div className="showtimes__price">
                   <p className="showtimes__price--text">Price</p>
-                  <p className="showtimes__price--seat">{item?.price}/seat</p>
+                  <p className="showtimes__price--seat">
+                    {formatRp(item?.price)}/seat
+                  </p>
                 </div>
 
                 <Button
