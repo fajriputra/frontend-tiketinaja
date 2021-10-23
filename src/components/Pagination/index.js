@@ -4,31 +4,29 @@ import Button from "components/UI/Button";
 
 import "./pagination.scss";
 
-const Pagination = () => {
+const Pagination = ({ pagination, page, setPage }) => {
+  const loopPagination = () => {
+    const number = [];
+
+    for (let i = 0; i < pagination.totalPage; i++) {
+      number.push(
+        <li
+          className={["page-item", page === i + 1 ? "active" : ""].join(" ")}
+          key={i}
+        >
+          <Button className="page-link" onClick={() => setPage(i + 1)}>
+            {i + 1}
+          </Button>
+        </li>
+      );
+    }
+
+    return number;
+  };
+
   return (
     <nav>
-      <ul className="pagination justify-content-center">
-        <li className="page-item active" aria-current="page">
-          <Button className="page-link" type="link" href="#">
-            1
-          </Button>
-        </li>
-        <li className="page-item">
-          <Button className="page-link" type="link" href="#">
-            2
-          </Button>
-        </li>
-        <li className="page-item">
-          <Button className="page-link" type="link" href="#">
-            3
-          </Button>
-        </li>
-        <li className="page-item">
-          <Button className="page-link" type="link" href="#">
-            4
-          </Button>
-        </li>
-      </ul>
+      <ul className="pagination justify-content-center">{loopPagination()}</ul>
     </nav>
   );
 };

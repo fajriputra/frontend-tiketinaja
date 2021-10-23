@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { BounceLoader } from "react-spinners";
 
-import EbvId from "assets/images/sponsor/logo-ebvid.png";
-import CineOne from "assets/images/sponsor/logo-cineone.png";
 import Hiflix from "assets/images/sponsor/logo-hiflix.png";
 
 import InputText from "components/UI/Form/InputText";
@@ -14,20 +12,42 @@ import Pagination from "components/Pagination";
 import axios from "helpers/axios";
 
 import "./showtimes.scss";
+import InputSelect from "components/UI/Form/InputSelect";
+import { formatAMPM } from "helpers/formatTime";
 
 const Showtimes = () => {
   const [loading, setLoading] = useState(false);
   const [schedule, setSchedule] = useState([]);
+  const [value, setValue] = useState("");
+  const [location, setLocation] = useState([]);
+  const [allLocation, setAllLocation] = useState(false);
+  const [pagination, setPagination] = useState({});
+  const [page, setPage] = useState(1);
 
   useEffect(() => {
     const getSchedule = async () => {
       try {
         setLoading(true);
-        const res = await axios.get(`/schedule`);
+        const res = await axios.get(`/schedule?location=${value}`);
 
-        const { data } = res.data;
+        const { data, pagination } = res.data;
 
         setSchedule(data);
+        setPagination(pagination);
+
+        if (!allLocation) {
+          setAllLocation(true);
+          setLocation([
+            {
+              id: "",
+              value: "All Location",
+            },
+            ...data?.map((item) => ({
+              id: item.location,
+              value: item.location,
+            })),
+          ]);
+        }
 
         setLoading(false);
       } catch (error) {
@@ -35,13 +55,15 @@ const Showtimes = () => {
         alert(error);
       }
     };
-
     getSchedule();
-  }, []);
+
+    return () => setLoading(true);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [value, page]);
 
   if (loading) {
     return (
-      <div style={{ margin: "auto 50%" }}>
+      <div style={{ margin: "5% 50%", paddingBottom: 100 }}>
         <BounceLoader color="#5f2eea" />
       </div>
     );
@@ -64,13 +86,18 @@ const Showtimes = () => {
             />
           </div>
 
-          <select className="form-select input__control">
-            <option defaultValue>Purwokerto</option>
-            <option value="1">One</option>
-            <option value="2">Two</option>
-            <option value="3">Three</option>
-          </select>
+          <InputSelect
+            className="input__control"
+            options={location}
+            isDisabled={!location.length}
+            onChange={(e) => setValue(e.target.value)}
+            value={value}
+          />
         </div>
+
+        {!schedule ? (
+          <div className="text-center">Schedule belum tersedia</div>
+        ) : null}
 
         <div className="showtimes__list">
           {schedule?.map((item) => {
@@ -98,7 +125,7 @@ const Showtimes = () => {
                     return (
                       <div className="showtimes__time--content" key={index}>
                         <Button className="btn time__schedules p-0">
-                          {tm}
+                          {tm >= 12 ? `${tm}pm` : `${tm}am`}
                         </Button>
                       </div>
                     );
@@ -123,7 +150,7 @@ const Showtimes = () => {
           })}
         </div>
 
-        <Pagination />
+        <Pagination pagination={pagination} page={page} setPage={setPage} />
       </div>
     </section>
   );

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 
 import DefaultImage from "assets/images/bg-auth.png";
 
@@ -11,26 +11,6 @@ import MetaWrapper from "components/MetaWrapper";
 import "./movies.scss";
 
 const NowMovies = ({ data }) => {
-  const [isHovered, setIsHovered] = useState({});
-
-  const handleMouseEnter = (index) => {
-    setIsHovered((prev) => {
-      return {
-        ...prev,
-        [index]: true,
-      };
-    });
-  };
-
-  const handleMouseLeave = (index) => {
-    setIsHovered((prev) => {
-      return {
-        ...prev,
-        [index]: false,
-      };
-    });
-  };
-
   return (
     <section className="now__movies">
       <div className="container">
@@ -42,16 +22,9 @@ const NowMovies = ({ data }) => {
         </div>
 
         <div className="now__movies--list">
-          {data?.map((item, index) => {
+          {data?.map((item) => {
             return (
-              <Card
-                className={["card-hover", `${isHovered && "hover-state"}`].join(
-                  " "
-                )}
-                onMouseEnter={() => handleMouseEnter(index)}
-                onMouseLeave={() => handleMouseLeave(index)}
-                key={index}
-              >
+              <Card className="card-hover" key={item.id}>
                 <Image
                   className="now__movies--image"
                   srcImage={

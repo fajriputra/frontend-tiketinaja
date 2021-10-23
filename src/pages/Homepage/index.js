@@ -20,6 +20,9 @@ export default function Homepage(props) {
   const [movies, setMovies] = useState([]);
 
   useEffect(() => {
+    document.title = "Ticketing | Home";
+    window.scrollTo(0, 0);
+
     const getMovies = async () => {
       try {
         setLoading(true);
@@ -39,7 +42,7 @@ export default function Homepage(props) {
 
   if (loading) {
     return (
-      <div style={{ margin: "20% 50%", height: "100vh" }}>
+      <div style={{ margin: "20% 50%" }}>
         <BounceLoader color="#5f2eea" />
       </div>
     );

@@ -45,6 +45,16 @@
     }
 
     .card-hover {
+      height: 310px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+
+      &:hover {
+        height: 100%;
+      }
+
       &:hover .hover-state {
         display: block;
       }

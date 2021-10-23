@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
+import { BounceLoader } from "react-spinners";
 import { useParams } from "react-router-dom";
-import Header from "components/Header";
 
+import Header from "components/Header";
 import Sitelink from "components/Sitelink";
 import ImageDetail from "parts/Detailspage/ImageDetail";
 import DetailTitle from "parts/Detailspage/DetailTitle";
@@ -12,7 +13,6 @@ import Showtimes from "parts/Detailspage/Showtimes";
 import axios from "helpers/axios";
 
 import useScrollTop from "hooks/useScrollTop";
-import { BounceLoader } from "react-spinners";
 
 export default function DetailPage(props) {
   useScrollTop();
@@ -22,6 +22,9 @@ export default function DetailPage(props) {
   const [detail, setDetails] = useState([]);
 
   useEffect(() => {
+    document.title = "Ticketing | Detail";
+    window.scrollTo(0, 0);
+
     const getDetailMovie = async () => {
       try {
         setLoading(true);
