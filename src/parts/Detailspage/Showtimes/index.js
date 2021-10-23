@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
+import { BounceLoader } from "react-spinners";
 
 import EbvId from "assets/images/sponsor/logo-ebvid.png";
 import CineOne from "assets/images/sponsor/logo-cineone.png";
@@ -10,9 +11,42 @@ import Image from "components/Image";
 import Button from "components/UI/Button";
 import Pagination from "components/Pagination";
 
+import axios from "helpers/axios";
+
 import "./showtimes.scss";
 
 const Showtimes = () => {
+  const [loading, setLoading] = useState(false);
+  const [schedule, setSchedule] = useState([]);
+
+  useEffect(() => {
+    const getSchedule = async () => {
+      try {
+        setLoading(true);
+        const res = await axios.get(`/schedule`);
+
+        const { data } = res.data;
+
+        setSchedule(data);
+
+        setLoading(false);
+      } catch (error) {
+        setLoading(false);
+        alert(error);
+      }
+    };
+
+    getSchedule();
+  }, []);
+
+  if (loading) {
+    return (
+      <div style={{ margin: "auto 50%" }}>
+        <BounceLoader color="#5f2eea" />
+      </div>
+    );
+  }
+
   return (
     <section className="showtimes">
       <div className="container">
@@ -39,177 +73,54 @@ const Showtimes = () => {
         </div>
 
         <div className="showtimes__list">
-          <Card className="showtimes__list--card">
-            <div className="showtimes__head">
-              <Image
-                className="showtimes__wrapper--image"
-                srcImage={Hiflix}
-                altImage="Ebv.id"
-                imgClass="img-cover"
-              />
+          {schedule?.map((item) => {
+            return (
+              <Card className="showtimes__list--card" key={item.id}>
+                <div className="showtimes__head">
+                  <Image
+                    className="showtimes__wrapper--image"
+                    srcImage={Hiflix}
+                    altImage={item?.premier}
+                    imgClass="img-cover"
+                  />
 
-              <div className="showtimes__text">
-                <h5 className="showtimes__text--title">ebv.id</h5>
-                <p className="showtimes__text--subtitle">
-                  Whatever street No.12,
-                  <span className="text__location">South Purwokerto</span>
-                </p>
-              </div>
-            </div>
-            <hr className="line w-100" />
+                  <div className="showtimes__text">
+                    <h5 className="showtimes__text--title">{item?.premier}</h5>
+                    <p className="showtimes__text--subtitle">
+                      {item?.location}
+                    </p>
+                  </div>
+                </div>
+                <hr className="line w-100" />
 
-            <div className="showtimes__time">
-              <div className="showtimes__time--content">
-                <Button className="btn time__schedules p-0">08:30am</Button>
-              </div>
-              <div className="showtimes__time--content">
-                <Button className="btn time__schedules p-0">08:30am</Button>
-              </div>
-              <div className="showtimes__time--content">
-                <Button className="btn time__schedules p-0">08:30am</Button>
-              </div>
-              <div className="showtimes__time--content">
-                <Button className="btn time__schedules p-0">08:30am</Button>
-              </div>
-              <div className="showtimes__time--content">
-                <Button className="btn time__schedules p-0">08:30am</Button>
-              </div>
-              <div className="showtimes__time--content">
-                <Button className="btn time__schedules p-0">08:30am</Button>
-              </div>
-              <div className="showtimes__time--content">
-                <Button className="btn time__schedules p-0">08:30am</Button>
-              </div>
-            </div>
+                <div className="showtimes__time">
+                  {item?.time.map((tm, index) => {
+                    return (
+                      <div className="showtimes__time--content" key={index}>
+                        <Button className="btn time__schedules p-0">
+                          {tm}
+                        </Button>
+                      </div>
+                    );
+                  })}
+                </div>
 
-            <div className="showtimes__price">
-              <p className="showtimes__price--text">Price</p>
-              <p className="showtimes__price--seat">$10.00/seat</p>
-            </div>
+                <div className="showtimes__price">
+                  <p className="showtimes__price--text">Price</p>
+                  <p className="showtimes__price--seat">{item?.price}/seat</p>
+                </div>
 
-            <Button
-              className="btn btn-book w-100"
-              type="link"
-              href="/order"
-              isPrimary
-            >
-              Book now
-            </Button>
-          </Card>
-          <Card className="showtimes__list--card">
-            <div className="showtimes__head">
-              <Image
-                className="showtimes__wrapper--image"
-                srcImage={CineOne}
-                altImage="Ebv.id"
-                imgClass="img-cover"
-              />
-
-              <div className="showtimes__text">
-                <h5 className="showtimes__text--title">ebv.id</h5>
-                <p className="showtimes__text--subtitle">
-                  Whatever street No.12,
-                  <span className="text__location">South Purwokerto</span>
-                </p>
-              </div>
-            </div>
-            <hr className="line w-100" />
-
-            <div className="showtimes__time">
-              <div className="showtimes__time--content">
-                <Button className="btn time__schedules p-0">08:30am</Button>
-              </div>
-              <div className="showtimes__time--content">
-                <Button className="btn time__schedules p-0">08:30am</Button>
-              </div>
-              <div className="showtimes__time--content">
-                <Button className="btn time__schedules p-0">08:30am</Button>
-              </div>
-              <div className="showtimes__time--content">
-                <Button className="btn time__schedules p-0">08:30am</Button>
-              </div>
-              <div className="showtimes__time--content">
-                <Button className="btn time__schedules p-0">08:30am</Button>
-              </div>
-              <div className="showtimes__time--content">
-                <Button className="btn time__schedules p-0">08:30am</Button>
-              </div>
-              <div className="showtimes__time--content">
-                <Button className="btn time__schedules p-0">08:30am</Button>
-              </div>
-            </div>
-
-            <div className="showtimes__price">
-              <p className="showtimes__price--text">Price</p>
-              <p className="showtimes__price--seat">$10.00/seat</p>
-            </div>
-
-            <Button
-              className="btn btn-book w-100"
-              type="link"
-              href="/order"
-              isPrimary
-            >
-              Book now
-            </Button>
-          </Card>
-          <Card className="showtimes__list--card">
-            <div className="showtimes__head">
-              <Image
-                className="showtimes__wrapper--image"
-                srcImage={EbvId}
-                altImage="Ebv.id"
-                imgClass="img-cover"
-              />
-
-              <div className="showtimes__text">
-                <h5 className="showtimes__text--title">ebv.id</h5>
-                <p className="showtimes__text--subtitle">
-                  Whatever street No.12,
-                  <span className="text__location">South Purwokerto</span>
-                </p>
-              </div>
-            </div>
-            <hr className="line w-100" />
-
-            <div className="showtimes__time">
-              <div className="showtimes__time--content">
-                <Button className="btn time__schedules p-0">08:30am</Button>
-              </div>
-              <div className="showtimes__time--content">
-                <Button className="btn time__schedules p-0">08:30am</Button>
-              </div>
-              <div className="showtimes__time--content">
-                <Button className="btn time__schedules p-0">08:30am</Button>
-              </div>
-              <div className="showtimes__time--content">
-                <Button className="btn time__schedules p-0">08:30am</Button>
-              </div>
-              <div className="showtimes__time--content">
-                <Button className="btn time__schedules p-0">08:30am</Button>
-              </div>
-              <div className="showtimes__time--content">
-                <Button className="btn time__schedules p-0">08:30am</Button>
-              </div>
-              <div className="showtimes__time--content">
-                <Button className="btn time__schedules p-0">08:30am</Button>
-              </div>
-            </div>
-
-            <div className="showtimes__price">
-              <p className="showtimes__price--text">Price</p>
-              <p className="showtimes__price--seat">$10.00/seat</p>
-            </div>
-
-            <Button
-              className="btn btn-book w-100"
-              type="link"
-              href="/order"
-              isPrimary
-            >
-              Book now
-            </Button>
-          </Card>
+                <Button
+                  className="btn btn-book w-100"
+                  type="link"
+                  href="/order"
+                  isPrimary
+                >
+                  Book now
+                </Button>
+              </Card>
+            );
+          })}
         </div>
 
         <Pagination />
