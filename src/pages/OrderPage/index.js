@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useHistory } from "react-router-dom";
+import { BounceLoader } from "react-spinners";
 
 import Header from "components/Header";
 import Sitelink from "components/Sitelink";
@@ -21,6 +22,7 @@ export default function OrderPage(props) {
   const { movieId, schedule, timeSchedule, dateSchedule } =
     props.location.state;
 
+  const [loading, setLoading] = useState(false);
   const [seatAlpha, setSeatAlpha] = useState(["A", "B", "C"]);
   const [selectSeat, setSelectSeat] = useState([]);
   const [reversedSeat, setReversedSeat] = useState([]);
@@ -37,8 +39,12 @@ export default function OrderPage(props) {
   };
 
   useEffect(() => {
+    document.title = "Ticketing | Order";
+    window.scrollTo(0, 0);
+
     const getDataSeatBooking = async () => {
       try {
+        setLoading(true);
         const res = await axios.get(
           `/booking/seat?movieId=${schedule?.movieId}&scheduleId=${schedule?.id}&dateSchedule=${dateSchedule}&timeSchedule=${timeSchedule}`
         );
@@ -47,7 +53,9 @@ export default function OrderPage(props) {
         const seat = data?.map((item) => item.seat);
 
         setReversedSeat(seat);
+        setLoading(false);
       } catch (err) {
+        setLoading(false);
         console.log(err.response.data.message);
       }
     };
@@ -73,6 +81,14 @@ export default function OrderPage(props) {
       history.push("/payment", setData);
     }
   };
+
+  if (loading) {
+    return (
+      <div style={{ margin: "20% 50%" }}>
+        <BounceLoader color="#5f2eea" />
+      </div>
+    );
+  }
 
   return (
     <>

@@ -85,8 +85,9 @@ const Showtimes = (props) => {
     });
   };
 
-  const handleTime = (data) => {
+  const handleTime = (data, scheduleId) => {
     setTimeSchedule({
+      scheduleId,
       timeSchedule: data,
     });
   };
@@ -149,11 +150,12 @@ const Showtimes = (props) => {
                     return (
                       <div className="showtimes__time--content" key={index}>
                         <Button
-                          className={[
-                            "btn time__schedules p-0",
-                            handleTime === index ? "active" : "",
-                          ].join(" ")}
-                          onClick={() => handleTime(tm)}
+                          className={`btn time__schedules p-0 ${
+                            item.id === timeSchedule.scheduleId &&
+                            tm === timeSchedule.timeSchedule &&
+                            "active"
+                          }`}
+                          onClick={() => handleTime(tm, item.id)}
                         >
                           {formatAMPM(tm)}
                         </Button>
@@ -171,6 +173,10 @@ const Showtimes = (props) => {
 
                 <Button
                   className="btn btn-book w-100"
+                  style={{
+                    opacity: `${item.id === timeSchedule.scheduleId ? 1 : 0.5}`,
+                  }}
+                  isDisabled={item.id !== timeSchedule.scheduleId}
                   isPrimary
                   onClick={() => handleBooking(item)}
                 >

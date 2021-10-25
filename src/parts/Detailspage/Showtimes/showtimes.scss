@@ -124,7 +124,7 @@
           font-size: $size-12;
 
           &.active {
-            color: red;
+            color: $primaryColor;
           }
 
           @media (min-width: 768px) {

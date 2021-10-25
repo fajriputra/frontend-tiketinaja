@@ -1,39 +1,13 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 
 import { ReactComponent as IconWarning } from "assets/images/icons/icon-warning.svg";
 
 import InputText from "components/UI/Form/InputText";
-import axios from "helpers/axios";
 
 import "./personal.scss";
 
-const PersonalInfo = () => {
-  const [loading, setLoading] = useState(false);
-  const [isLogin, setIsLogin] = useState("");
-
-  useEffect(() => {
-    const getUserLogin = async () => {
-      try {
-        setLoading(true);
-        const res = await axios.get("/user");
-
-        const { data } = res.data;
-
-        setIsLogin(data);
-
-        setLoading(false);
-      } catch (err) {
-        setLoading(false);
-        console.log(err.response.data.message);
-      }
-    };
-
-    getUserLogin();
-  }, []);
-
-  if (loading) {
-    return "loading";
-  }
+const PersonalInfo = (props) => {
+  const { value, isDisabled } = props;
 
   return (
     <form>
@@ -45,8 +19,8 @@ const PersonalInfo = () => {
           readOnly
           type="text"
           name="fullname"
-          value={`${isLogin[0]?.firstName} ${isLogin[0]?.lastName}`}
-          isDisabled={isLogin}
+          value={`${value?.firstName} ${value?.lastName}`}
+          isDisabled={isDisabled}
           placeholder="Your fullname"
           inputClassName="form-person"
         />
@@ -59,8 +33,8 @@ const PersonalInfo = () => {
           readOnly
           type="email"
           name="email"
-          value={isLogin[0]?.email}
-          isDisabled={isLogin}
+          value={value?.email}
+          isDisabled={isDisabled}
           placeholder="Your email address"
           inputClassName="form-person"
         />
@@ -73,8 +47,8 @@ const PersonalInfo = () => {
           readOnly
           type="tel"
           name="phone"
-          value={isLogin[0]?.phoneNumber}
-          isDisabled={isLogin}
+          value={value?.phoneNumber}
+          isDisabled={isDisabled}
           placeholder="Your phone number"
           inputClassName="form-person"
         />
