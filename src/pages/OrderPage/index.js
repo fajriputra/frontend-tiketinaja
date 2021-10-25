@@ -116,7 +116,7 @@ export default function OrderPage(props) {
                   Reset seat
                 </Button>
                 <Button
-                  className="btn btn__action checkout"
+                  className="btn btn__action checkout mb-4 mb-md-0"
                   onClick={handlePayment}
                 >
                   Checkout now

@@ -31,7 +31,7 @@ const Seats = (props) => {
             return (
               <div className="content__seat--box text-center" key={index}>
                 <div className="left__side--box">
-                  <p className="seat__alphabet">{alpa}</p>
+                  <p className="seat__alphabet d-none d-md-block">{alpa}</p>
                   {leftSideSeat?.map((item, index) => {
                     return (
                       <Button
