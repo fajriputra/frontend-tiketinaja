@@ -31,7 +31,53 @@
     }
 
     &--box {
-      margin-bottom: $size-30;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 0.5rem;
+
+      .seat__box {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: $size-14;
+        color: $body;
+        width: 25px;
+        height: 25px;
+        margin-right: 0.5rem;
+
+        &:last-child {
+          margin-right: 0;
+        }
+
+        &.available {
+          background-color: #d6d8e7;
+        }
+
+        &.selected {
+          background-color: $primaryColor;
+        }
+
+        &.sold {
+          background-color: $label;
+        }
+      }
+
+      .left__side--box {
+        display: flex;
+        align-items: center;
+
+        .seat__alphabet {
+          font-size: $size-14;
+          margin-right: $size-24;
+          color: $body;
+        }
+      }
+
+      .right__side--box {
+        display: flex;
+        align-items: center;
+      }
     }
 
     &--text {
@@ -41,6 +87,7 @@
       margin-bottom: $size-20;
 
       @media (min-width: 768px) {
+        margin-top: $size-30;
         margin-bottom: $size-24;
       }
     }

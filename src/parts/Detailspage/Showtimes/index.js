@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { BounceLoader } from "react-spinners";
+import { useHistory } from "react-router-dom";
 
 import Hiflix from "assets/images/sponsor/logo-hiflix.png";
 
@@ -16,12 +17,21 @@ import InputSelect from "components/UI/Form/InputSelect";
 import { formatAMPM } from "helpers/formatTime";
 import { formatRp } from "helpers/formatRp";
 
-const Showtimes = () => {
+const date = new Date().toISOString().split("T")[0];
+
+const Showtimes = (props) => {
+  const history = useHistory();
+  const { movieId } = props;
+
   const [loading, setLoading] = useState(false);
   const [schedule, setSchedule] = useState([]);
+
+  const [timeSchedule, setTimeSchedule] = useState("");
+  const [dateSchedule, setDateSchedule] = useState(date);
+
   const [value, setValue] = useState("");
   const [location, setLocation] = useState([]);
-  const [allLocation, setAllLocation] = useState(false);
+
   const [pagination, setPagination] = useState({});
   const [page, setPage] = useState(1);
 
@@ -29,23 +39,19 @@ const Showtimes = () => {
     const getSchedule = async () => {
       try {
         setLoading(true);
-        const res = await axios.get(`/schedule?location=${value}&limit=12`);
+        const res = await axios.get(`/schedule?page=${page}&location=${value}`);
 
         const { data, pagination } = res.data;
 
         setSchedule(data);
         setPagination(pagination);
 
-        if (!allLocation) {
-          setAllLocation(true);
+        if (value === "") {
           setLocation([
-            {
-              id: "",
-              value: "All Location",
-            },
-            ...data?.map((item) => ({
-              id: item.location,
-              value: item.location,
+            { id: "", value: "All Location" },
+            ...data?.map((dt) => ({
+              id: dt.location,
+              value: dt.location,
             })),
           ]);
         }
@@ -70,8 +76,23 @@ const Showtimes = () => {
     );
   }
 
+  const handleBooking = (data) => {
+    history.push("/order", {
+      movieId: movieId[0],
+      schedule: data,
+      dateSchedule,
+      timeSchedule: timeSchedule.timeSchedule,
+    });
+  };
+
+  const handleTime = (data) => {
+    setTimeSchedule({
+      timeSchedule: data,
+    });
+  };
+
   return (
-    <section className="showtimes">
+    <section className="showtimes" id={props.movieId}>
       <div className="container">
         <div className="showtimes__heading">
           <h5 className="showtimes__heading--title">Showtimes and Tickets</h5>
@@ -82,6 +103,8 @@ const Showtimes = () => {
             <InputText
               type="date"
               name="date"
+              value={dateSchedule}
+              onChange={(e) => setDateSchedule(e.target.value)}
               placeholder="Set a date"
               inputClassName="input__control mb-3 mb-md-0"
             />
@@ -89,7 +112,7 @@ const Showtimes = () => {
 
           <InputSelect
             className="input__control"
-            options={location}
+            options={location?.map((loc) => loc)}
             isDisabled={!location.length}
             onChange={(e) => setValue(e.target.value)}
             value={value}
@@ -125,7 +148,13 @@ const Showtimes = () => {
                   {item?.time.map((tm, index) => {
                     return (
                       <div className="showtimes__time--content" key={index}>
-                        <Button className="btn time__schedules p-0">
+                        <Button
+                          className={[
+                            "btn time__schedules p-0",
+                            handleTime === index ? "active" : "",
+                          ].join(" ")}
+                          onClick={() => handleTime(tm)}
+                        >
                           {formatAMPM(tm)}
                         </Button>
                       </div>
@@ -142,9 +171,8 @@ const Showtimes = () => {
 
                 <Button
                   className="btn btn-book w-100"
-                  type="link"
-                  href="/order"
                   isPrimary
+                  onClick={() => handleBooking(item)}
                 >
                   Book now
                 </Button>

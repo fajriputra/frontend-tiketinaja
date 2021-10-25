@@ -35,9 +35,9 @@ export default function DetailPage(props) {
         setDetails(data);
 
         setLoading(false);
-      } catch (error) {
+      } catch (err) {
         setLoading(false);
-        alert(error);
+        alert(err.response.data.message);
       }
     };
 
@@ -67,7 +67,7 @@ export default function DetailPage(props) {
           </div>
         </div>
       </section>
-      <Showtimes />
+      <Showtimes movieId={detail} />
       <Sitelink />
     </>
   );

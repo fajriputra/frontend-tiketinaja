@@ -1,5 +1,5 @@
-import React from "react";
-import { useHistory } from "react-router-dom";
+import React, { useState } from "react";
+// import { useHistory } from "react-router-dom";
 
 import ArrowBottom from "assets/images/icons/icon-arrow-bottom.svg";
 import ArrowRight from "assets/images/icons/icon-arrow-right.svg";
@@ -9,9 +9,36 @@ import Card from "components/Card";
 import Image from "components/Image";
 
 import "./seats.scss";
+import { useEffect } from "react";
 
-const Seats = () => {
-  const history = useHistory();
+const Seats = (props) => {
+  const { seatAlpha, selectedSeat, reserved, selected } = props;
+
+  const [leftSideSeat, setLeftSideSeat] = useState([1, 2, 3, 4, 5, 6, 7]);
+  const [rightSideSeat, setRightSideSeat] = useState([
+    8, 9, 10, 11, 12, 13, 14,
+  ]);
+
+  // const setAlphabetSeat = () => {
+  //   const leftSide = leftSideSeat?.map((item) => `${seatAlpha}${item}`);
+  //   const rightSide = rightSideSeat?.map((item) => `${seatAlpha}${item}`);
+
+  //   if (leftSideSeat) {
+  //     setLeftSideSeat({
+  //       leftSideSeat: leftSide,
+  //     });
+  //   }
+
+  //   if (rightSideSeat) {
+  //     setRightSideSeat({
+  //       rightSideSeat: rightSide,
+  //     });
+  //   }
+  // };
+
+  // useEffect(() => {
+  //   setAlphabetSeat();
+  // });
 
   return (
     <>
@@ -22,9 +49,56 @@ const Seats = () => {
           </p>
           <hr className="line seat w-100" />
 
-          <div className="content__seat--box text-center">
-            <h3>seats will be made soon</h3>
-          </div>
+          {seatAlpha?.map((alpa, index) => {
+            return (
+              <div className="content__seat--box text-center" key={index}>
+                <div className="left__side--box">
+                  <p className="seat__alphabet">{alpa}</p>
+                  {leftSideSeat?.map((item, index) => {
+                    return (
+                      <Button
+                        className={`btn seat__box ${
+                          reserved.includes(item)
+                            ? "sold"
+                            : selected.includes(item)
+                            ? "selected"
+                            : "available"
+                        }`}
+                        key={index}
+                        onClick={() => {
+                          // eslint-disable-next-line no-unused-expressions
+                          reserved.includes(item) ? null : selectedSeat(item);
+                        }}
+                      >
+                        {item}
+                      </Button>
+                    );
+                  })}
+                </div>
+
+                <div className="right__side--box">
+                  {rightSideSeat?.map((item, index) => {
+                    return (
+                      <Button
+                        className={`btn seat__box ${
+                          reserved.includes(item)
+                            ? "sold"
+                            : selected.includes(item)
+                            ? "selected"
+                            : "available"
+                        }`}
+                        key={index}
+                        onClick={() => {
+                          // eslint-disable-next-line no-unused-expressions
+                          reserved.includes(item) ? null : selectedSeat(item);
+                        }}
+                      ></Button>
+                    );
+                  })}
+                </div>
+              </div>
+            );
+          })}
 
           <div className="content__seat--key">
             <h5 className="content__seat--text">Seating key</h5>
@@ -70,20 +144,6 @@ const Seats = () => {
           </div>
         </Card>
       </Card>
-      <div class="button__wrapper">
-        <Button
-          className="btn btn__action change"
-          onClick={() => history.goBack()}
-        >
-          Change your movie
-        </Button>
-        <Button
-          className="btn btn__action checkout"
-          onClick={() => history.push("/payment")}
-        >
-          Checkout now
-        </Button>
-      </div>
     </>
   );
 };

@@ -6,8 +6,13 @@ import Card from "components/Card";
 import Image from "components/Image";
 
 import "./order-info.scss";
+import { formatRp } from "helpers/formatRp";
+import { formatAMPM } from "helpers/formatTime";
+import { formatDate } from "helpers/formatDate";
 
-const OrderInfo = () => {
+const OrderInfo = (props) => {
+  const { movieId, timeSchedule, schedule, dateSchedule } = props;
+
   return (
     <Card className="content__info--order">
       <div className="content__info--head">
@@ -17,23 +22,23 @@ const OrderInfo = () => {
           altImage="CineOne21"
           imgClass="img-cover"
         />
-        <h5 className="content__movie--cinema">CineOne21 Cinema</h5>
+        <h5 className="content__movie--cinema">{schedule?.premier}</h5>
         <h5 className="content__text--name d-block d-md-none">
-          Spider-Man: Homecoming
+          {movieId?.name}
         </h5>
       </div>
       <div className="content__info--body">
         <div className="content__info--text d-none d-md-flex">
           <p className="content__text--movie">Movie selected</p>
-          <h5 className="content__text--name">Spider-Man: Homecoming</h5>
+          <h5 className="content__text--name">{movieId?.name}</h5>
         </div>
         <div className="content__info--text">
-          <p className="content__text--movie">Tuesday, 07 July 2020</p>
-          <h5 className="content__text--name">02:00pm</h5>
+          <p className="content__text--movie">{formatDate(dateSchedule)}</p>
+          <h5 className="content__text--name">{formatAMPM(timeSchedule)}</h5>
         </div>
         <div className="content__info--text">
           <p className="content__text--movie">One ticket price</p>
-          <h5 className="content__text--name">$10</h5>
+          <h5 className="content__text--name">{formatRp(schedule?.price)}</h5>
         </div>
         <div className="content__info--text">
           <p className="content__text--movie">Seat choosed</p>

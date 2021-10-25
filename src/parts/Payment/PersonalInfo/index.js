@@ -32,7 +32,7 @@ const PersonalInfo = () => {
         />
       </div>
       <div className="form-group">
-        <label for="phone" className="form-label">
+        <label htmlFor="phone" className="form-label">
           Phone Number
         </label>
         <InputText

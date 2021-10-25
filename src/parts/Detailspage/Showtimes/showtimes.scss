@@ -123,6 +123,10 @@
           color: $label;
           font-size: $size-12;
 
+          &.active {
+            color: red;
+          }
+
           @media (min-width: 768px) {
             font-size: $size-16;
           }

@@ -32,9 +32,9 @@ export default function Homepage(props) {
 
         setMovies(data);
         setLoading(false);
-      } catch (error) {
+      } catch (err) {
         setLoading(false);
-        alert(error);
+        alert(err.response.data.message);
       }
     };
     getMovies();

@@ -18,6 +18,9 @@ export default function PaymentPage(props) {
 
   const history = useHistory();
 
+  // const data = props.location.state;
+  // console.log(data);
+
   return (
     <>
       <Header {...props} className="mb-0 mb-md-4" />
