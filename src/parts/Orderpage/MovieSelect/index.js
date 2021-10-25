@@ -12,7 +12,7 @@ const MovieSelect = (props) => {
   return (
     <Card className="content__movie--select d-none d-md-flex">
       <h5 className="content__movie--name">{props.title}</h5>
-      <Button className="btn btn-change" onClick={() => history.goBack()}>
+      <Button className="btn btn-change" onClick={() => history.push("/")}>
         Change movie
       </Button>
     </Card>

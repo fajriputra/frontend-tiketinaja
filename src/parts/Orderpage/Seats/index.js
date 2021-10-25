@@ -9,7 +9,6 @@ import Card from "components/Card";
 import Image from "components/Image";
 
 import "./seats.scss";
-import { useEffect } from "react";
 
 const Seats = (props) => {
   const { seatAlpha, selectedSeat, reserved, selected } = props;
@@ -18,27 +17,6 @@ const Seats = (props) => {
   const [rightSideSeat, setRightSideSeat] = useState([
     8, 9, 10, 11, 12, 13, 14,
   ]);
-
-  // const setAlphabetSeat = () => {
-  //   const leftSide = leftSideSeat?.map((item) => `${seatAlpha}${item}`);
-  //   const rightSide = rightSideSeat?.map((item) => `${seatAlpha}${item}`);
-
-  //   if (leftSideSeat) {
-  //     setLeftSideSeat({
-  //       leftSideSeat: leftSide,
-  //     });
-  //   }
-
-  //   if (rightSideSeat) {
-  //     setRightSideSeat({
-  //       rightSideSeat: rightSide,
-  //     });
-  //   }
-  // };
-
-  // useEffect(() => {
-  //   setAlphabetSeat();
-  // });
 
   return (
     <>
@@ -58,20 +36,20 @@ const Seats = (props) => {
                     return (
                       <Button
                         className={`btn seat__box ${
-                          reserved.includes(item)
+                          reserved.includes(`${alpa}${item}`)
                             ? "sold"
-                            : selected.includes(item)
+                            : selected.includes(`${alpa}${item}`)
                             ? "selected"
                             : "available"
                         }`}
                         key={index}
                         onClick={() => {
                           // eslint-disable-next-line no-unused-expressions
-                          reserved.includes(item) ? null : selectedSeat(item);
+                          reserved.includes(`${alpa}${item}`)
+                            ? null
+                            : selectedSeat(`${alpa}${item}`);
                         }}
-                      >
-                        {item}
-                      </Button>
+                      ></Button>
                     );
                   })}
                 </div>
@@ -81,16 +59,18 @@ const Seats = (props) => {
                     return (
                       <Button
                         className={`btn seat__box ${
-                          reserved.includes(item)
+                          reserved.includes(`${alpa}${item}`)
                             ? "sold"
-                            : selected.includes(item)
+                            : selected.includes(`${alpa}${item}`)
                             ? "selected"
                             : "available"
                         }`}
                         key={index}
                         onClick={() => {
                           // eslint-disable-next-line no-unused-expressions
-                          reserved.includes(item) ? null : selectedSeat(item);
+                          reserved.includes(`${alpa}${item}`)
+                            ? null
+                            : selectedSeat(`${alpa}${item}`);
                         }}
                       ></Button>
                     );

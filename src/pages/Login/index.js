@@ -61,7 +61,7 @@ const LoginPage = () => {
       const res = await axios.post("/auth/login", data);
       setNotif({ ...notif, error: "", success: res.data.message });
 
-      localStorage.setItem("token", res.data.data.token);
+      localStorage.setItem("token", JSON.stringify(res.data.data.token));
 
       setTimeout(() => {
         setNotif("");

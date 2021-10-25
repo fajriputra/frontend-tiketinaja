@@ -11,7 +11,7 @@ import { formatAMPM } from "helpers/formatTime";
 import { formatDate } from "helpers/formatDate";
 
 const OrderInfo = (props) => {
-  const { movieId, timeSchedule, schedule, dateSchedule } = props;
+  const { movieId, timeSchedule, schedule, dateSchedule, seats } = props;
 
   return (
     <Card className="content__info--order">
@@ -42,14 +42,20 @@ const OrderInfo = (props) => {
         </div>
         <div className="content__info--text">
           <p className="content__text--movie">Seat choosed</p>
-          <h5 className="content__text--name">C4, C5, C6</h5>
+          <h5 className="content__text--name">{seats.join(", ")}</h5>
         </div>
 
         <hr className="line w-100" />
 
         <div className="content__info--text">
           <p className="content__text--movie total__text">Total Payment</p>
-          <h5 className="content__text--name total__price">$30</h5>
+          <h5 className="content__text--name total__price">
+            {formatRp(
+              seats.length === 0
+                ? schedule?.price
+                : schedule?.price * seats.length
+            )}
+          </h5>
         </div>
       </div>
     </Card>

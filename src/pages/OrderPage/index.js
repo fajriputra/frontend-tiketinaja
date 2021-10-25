@@ -1,23 +1,25 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useHistory } from "react-router-dom";
 
 import Header from "components/Header";
 import Sitelink from "components/Sitelink";
+import Button from "components/UI/Button";
 
-import "./order-page.scss";
 import MovieSelect from "parts/Orderpage/MovieSelect";
 import OrderInfo from "parts/Orderpage/OrderInfo";
 import Seats from "parts/Orderpage/Seats";
 
-import Button from "components/UI/Button";
-
+import axios from "helpers/axios";
 import useScrollTop from "hooks/useScrollTop";
+
+import "./order-page.scss";
 
 export default function OrderPage(props) {
   useScrollTop();
   const history = useHistory();
 
-  const data = props.location.state;
+  const { movieId, schedule, timeSchedule, dateSchedule } =
+    props.location.state;
 
   const [seatAlpha, setSeatAlpha] = useState(["A", "B", "C"]);
   const [selectSeat, setSelectSeat] = useState([]);
@@ -28,21 +30,33 @@ export default function OrderPage(props) {
       const deleteSeat = selectSeat.filter((val) => {
         return val !== data;
       });
-
-      setSelectSeat({
-        selectSeat: deleteSeat,
-      });
+      setSelectSeat(deleteSeat);
     } else {
-      setSelectSeat({
-        selectSeat: [...selectSeat, data],
-      });
+      setSelectSeat([...selectSeat, data]);
     }
   };
 
+  useEffect(() => {
+    const getDataSeatBooking = async () => {
+      try {
+        const res = await axios.get(
+          `/booking/seat?movieId=${schedule?.movieId}&scheduleId=${schedule?.id}&dateSchedule=${dateSchedule}&timeSchedule=${timeSchedule}`
+        );
+        const { data } = res.data;
+
+        const seat = data?.map((item) => item.seat);
+
+        setReversedSeat(seat);
+      } catch (err) {
+        console.log(err.response.data.message);
+      }
+    };
+
+    getDataSeatBooking();
+  }, [dateSchedule, schedule?.id, schedule?.movieId, timeSchedule]);
+
   const resetSeat = () => {
-    setSelectSeat({
-      selectSeat: [],
-    });
+    setSelectSeat([]);
   };
 
   const handlePayment = () => {
@@ -50,7 +64,10 @@ export default function OrderPage(props) {
       alert("Please select your seat");
     } else {
       const setData = {
-        ...data,
+        movieId,
+        schedule,
+        timeSchedule,
+        dateSchedule,
         seat: selectSeat,
       };
       history.push("/payment", setData);
@@ -69,7 +86,7 @@ export default function OrderPage(props) {
               </h5>
 
               <div className="content__order--movie">
-                <MovieSelect title={data?.movieId?.name} />
+                <MovieSelect title={movieId[0]?.name} />
                 <h5 className="content__heading">Choose Your Seat</h5>
                 <Seats
                   seatAlpha={seatAlpha}
@@ -79,13 +96,9 @@ export default function OrderPage(props) {
                 />
               </div>
               <div className="button__wrapper">
-                <Button
-                  className="btn btn__action change"
-                  onClick={() => history.goBack()}
-                >
-                  Change your movie
+                <Button className="btn btn__action change" onClick={resetSeat}>
+                  Reset seat
                 </Button>
-
                 <Button
                   className="btn btn__action checkout"
                   onClick={handlePayment}
@@ -97,10 +110,11 @@ export default function OrderPage(props) {
             <div className="col-md-4">
               <h5 className="content__heading">Order Info</h5>
               <OrderInfo
-                movieId={data?.movieId}
-                timeSchedule={data?.timeSchedule}
-                schedule={data?.schedule}
-                dateSchedule={data?.dateSchedule}
+                movieId={movieId[0]}
+                timeSchedule={timeSchedule}
+                schedule={schedule}
+                dateSchedule={dateSchedule}
+                seats={selectSeat}
               />
             </div>
           </div>

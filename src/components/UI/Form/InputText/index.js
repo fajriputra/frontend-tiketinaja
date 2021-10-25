@@ -9,6 +9,8 @@ const InputText = React.forwardRef(
       name,
       type,
       value,
+      readOnly,
+      isDisabled,
       placeholder,
       outerClassName,
       prepend,
@@ -28,9 +30,11 @@ const InputText = React.forwardRef(
             </div>
           )}
           <input
+            readOnly={readOnly}
             type={type}
             name={name}
             value={value}
+            disabled={isDisabled}
             className={["form-control", inputClassName].join(" ")}
             placeholder={placeholder}
             onChange={onChange}
@@ -51,7 +55,7 @@ InputText.defaultProps = {
 };
 
 InputText.propTypes = {
-  name: propTypes.string.isRequired,
+  name: propTypes.string,
   type: propTypes.string,
   value: propTypes.string,
   onKeyUp: propTypes.func,

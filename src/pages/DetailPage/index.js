@@ -37,7 +37,7 @@ export default function DetailPage(props) {
         setLoading(false);
       } catch (err) {
         setLoading(false);
-        alert(err.response.data.message);
+        console.log(err.response.data.message);
       }
     };
 

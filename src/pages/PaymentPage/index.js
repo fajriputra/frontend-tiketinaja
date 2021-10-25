@@ -18,8 +18,8 @@ export default function PaymentPage(props) {
 
   const history = useHistory();
 
-  // const data = props.location.state;
-  // console.log(data);
+  const { dateSchedule, movieId, schedule, seat, timeSchedule } =
+    props.location.state;
 
   return (
     <>
@@ -33,7 +33,13 @@ export default function PaymentPage(props) {
                 Payment Info
               </h5>
               <Card className="content__payment--info d-none d-md-block">
-                <PaymentInfo />
+                <PaymentInfo
+                  dateSchedule={dateSchedule}
+                  movieId={movieId}
+                  schedule={schedule}
+                  seats={seat}
+                  timeSchedule={timeSchedule}
+                />
               </Card>
               <div className="button__wrapper d-none d-md-flex">
                 <Button

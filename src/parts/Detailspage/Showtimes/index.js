@@ -78,8 +78,8 @@ const Showtimes = (props) => {
 
   const handleBooking = (data) => {
     history.push("/order", {
-      movieId: movieId[0],
-      schedule: data,
+      movieId,
+      schedule: { ...data, movieId: movieId[0].id },
       dateSchedule,
       timeSchedule: timeSchedule.timeSchedule,
     });
