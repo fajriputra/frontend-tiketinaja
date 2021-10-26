@@ -1,0 +1,16 @@
+@import "assets/scss/_colorVariables.scss";
+@import "assets/scss/_fontVariables.scss";
+
+.tab__profile--mobile {
+  display: block !important;
+  margin: 0;
+
+  @media (min-width: 768px) {
+    display: none !important;
+  }
+}
+
+.profile {
+  background-color: $mainBg;
+  padding: $size-50 0;
+}

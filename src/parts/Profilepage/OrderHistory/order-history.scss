@@ -1,0 +1,85 @@
+@import "assets/scss/_colorVariables.scss";
+@import "assets/scss/_fontVariables.scss";
+
+.card__order--history {
+  margin-right: 0;
+  background-color: $white;
+  border: none;
+  font-family: "Mulish", sans-serif;
+  position: relative;
+  margin-top: $size-30;
+  padding: $size-24;
+
+  @media (min-width: 768px) {
+    padding: $size-32;
+  }
+
+  @media (min-width: 768px) {
+    margin-top: 0;
+  }
+
+  .order__history--content {
+    display: flex;
+    flex-direction: column-reverse;
+    margin-bottom: $size-30;
+
+    @media (min-width: 768px) {
+      margin-bottom: $size-40;
+      flex-direction: row;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .order__history--head {
+      .order__history--title {
+        font-size: $size-13;
+        color: #aaaaaa;
+
+        @media (min-width: 768px) {
+          font-size: $size-14;
+        }
+      }
+
+      .order__history--subtitle {
+        font-size: $size-18;
+        color: #000;
+
+        @media (min-width: 768px) {
+          font-size: $size-24;
+        }
+      }
+    }
+    .order__history--cinema {
+      width: 121px;
+      margin-bottom: $size-24;
+
+      @media (min-width: 768px) {
+        margin-bottom: 0;
+      }
+    }
+  }
+
+  .line {
+    position: absolute;
+    left: 0;
+    margin: 0;
+  }
+
+  .button__wrapper {
+    align-items: center;
+    padding-top: $size-30;
+
+    .btn__ticket {
+      width: 196px;
+      height: $size-40;
+      // font-size: $size-14;
+      color: #f7f7fc;
+      background-color: #00ba88;
+
+      &.show {
+        background-color: transparent;
+        color: #aaaaaa;
+      }
+    }
+  }
+}

@@ -16,11 +16,18 @@ import useTogglePassword from "hooks/useTogglePassword";
 import LineBreak from "components/LineBreak";
 import InputText from "components/UI/Form/InputText";
 import Button from "components/UI/Button";
+import Image from "components/Image";
+import { showError, showSuccess } from "helpers/notification";
 
 import axios from "helpers/axios";
 
-import "./login.scss";
-import { showError, showSuccess } from "helpers/notification";
+import "./register.scss";
+
+// firstName:fajri
+// lastName:admin
+// email:tugasmikrotik@gmail.com
+// password:test123
+// phoneNumber:123456789
 
 const initialState = {
   error: "",
@@ -34,7 +41,7 @@ const statusList = {
   error: "error",
 };
 
-export default function LoginPage() {
+export default function RegisterPage() {
   const history = useHistory();
   const [notif, setNotif] = useState(initialState);
   const [status, setStatus] = useState(statusList.idle);
@@ -51,70 +58,127 @@ export default function LoginPage() {
   } = useForm();
 
   useEffect(() => {
-    document.title = "Ticketing | Sign in";
+    document.title = "Ticketing | Sign up";
     window.scrollTo(0, 0);
   });
 
   const onSubmit = async (data) => {
     setStatus(statusList.process);
     try {
-      const res = await axios.post("/auth/login", data);
-      setNotif({ ...notif, error: "", success: res.data.message });
-
-      localStorage.setItem("token", res.data.data.token);
-
-      setTimeout(() => {
-        setNotif("");
-        history.push("/");
-      }, 3000);
+      // const res = await axios.post("/auth/login", data);
+      // setNotif({ ...notif, error: "", success: res.data.message });
+      // localStorage.setItem("token", res.data.data.token);
+      // setTimeout(() => {
+      //   setNotif("");
+      //   history.push("/");
+      // }, 3000);
     } catch (err) {
-      err.response.data.message &&
-        setNotif({ ...notif, error: err.response.data.message, success: "" });
-
-      setTimeout(() => {
-        setNotif("");
-        reset({ ...data, email: "", password: "" });
-      }, 3000);
-      setStatus(statusList.error);
+      // err.response.data.message &&
+      //   setNotif({ ...notif, error: err.response.data.message, success: "" });
+      // setTimeout(() => {
+      //   setNotif("");
+      //   reset({ ...data, email: "", password: "" });
+      // }, 3000);
+      // setStatus(statusList.error);
     }
     setStatus(statusList.success);
   };
 
   return (
-    <section className="signin">
+    <section className="signup">
       <div className="d-md-none">
-        <Button type="link" href="/" className="btn signin__logo--mobile">
+        <Button type="link" href="/" className="btn signup__logo--mobile">
           <img src={LogoTickitz} alt="Logo mobile" className="img-cover" />
         </Button>
       </div>
       <div className="row">
         <div className="col-md-7 d-none d-md-block test p-0">
-          <div className="signin__overlay">
-            <img
-              src={LogoTickitzAuth}
-              alt="Banner auth"
-              className="signin__logo"
-            />
-            <h3 className="signin__title">wait, watch, wow!</h3>
+          <div className="signup__overlay">
+            <div className="signup__overlay--content">
+              <Image
+                className="wrapper__image"
+                srcImage={LogoTickitzAuth}
+                altImage="Logo Brand"
+                imgClass="img-cover"
+              />
+
+              <div className="content__text">
+                <h1 className="content__text--heading">
+                  Lets build your account
+                </h1>
+                <div className="content__text--subheading">
+                  To be a loyal moviegoer and access all of features, your
+                  details are required.
+                </div>
+                <div className="content__stepper"></div>
+              </div>
+            </div>
           </div>
           <img
             src={Background}
             alt="Banner auth"
-            className="signin__background"
+            className="signup__background"
           />
         </div>
         <div className="col-md-5 m-0">
-          <div className="signin__form d-md-flex justify-content-md-center align-items-md-center">
+          <div className="signup__form d-md-flex justify-content-md-center align-items-md-center">
             <form onSubmit={handleSubmit(onSubmit)}>
-              <div className="signin__text">
-                <h1 className="signin__text--heading">Sign In</h1>
-                <p className="signin__text--subheading">
-                  Sign in with your data that you entered during your
-                  registration
-                </p>
+              <div className="signup__text">
+                <h4 className="signup__text--heading">
+                  Fill your additional details
+                </h4>
               </div>
               {error && showError(error)}
               {success && showSuccess(success)}
+              <div className="form-group position-relative">
+                <label htmlFor="firstname" className="form-label">
+                  Firstname
+                </label>
+                <InputText
+                  inputClassName={errors?.firstname && "invalid"}
+                  type="text"
+                  name="firstname"
+                  placeholder="Write your firstname"
+                  {...register("firstname", {
+                    required: "Firstname is required",
+                    minLength: {
+                      value: 3,
+                      message: "Firstname must be at least 3 characters",
+                    },
+                  })}
+                  onKeyUp={() => {
+                    trigger("firstname");
+                  }}
+                />
+                {errors?.firstname && (
+                  <p className="error-helpers">{errors?.firstname?.message}</p>
+                )}
+              </div>
+              <div className="form-group position-relative">
+                <label htmlFor="lastname" className="form-label">
+                  Lastname
+                </label>
+                <InputText
+                  inputClassName={errors?.lastname && "invalid"}
+                  type="text"
+                  name="lastname"
+                  placeholder="Write your lastname"
+                  {...register("lastname", {
+                    required: "Lastname is required",
+                    minLength: {
+                      value: 3,
+                      message: "Lastname must be at least 3 characters",
+                    },
+                  })}
+                  onKeyUp={() => {
+                    trigger("lastname");
+                  }}
+                />
+                {errors?.lastname && (
+                  <p className="error-helpers">{errors?.lastname?.message}</p>
+                )}
+              </div>
+
               <div className="form-group position-relative">
                 <label htmlFor="email" className="form-label">
                   Email
@@ -169,12 +233,19 @@ export default function LoginPage() {
                 <span className="eye-pass">{Icon}</span>
               </div>
 
+              <div className="form-check">
+                <input className="form-check-input" type="checkbox" value="" />
+                <label className="form-check-label" htmlFor="checkbox">
+                  I agree to terms & conditions
+                </label>
+              </div>
+
               <Button
-                className="btn btn-signin w-100"
+                className="btn btn-signup w-100"
                 isPrimary
                 isLoading={status === statusList.process}
               >
-                Sign In
+                Join for free now
               </Button>
 
               <Button
@@ -182,8 +253,8 @@ export default function LoginPage() {
                 href="/forgot-password"
                 style={{ textDecoration: "none" }}
               >
-                <p className="forgot-password text-center">
-                  Forgot your password? <span>Reset now </span>
+                <p className="have__account text-center">
+                  Do you already have an account? <span> Sign in </span>
                 </p>
               </Button>
 
@@ -194,27 +265,27 @@ export default function LoginPage() {
                   d-flex
                   justify-content-evenly
                   justify-content-md-between
-                  signin__button
+                  signup__button
                 "
               >
                 <Button
-                  className="btn signin__button--btn-google d-flex align-items-center shadow"
+                  className="btn signup__button--btn-google d-flex align-items-center shadow"
                   style={{ borderRadius: "0.375rem" }}
                 >
-                  <IconGoogle className="signin__sosmed me-0" />
-                  <span className="ms-3 signin__sosmed--text d-none d-md-block">
+                  <IconGoogle className="signup__sosmed me-0" />
+                  <span className="ms-3 signup__sosmed--text d-none d-md-block">
                     Google
                   </span>
                 </Button>
                 <Button
                   className="btn btn
-                    signin__button--btn-fb
+                    signup__button--btn-fb
                     d-flex
                     align-items-center shadow"
                   style={{ borderRadius: "0.375rem" }}
                 >
-                  <IconFacebook className="signin__sosmed me-0" />
-                  <span className="ms-3 signin__sosmed--text d-none d-md-block">
+                  <IconFacebook className="signup__sosmed me-0" />
+                  <span className="ms-3 signup__sosmed--text d-none d-md-block">
                     Facebook
                   </span>
                 </Button>

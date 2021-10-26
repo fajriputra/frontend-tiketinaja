@@ -1,0 +1,198 @@
+@import "assets/scss/_colorVariables.scss";
+@import "assets/scss/_fontVariables.scss";
+
+.signup {
+  font-family: "Mulish", sans-serif;
+  position: relative;
+  max-width: 100%;
+  overflow: hidden;
+  background-color: $mainBg;
+  padding: $size-30 $size-24 $size-55;
+  margin-bottom: 0;
+
+  @media (min-width: 768px) {
+    padding: 0;
+  }
+
+  &__logo--mobile {
+    width: 130px;
+    margin-bottom: $size-30;
+    padding: 0;
+  }
+
+  &__overlay {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(43, 21, 107, 0.63);
+
+    &--content {
+      @media (min-width: 768px) {
+        padding: 80px 100px;
+      }
+
+      .wrapper__image {
+        width: 300px;
+        margin-bottom: $size-50;
+      }
+
+      .content__text {
+        color: $white;
+
+        &--heading {
+          font-size: $size-48;
+          font-weight: bold;
+          margin-bottom: $size-20;
+        }
+
+        &--subheading {
+          font-size: $size-24;
+          color: rgba(255, 255, 255, 0.7);
+        }
+      }
+    }
+  }
+
+  &__background {
+    width: 100%;
+    // height: 100vh;
+    object-fit: cover;
+  }
+
+  .test {
+    position: relative;
+  }
+
+  &__title {
+    font-family: "Inter", sans-serif;
+    color: $white;
+    margin-bottom: 0;
+    font-weight: normal;
+  }
+
+  &__form {
+    height: 100%;
+  }
+
+  form {
+    width: auto;
+
+    @media (min-width: 768px) {
+      width: 400px;
+    }
+
+    .signup__text {
+      margin-bottom: $size-40;
+
+      @media (min-width: 768px) {
+        margin-bottom: $size-48;
+      }
+
+      &--heading {
+        font-weight: 600;
+        margin-bottom: $size-12;
+        font-size: $size-24;
+        color: $title;
+        line-height: $size-32;
+
+        @media (min-width: 768px) {
+          font-size: $size-28;
+        }
+      }
+    }
+
+    .form-group {
+      margin-bottom: $size-20;
+
+      @media (min-width: 768px) {
+        margin-bottom: $size-24;
+      }
+
+      label.form-label {
+        color: $label;
+      }
+
+      .eye-pass {
+        position: absolute;
+        width: $size-18;
+        right: $size-25;
+        top: $size-42;
+        z-index: 9999;
+
+        @media (min-width: 768px) {
+          top: $size-45;
+        }
+      }
+    }
+
+    .form-check {
+      color: #696f79;
+
+      input:focus {
+        box-shadow: none;
+      }
+    }
+
+    .btn-signup {
+      margin: $size-20 auto;
+      font-size: $size-16;
+      padding: $size-12 $size-30;
+
+      @media (min-width: 768px) {
+        font-size: $size-18;
+        margin: $size-30 auto;
+      }
+    }
+
+    .have__account {
+      font-family: "Inter", sans-serif;
+      color: #8692a6;
+      font-weight: 500;
+      font-size: $size-14;
+
+      @media (min-width: 768px) {
+        font-size: $size-16;
+      }
+
+      span {
+        color: $primaryColor;
+        border-bottom: 1px solid $primaryColor;
+      }
+    }
+
+    .signup__button {
+      margin-bottom: $size-30;
+
+      @media (min-width: 768px) {
+        margin-bottom: 0;
+      }
+
+      &--btn-google {
+        padding: $size-12 $size-24;
+        font-weight: 600 !important;
+
+        @media (min-width: 768px) {
+          padding: $size-12 $size-50 $size-12 $size-24;
+        }
+      }
+
+      &--btn-fb {
+        font-weight: 600;
+        padding: $size-12 $size-24;
+
+        @media (min-width: 768px) {
+          padding: $size-12 $size-50 $size-12 $size-24;
+        }
+      }
+
+      .signup__sosmed {
+        width: $size-25;
+        height: $size-25;
+
+        &--text {
+          color: #a0a3bd;
+        }
+      }
+    }
+  }
+}

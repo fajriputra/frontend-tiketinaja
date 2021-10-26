@@ -1,0 +1,126 @@
+@import "assets/scss/_colorVariables.scss";
+@import "assets/scss/_fontVariables.scss";
+
+.reset {
+  font-family: "Mulish", sans-serif;
+  position: relative;
+  max-width: 100%;
+  overflow: hidden;
+  background-color: $mainBg;
+  padding: $size-30 $size-24 0;
+  margin-bottom: 0;
+  height: 100vh;
+
+  @media (min-width: 768px) {
+    padding: 0;
+  }
+
+  &__logo--mobile {
+    width: 130px;
+    margin-bottom: $size-30;
+    padding: 0;
+  }
+
+  &__overlay {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(43, 21, 107, 0.63);
+
+    &--content {
+      @media (min-width: 768px) {
+        padding: 80px 100px;
+      }
+
+      .wrapper__image {
+        width: 300px;
+        margin-bottom: $size-50;
+      }
+
+      .content__text {
+        color: $white;
+
+        &--heading {
+          font-size: $size-48;
+          font-weight: bold;
+          margin-bottom: $size-20;
+        }
+
+        &--subheading {
+          font-size: $size-24;
+          color: rgba(255, 255, 255, 0.7);
+        }
+      }
+    }
+  }
+
+  &__background {
+    width: 100%;
+    // height: 100vh;
+    object-fit: cover;
+  }
+
+  .test {
+    position: relative;
+  }
+
+  &__form {
+    height: 100vh;
+  }
+
+  form {
+    width: auto;
+
+    @media (min-width: 768px) {
+      width: 400px;
+    }
+
+    .reset__text {
+      margin-bottom: $size-40;
+
+      @media (min-width: 768px) {
+        margin-bottom: $size-48;
+      }
+
+      &--heading {
+        font-weight: 600;
+        margin-bottom: $size-12;
+        font-size: $size-24;
+        color: $title;
+        line-height: $size-32;
+
+        @media (min-width: 768px) {
+          font-size: $size-28;
+        }
+      }
+
+      &--subheading {
+        font-size: $size-18;
+        color: #8692a6;
+      }
+    }
+
+    .form-group {
+      margin-bottom: $size-20;
+
+      @media (min-width: 768px) {
+        margin-bottom: $size-24;
+      }
+
+      label.form-label {
+        color: $label;
+      }
+    }
+
+    .btn-reset {
+      margin: $size-20 auto;
+      font-size: $size-16;
+      padding: $size-12 $size-30;
+
+      @media (min-width: 768px) {
+        font-size: $size-18;
+        margin: $size-30 auto;
+      }
+    }
+  }
+}

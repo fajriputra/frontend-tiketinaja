@@ -1,0 +1,63 @@
+@import "assets/scss/_colorVariables.scss";
+@import "assets/scss/_fontVariables.scss";
+
+.profile__detail {
+  margin-right: 0;
+  background-color: $white;
+  border: none;
+  font-family: "Mulish", sans-serif;
+  margin: $size-30 auto;
+  padding: $size-24;
+
+  @media (min-width: 768px) {
+    padding: $size-32;
+  }
+
+  &--head {
+    .detail__info--text {
+      color: $title;
+    }
+  }
+
+  &--body {
+    display: grid;
+    gap: $size-20;
+    grid-template-columns: repeat(1, 1fr);
+    margin: $size-30 auto;
+
+    @media (min-width: 768px) {
+      gap: $size-30;
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    .form-group {
+      label.form-label {
+        color: $label;
+      }
+
+      .eye-pass {
+        position: absolute;
+        width: $size-18;
+        right: $size-25;
+        top: $size-42;
+        z-index: 9999;
+
+        @media (min-width: 768px) {
+          top: $size-45;
+        }
+      }
+    }
+  }
+}
+
+.btn__updates {
+  width: 100%;
+  height: $size-56;
+  font-family: "Mulish", sans-serif;
+  font-weight: 700;
+  margin-bottom: $size-30;
+
+  @media (min-width: 768px) {
+    width: 350px;
+  }
+}

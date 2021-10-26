@@ -1,0 +1,119 @@
+@import "assets/scss/_fontVariables.scss";
+@import "assets/scss/_colorVariables.scss";
+
+.ticket__result {
+  background-color: $mainBg;
+  font-family: "Mulish", sans-serif;
+
+  &--cardout {
+    padding: 70px 100px;
+
+    .inner__card {
+      border: none;
+      padding: $size-50 $size-50;
+      margin-right: 0;
+      background-color: $white;
+
+      &--content {
+        .content__ticket--heading {
+          font-size: $size-24;
+          color: $title;
+          text-align: center;
+          margin-bottom: $size-50;
+        }
+
+        .ticket__content--outter {
+          padding: 0;
+          border: 1px solid $line;
+          margin-right: 0;
+
+          .ticket__content--inner {
+            margin-right: 0;
+            padding: 0;
+            border: none;
+            position: relative;
+
+            .circle {
+              position: absolute;
+              width: $size-43;
+              height: $size-43;
+              background-color: $white;
+              z-index: 3;
+            }
+
+            .circle.top {
+              right: 24.5%;
+              top: -$size-20;
+            }
+
+            .circle.bottom {
+              right: 24.5%;
+              bottom: -$size-20;
+              border: 1px solid $line;
+            }
+
+            &::after {
+              position: absolute;
+              content: "";
+              display: block;
+              border-right: 2px dashed $line;
+              height: 100%;
+              right: 27%;
+              top: 0;
+            }
+
+            .ticket__content--head {
+              display: grid;
+              align-items: center;
+              grid-template-columns: repeat(3, 1fr);
+              background-color: $primaryColor;
+              border-top-left-radius: inherit;
+              border-top-right-radius: inherit;
+              border-bottom-left-radius: 0;
+              border-bottom-right-radius: 0;
+              padding: 0 $size-56;
+
+              .ticket__logo--image {
+                width: 115px;
+                padding: 20px 0;
+                margin-bottom: 0;
+              }
+
+              .ticket__content--text {
+                font-size: $size-18;
+                color: $white;
+                text-align: right;
+              }
+            }
+
+            .ticket__content--body {
+              padding: $size-30 $size-56 $size-43;
+
+              .info__name {
+                margin-bottom: $size-20;
+              }
+
+              .ticket__movie--title {
+                color: #aaaaaa;
+                margin-bottom: 0.5rem;
+              }
+
+              .ticket__movie--subtitle {
+                font-weight: 600;
+                color: $title;
+                margin-bottom: 0;
+              }
+
+              .info__detail--wrapper {
+                position: relative;
+                display: grid;
+                grid-template-columns: repeat(3, 185px);
+                row-gap: $size-16;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

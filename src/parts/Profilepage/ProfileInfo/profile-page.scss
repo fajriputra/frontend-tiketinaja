@@ -1,0 +1,43 @@
+@import "assets/scss/_colorVariables.scss";
+@import "assets/scss/_fontVariables.scss";
+
+.card__profile {
+  background-color: $white;
+  border: none;
+  position: relative;
+  margin-right: 0;
+  padding: $size-24;
+
+  @media (min-width: 768px) {
+    padding: $size-32;
+  }
+
+  &--info {
+    .card__profile--head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .card__profile--image {
+      width: 120px;
+      height: 120px;
+      margin: $size-40 auto $size-30;
+      filter: drop-shadow(0px 8px 16px rgba(73, 83, 99, 0.24));
+    }
+
+    .data__profile {
+      font-size: $size-20;
+    }
+
+    .data__category {
+      color: $body;
+    }
+
+    .line {
+      position: absolute;
+      left: 0;
+      margin: 0;
+    }
+  }
+}
