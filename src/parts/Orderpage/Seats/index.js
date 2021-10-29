@@ -13,10 +13,8 @@ import "./seats.scss";
 const Seats = (props) => {
   const { seatAlpha, selectedSeat, reserved, selected } = props;
 
-  const [leftSideSeat, setLeftSideSeat] = useState([1, 2, 3, 4, 5, 6, 7]);
-  const [rightSideSeat, setRightSideSeat] = useState([
-    8, 9, 10, 11, 12, 13, 14,
-  ]);
+  const [leftSideSeat] = useState([1, 2, 3, 4, 5, 6, 7]);
+  const [rightSideSeat] = useState([8, 9, 10, 11, 12, 13, 14]);
 
   return (
     <>

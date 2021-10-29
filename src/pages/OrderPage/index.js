@@ -19,8 +19,14 @@ export default function OrderPage(props) {
   useScrollTop();
   const history = useHistory();
 
-  const { movieId, schedule, timeSchedule, dateSchedule } =
-    props.location.state;
+  const movieId = props.location.state ? props.location.state.movieId : "";
+  const schedule = props.location.state ? props.location.state.schedule : "";
+  const timeSchedule = props.location.state
+    ? props.location.state.timeSchedule
+    : "";
+  const dateSchedule = props.location.state
+    ? props.location.state.dateSchedule
+    : "";
 
   const [loading, setLoading] = useState(false);
   const [seatAlpha, setSeatAlpha] = useState(["A", "B", "C"]);
@@ -48,6 +54,7 @@ export default function OrderPage(props) {
         const res = await axios.get(
           `/booking/seat?movieId=${schedule?.movieId}&scheduleId=${schedule?.id}&dateSchedule=${dateSchedule}&timeSchedule=${timeSchedule}`
         );
+
         const { data } = res.data;
 
         const seat = data?.map((item) => item.seat);
@@ -84,7 +91,7 @@ export default function OrderPage(props) {
 
   if (loading) {
     return (
-      <div style={{ margin: "20% 50%" }}>
+      <div className="loading__spinners">
         <BounceLoader color="#5f2eea" />
       </div>
     );
@@ -92,51 +99,65 @@ export default function OrderPage(props) {
 
   return (
     <>
-      <Header {...props} className="mb-0 mb-md-4" />
-      <section className="content__order">
-        <div className="container">
-          <div className="row">
-            <div className="col-md-8">
-              <h5 className="content__heading d-none d-md-block">
-                Movie Selected
-              </h5>
-
-              <div className="content__order--movie">
-                <MovieSelect title={movieId[0]?.name} />
-                <h5 className="content__heading">Choose Your Seat</h5>
-                <Seats
-                  seatAlpha={seatAlpha}
-                  selectedSeat={selectedSeat}
-                  reserved={reversedSeat}
-                  selected={selectSeat}
-                />
-              </div>
-              <div className="button__wrapper">
-                <Button className="btn btn__action change" onClick={resetSeat}>
-                  Reset seat
-                </Button>
-                <Button
-                  className="btn btn__action checkout mb-4 mb-md-0"
-                  onClick={handlePayment}
-                >
-                  Checkout now
-                </Button>
-              </div>
-            </div>
-            <div className="col-md-4">
-              <h5 className="content__heading">Order Info</h5>
-              <OrderInfo
-                movieId={movieId[0]}
-                timeSchedule={timeSchedule}
-                schedule={schedule}
-                dateSchedule={dateSchedule}
-                seats={selectSeat}
-              />
-            </div>
-          </div>
+      {!props.location.state ? (
+        <div className="page-error">
+          <h5>Kamu belum memilih movie nich, pilih dulu yu baru order!</h5>
+          <Button className="btn" isPrimary onClick={() => history.goBack()}>
+            balik
+          </Button>
         </div>
-      </section>
-      <Sitelink />
+      ) : (
+        <>
+          <Header {...props} className="mb-0 mb-md-4" />
+          <section className="content__order">
+            <div className="container">
+              <div className="row">
+                <div className="col-md-8">
+                  <h5 className="content__heading d-none d-md-block">
+                    Movie Selected
+                  </h5>
+
+                  <div className="content__order--movie">
+                    <MovieSelect title={movieId[0]?.name} />
+                    <h5 className="content__heading">Choose Your Seat</h5>
+                    <Seats
+                      seatAlpha={seatAlpha}
+                      selectedSeat={selectedSeat}
+                      reserved={reversedSeat}
+                      selected={selectSeat}
+                    />
+                  </div>
+                  <div className="button__wrapper">
+                    <Button
+                      className="btn btn__action change"
+                      onClick={resetSeat}
+                    >
+                      Reset seat
+                    </Button>
+                    <Button
+                      className="btn btn__action checkout mb-4 mb-md-0"
+                      onClick={handlePayment}
+                    >
+                      Checkout now
+                    </Button>
+                  </div>
+                </div>
+                <div className="col-md-4">
+                  <h5 className="content__heading">Order Info</h5>
+                  <OrderInfo
+                    movieId={movieId[0]}
+                    timeSchedule={timeSchedule}
+                    schedule={schedule}
+                    dateSchedule={dateSchedule}
+                    seats={selectSeat}
+                  />
+                </div>
+              </div>
+            </div>
+          </section>
+          <Sitelink />
+        </>
+      )}
     </>
   );
 }

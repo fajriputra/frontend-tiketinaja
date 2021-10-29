@@ -31,8 +31,18 @@ export default function PaymentPage(props) {
   const [dataBooking, setDataBooking] = useState([]);
   const history = useHistory();
 
-  const { dateSchedule, movieId, schedule, seat, timeSchedule } =
-    props.location.state;
+  // const { dateSchedule, movieId, schedule, seat, timeSchedule } =
+  //   props.location.state;
+
+  const dateSchedule = props.location.state
+    ? props.location.state.dateSchedule
+    : "";
+  const movieId = props.location.state ? props.location.state.movieId : "";
+  const schedule = props.location.state ? props.location.state.schedule : "";
+  const seat = props.location.state ? props.location.state.seat : "";
+  const timeSchedule = props.location.state
+    ? props.location.state.timeSchedule
+    : "";
 
   useEffect(() => {
     const getUserLogin = async () => {
@@ -84,7 +94,7 @@ export default function PaymentPage(props) {
 
   if (loading) {
     return (
-      <div style={{ margin: "20% 50%" }}>
+      <div className="loading__spinners">
         <BounceLoader color="#5f2eea" />
       </div>
     );
@@ -92,50 +102,61 @@ export default function PaymentPage(props) {
 
   return (
     <>
-      <Header {...props} className="mb-0 mb-md-4" />
-      <section className="content__payment">
-        <TotalMobile seats={seat} schedule={schedule} />
-        <div className="container">
-          <div className="row">
-            <div className="col-md-8">
-              <h5 className="content__heading d-none d-md-block">
-                Payment Info
-              </h5>
-              <Card className="content__payment--info d-none d-md-block">
-                <PaymentInfo
-                  dateSchedule={dateSchedule}
-                  movieId={movieId}
-                  schedule={schedule}
-                  seats={seat}
-                  timeSchedule={timeSchedule}
-                />
-              </Card>
-              <div className="button__wrapper d-none d-md-flex">
-                <Button
-                  className="btn btn__action prev"
-                  onClick={() => history.goBack()}
-                >
-                  Previous Step
-                </Button>
-                <Button
-                  className="btn btn__action order"
-                  onClick={handlePayOrder}
-                  isLoading={status === statusList.process}
-                >
-                  Pay your order
-                </Button>
+      {!props.location.state ? (
+        <div className="page-error">
+          <h5>Kamu belum ada pembayaran, pilih movie dulu yu!</h5>
+          <Button className="btn" isPrimary onClick={() => history.goBack()}>
+            balik
+          </Button>
+        </div>
+      ) : (
+        <>
+          <Header {...props} className="mb-0 mb-md-4" />
+          <section className="content__payment">
+            <TotalMobile seats={seat} schedule={schedule} />
+            <div className="container">
+              <div className="row">
+                <div className="col-md-8">
+                  <h5 className="content__heading d-none d-md-block">
+                    Payment Info
+                  </h5>
+                  <Card className="content__payment--info d-none d-md-block">
+                    <PaymentInfo
+                      dateSchedule={dateSchedule}
+                      movieId={movieId}
+                      schedule={schedule}
+                      seats={seat}
+                      timeSchedule={timeSchedule}
+                    />
+                  </Card>
+                  <div className="button__wrapper d-none d-md-flex">
+                    <Button
+                      className="btn btn__action prev"
+                      onClick={() => history.goBack()}
+                    >
+                      Previous Step
+                    </Button>
+                    <Button
+                      className="btn btn__action order"
+                      onClick={handlePayOrder}
+                      isLoading={status === statusList.process}
+                    >
+                      Pay your order
+                    </Button>
+                  </div>
+                </div>
+                <div className="col-md-4">
+                  <h5 className="content__heading">Personal Info</h5>
+                  <Card className="content__info--person">
+                    <PersonalInfo value={isLogin[0]} isDisabled={isLogin} />
+                  </Card>
+                </div>
               </div>
             </div>
-            <div className="col-md-4">
-              <h5 className="content__heading">Personal Info</h5>
-              <Card className="content__info--person">
-                <PersonalInfo value={isLogin[0]} isDisabled={isLogin} />
-              </Card>
-            </div>
-          </div>
-        </div>
-      </section>
-      <Sitelink />
+          </section>
+          <Sitelink />
+        </>
+      )}
     </>
   );
 }

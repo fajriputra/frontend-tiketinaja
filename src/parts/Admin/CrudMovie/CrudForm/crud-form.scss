@@ -1,0 +1,61 @@
+@import "assets/scss/_colorVariables.scss";
+@import "assets/scss/_fontVariables.scss";
+
+.crud__form {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: $size-25 $size-48;
+
+  .form-group {
+    margin-bottom: 0;
+
+    .form-control {
+      background-color: #fcfdfe;
+    }
+  }
+}
+
+label.form-label {
+  color: $body;
+}
+
+.synopsis__textarea {
+  border-radius: 4px;
+  border: 1px solid $line;
+  width: 100% !important;
+  background-color: #fcfdfe;
+  padding: $size-12 $size-20;
+
+  &:focus {
+    border: 1px solid $line;
+    outline: none;
+    box-shadow: none;
+  }
+}
+
+.btn__action--admin {
+  margin-top: $size-30;
+  width: 181px;
+  height: $size-47;
+  font-weight: 600;
+
+  &.reset {
+    border: 1px solid $primaryColor;
+    color: $primaryColor;
+    margin-right: $size-24;
+    background-color: transparent;
+
+    &:hover {
+      background-color: $primaryColor;
+      color: $white;
+    }
+  }
+
+  &.submit {
+    &:hover {
+      border: 1px solid $primaryColor;
+      color: $primaryColor;
+      background-color: transparent;
+    }
+  }
+}

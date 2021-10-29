@@ -7,13 +7,7 @@ import LogoTickitz from "assets/images/logo-tickitz-blue.png";
 import Background from "assets/images/bg-auth.png";
 
 // icons
-import { ReactComponent as IconGoogle } from "assets/images/icons/icon-google.svg";
-import { ReactComponent as IconFacebook } from "assets/images/icons/icon-fb.svg";
 
-// hooks
-import useTogglePassword from "hooks/useTogglePassword";
-
-import LineBreak from "components/LineBreak";
 import InputText from "components/UI/Form/InputText";
 import Button from "components/UI/Button";
 import Image from "components/Image";
@@ -22,6 +16,7 @@ import { showError, showSuccess } from "helpers/notification";
 import axios from "helpers/axios";
 
 import "./forgot.scss";
+import Stepper from "components/Stepper";
 
 // firstName:fajri
 // lastName:admin
@@ -45,7 +40,6 @@ export default function ForgotPassword() {
   const history = useHistory();
   const [notif, setNotif] = useState(initialState);
   const [status, setStatus] = useState(statusList.idle);
-  const [inputType, Icon] = useTogglePassword();
 
   const { error, success } = notif;
 
@@ -54,7 +48,6 @@ export default function ForgotPassword() {
     handleSubmit,
     formState: { errors },
     trigger,
-    reset,
   } = useForm();
 
   useEffect(() => {

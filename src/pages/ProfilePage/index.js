@@ -28,8 +28,8 @@ export default function ProfilePage(props) {
             </div>
             <div className="col-sm-12 col-md-8">
               <TabProfile />
-              {/* <ProfileDetail /> */}
-              <OrderHistory />
+              <ProfileDetail />
+              {/* <OrderHistory /> */}
             </div>
           </div>
         </div>

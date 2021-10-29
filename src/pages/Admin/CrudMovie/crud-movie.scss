@@ -1,0 +1,69 @@
+@import "assets/scss/_fontVariables.scss";
+@import "assets/scss/_colorVariables.scss";
+
+.movie {
+  background-color: #e5e5e5;
+  padding: $size-56 $size-40;
+
+  .content__heading {
+    padding-bottom: $size-24;
+    margin-bottom: 0;
+  }
+
+  .crud__card--movie {
+    background-color: $white;
+    border: none;
+    margin-right: 0;
+    padding: $size-56 $size-40;
+    margin-bottom: 60px;
+  }
+
+  .data__movie--head {
+    display: flex;
+    // justify-content: space-between;
+    align-items: center;
+    margin-bottom: $size-15;
+
+    .form__input {
+      background-color: #fcfdfe;
+      height: $size-50;
+
+      &.select {
+        width: 132px;
+      }
+
+      &.search {
+        width: 313px;
+        margin-left: $size-12;
+      }
+    }
+  }
+
+  .card__data--movie {
+    margin-right: 0;
+    border: none;
+    background-color: $white;
+    padding: $size-45;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: $size-20 $size-30;
+
+    .card__image--wrapper {
+      margin-right: 0;
+      height: 100%;
+      // width: 20%;
+      margin-bottom: 0;
+
+      .data__movie--image {
+        width: 160px;
+        height: 250px;
+        border-radius: inherit;
+        // margin-bottom: 0;
+
+        img {
+          border-radius: inherit;
+        }
+      }
+    }
+  }
+}

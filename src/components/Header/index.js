@@ -1,5 +1,6 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import propTypes from "prop-types";
+import axios from "helpers/axios";
 
 import LogoBrand from "assets/images/logo-tickitz-blue.png";
 // icons
@@ -7,12 +8,14 @@ import IconToggle from "assets/images/icons/icon-toggler.svg";
 import IconSearch from "assets/images/icons/icon-search.svg";
 
 import Button from "components/UI/Button";
+import UserProfile from "components/UserProfile";
 
 import "./header.scss";
-import UserProfile from "components/UserProfile";
 
 const Header = (props) => {
   const [isCollapse, setIsCollapse] = useState(true);
+  const [isAdmin, setIsAdmin] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const isLogin = localStorage.getItem("token")
     ? localStorage.getItem("token")
@@ -21,6 +24,28 @@ const Header = (props) => {
   const getNavLinkClass = (path) => {
     return props.location.pathname === path ? " active" : "";
   };
+
+  useEffect(() => {
+    const getUserRole = async () => {
+      try {
+        setLoading(true);
+        const res = await axios.get("/user");
+
+        const { data } = res.data;
+
+        if (data[0].role === "admin") {
+          setIsAdmin(data);
+        }
+
+        setLoading(false);
+      } catch (err) {
+        setLoading(false);
+        console.log(err.response.data.message);
+      }
+    };
+
+    getUserRole();
+  }, []);
 
   const handleCollapse = () => setIsCollapse(!isCollapse);
 
@@ -36,21 +61,57 @@ const Header = (props) => {
           </Button>
           <div className={`${isCollapse ? "collapse" : ""} navbar-collapse`}>
             <ul className="navbar-nav me-auto">
-              <li className={`nav-item mx-md-4${getNavLinkClass("/")}`}>
-                <Button className="nav-link" type="link" href="/">
-                  Home
-                </Button>
-              </li>
-              <li className={`nav-item mx-md-4${getNavLinkClass("/payment")}`}>
-                <Button className="nav-link" type="link" href="/payment">
-                  Payment
-                </Button>
-              </li>
-              <li className={`nav-item mx-md-4${getNavLinkClass("/order")}`}>
-                <Button className="nav-link" type="link" href="/order">
-                  Order
-                </Button>
-              </li>
+              {isAdmin ? (
+                <>
+                  <li
+                    className={`nav-item mx-md-4${getNavLinkClass(
+                      "/dashboard"
+                    )}`}
+                  >
+                    <Button className="nav-link" type="link" href="/dashboard">
+                      Dashboard
+                    </Button>
+                  </li>
+                  <li
+                    className={`nav-item mx-md-4${getNavLinkClass("/movie")}`}
+                  >
+                    <Button className="nav-link" type="link" href="/movie">
+                      Manage Movie
+                    </Button>
+                  </li>
+                  <li
+                    className={`nav-item mx-md-4${getNavLinkClass(
+                      "/schedule"
+                    )}`}
+                  >
+                    <Button className="nav-link" type="link" href="/schedule">
+                      Manage Schedule
+                    </Button>
+                  </li>
+                </>
+              ) : (
+                <>
+                  <li className={`nav-item mx-md-4${getNavLinkClass("/")}`}>
+                    <Button className="nav-link" type="link" href="/">
+                      Home
+                    </Button>
+                  </li>
+                  <li
+                    className={`nav-item mx-md-4${getNavLinkClass("/payment")}`}
+                  >
+                    <Button className="nav-link" type="link" href="/payment">
+                      Payment
+                    </Button>
+                  </li>
+                  <li
+                    className={`nav-item mx-md-4${getNavLinkClass("/order")}`}
+                  >
+                    <Button className="nav-link" type="link" href="/order">
+                      Order
+                    </Button>
+                  </li>
+                </>
+              )}
             </ul>
             <form className="d-md-flex justify-content-md-start align-items-md-center">
               <li className="nav-item dropdown">

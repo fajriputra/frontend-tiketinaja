@@ -22,6 +22,7 @@ import { showError, showSuccess } from "helpers/notification";
 import axios from "helpers/axios";
 
 import "./register.scss";
+import Stepper from "components/Stepper";
 
 // firstName:fajri
 // lastName:admin
@@ -110,7 +111,13 @@ export default function RegisterPage() {
                   To be a loyal moviegoer and access all of features, your
                   details are required.
                 </div>
-                <div className="content__stepper"></div>
+                <div className="content__stepper">
+                  <Stepper
+                    step1="Fill your additional details"
+                    step2="Activate your account"
+                    step3="Done"
+                  />
+                </div>
               </div>
             </div>
           </div>

@@ -172,39 +172,104 @@ p,
     flex-flow: row;
     justify-content: space-between;
   }
+}
 
-  .btn__action {
-    font-weight: 700;
+.btn__action {
+  font-weight: 700;
+  color: $primaryColor;
+  width: 100%;
+  height: $size-50;
+  border: 2px solid $primaryColor;
+  margin-bottom: $size-16;
+
+  @media (min-width: 768px) {
+    width: 200px;
+    margin-bottom: 0;
+  }
+
+  &.change:hover {
+    background-color: $primaryColor;
+    color: $white;
+  }
+
+  &.checkout {
+    background-color: $primaryColor;
+    color: $white;
+    margin-bottom: 0;
+
+    &:hover {
+      background-color: transparent;
+      color: $primaryColor;
+    }
+  }
+
+  &.filter {
+    background-color: $primaryColor;
+    color: $white;
+    width: 100%;
+    margin-bottom: $size-16;
+    font-weight: 600;
+
+    &:hover {
+      background-color: transparent;
+      color: $primaryColor;
+    }
+  }
+
+  &.reset {
+    background-color: transparent;
     color: $primaryColor;
     width: 100%;
-    height: $size-50;
-    border: 2px solid $primaryColor;
-    margin-bottom: $size-16;
+    font-weight: 600;
 
-    @media (min-width: 768px) {
-      width: 200px;
-      margin-bottom: 0;
-    }
-
-    &.change:hover {
+    &:hover {
       background-color: $primaryColor;
       color: $white;
-    }
-
-    &.checkout {
-      background-color: $primaryColor;
-      color: $white;
-      margin-bottom: 0;
-
-      &:hover {
-        background-color: transparent;
-        color: $primaryColor;
-      }
     }
   }
 }
 
+.btn__admin {
+  font-size: $size-14;
+
+  &.update {
+    border: 1px solid $primaryColor;
+    color: $primaryColor;
+
+    &:hover {
+      background-color: $primaryColor;
+      color: $white;
+    }
+  }
+
+  &.delete {
+    border: 1px solid $errorColor;
+    color: $errorColor;
+
+    &:hover {
+      background-color: $errorColor;
+      color: $white;
+    }
+  }
+}
+
+.page-error {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+}
+
+.loading__spinners {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+
 .content__heading {
+  font-family: "Mulish", sans-serif;
   font-size: $size-18;
   font-weight: bold;
   color: $title;

@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 
 import Homepage from "pages/Homepage";
 import LoginPage from "pages/Login";
@@ -9,21 +9,55 @@ import OrderPage from "pages/OrderPage";
 import PaymentPage from "pages/PaymentPage";
 import TicketResult from "pages/TicketResult";
 import ProfilePage from "pages/ProfilePage";
+import PrivateRoute from "components/PrivateRoute";
+import PublicRoute from "components/PublicRoute";
+import Movie from "pages/Admin/CrudMovie";
+import Schedule from "pages/Admin/Schedule";
+import Dashboard from "pages/Admin/Dashboard";
 
 function App() {
   return (
     <div className="App">
       <Router>
         <Switch>
-          <Route path="/" exact component={Homepage} />
-          <Route path="/sign-up" exact component={RegisterPage} />
-          <Route path="/sign-in" exact component={LoginPage} />
-          <Route path="/forgot-password" exact component={ForgotPassword} />
-          <Route path="/detail-movie/:movieId" exact component={DetailPage} />
-          <Route path="/order" exact component={OrderPage} />
-          <Route path="/payment" exact component={PaymentPage} />
-          <Route path="/ticket" exact component={TicketResult} />
-          <Route path="/profile" exact component={ProfilePage} />
+          <PrivateRoute path="/" exact component={Homepage} />
+          <PublicRoute
+            path="/sign-up"
+            restricted={true}
+            exact
+            component={RegisterPage}
+          />
+          <PublicRoute
+            path="/sign-in"
+            restricted={true}
+            exact
+            component={LoginPage}
+          />
+          <PublicRoute
+            path="/forgot-password"
+            restricted={true}
+            exact
+            component={ForgotPassword}
+          />
+          <PrivateRoute
+            path="/detail-movie/:movieId"
+            exact
+            component={DetailPage}
+          />
+          <PrivateRoute path="/order" exact component={OrderPage} />
+          <PrivateRoute
+            path="/detail-movie/:movieId"
+            exact
+            component={DetailPage}
+          />
+          <PrivateRoute path="/payment" exact component={PaymentPage} />
+          <PrivateRoute path="/ticket" exact component={TicketResult} />
+          <PrivateRoute path="/profile" exact component={ProfilePage} />
+
+          {/* admin route */}
+          <Route path="/movie" exact component={Movie} />
+          <Route path="/schedule" exact component={Schedule} />
+          <Route path="/dashboard" exact component={Dashboard} />
         </Switch>
       </Router>
     </div>

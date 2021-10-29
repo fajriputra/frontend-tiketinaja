@@ -1,0 +1,21 @@
+@import "assets/scss/_fontVariables.scss";
+@import "assets/scss/_colorVariables.scss";
+
+.dashboard {
+  background-color: #e5e5e5;
+  padding: $size-50 0;
+
+  &__card {
+    margin-right: 0;
+    border: none;
+    background-color: $white;
+    padding: $size-27 $size-18;
+
+    &.filtered {
+      .form__input {
+        height: $size-50;
+        margin-bottom: $size-30;
+      }
+    }
+  }
+}

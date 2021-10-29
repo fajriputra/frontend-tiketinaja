@@ -1,0 +1,47 @@
+@import "assets/scss/_fontVariables.scss";
+@import "assets/scss/_colorVariables.scss";
+
+.stepper {
+  counter-reset: step;
+  font-family: "Mulish", sans-serif;
+
+  &__list {
+    display: flex;
+    align-items: center;
+    font-weight: 600;
+    color: rgba(255, 255, 255, 0.6);
+    font-size: $size-24;
+
+    &::before {
+      counter-increment: step 1;
+      content: counter(step);
+      margin-right: $size-30;
+      border: 2px solid #fff;
+      border-radius: $size-20;
+      width: $size-40;
+      height: $size-40;
+      font-size: $size-18;
+      display: flex;
+      color: #fff;
+      justify-content: center;
+      align-items: center;
+    }
+
+    &--line {
+      border-left: 2px solid #fff;
+      height: $size-25;
+      position: relative;
+      left: $size-19;
+    }
+
+    &--active {
+      color: #fff;
+
+      &::before {
+        border: 2px solid #fff;
+        background-color: #fff;
+        color: #290341;
+      }
+    }
+  }
+}

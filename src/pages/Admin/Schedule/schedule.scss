@@ -1,0 +1,100 @@
+@import "assets/scss/_fontVariables.scss";
+@import "assets/scss/_colorVariables.scss";
+
+.schedule {
+  background-color: #e5e5e5;
+  padding: $size-56 $size-40;
+  font-family: "Mulish", sans-serif;
+
+  .content__heading {
+    padding-bottom: $size-24;
+    margin-bottom: 0;
+  }
+
+  .crud__card--schedule {
+    background-color: $white;
+    border: none;
+    margin-right: 0;
+    padding: $size-56 $size-40;
+    margin-bottom: 60px;
+  }
+
+  .data__schedule--head {
+    display: flex;
+    align-items: center;
+    margin-bottom: $size-15;
+
+    .form__input {
+      background-color: #fcfdfe;
+      height: $size-50;
+
+      &.select {
+        width: 132px;
+      }
+    }
+  }
+
+  .card__data--schedule {
+    margin-right: 0;
+    border: none;
+    background-color: $white;
+    padding: $size-34 $size-26;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: $size-20 $size-30;
+
+    .card__schedule--content {
+      padding: $size-20;
+      margin-right: 0;
+
+      .card__schedule--head {
+        display: flex;
+
+        .data__schedule--image {
+          min-width: 100px;
+          max-width: 100px;
+          margin-right: $size-40;
+          margin-bottom: 0;
+
+          > img {
+            height: auto;
+          }
+        }
+
+        .data__schedule__text {
+          &--title {
+            font-weight: 600;
+            color: #000;
+          }
+
+          &--subtitle {
+            color: $label;
+            font-size: $size-14;
+            font-weight: 300;
+          }
+        }
+      }
+
+      .data__schedule__time {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: $size-16;
+        margin-bottom: $size-20;
+
+        .time__schedules {
+          color: $label;
+          font-weight: 600;
+          font-size: $size-14;
+        }
+      }
+
+      .data__schedule--price {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        color: #6b6b6b;
+        margin-bottom: $size-30;
+      }
+    }
+  }
+}

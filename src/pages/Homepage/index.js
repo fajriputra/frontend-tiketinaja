@@ -42,7 +42,7 @@ export default function Homepage(props) {
 
   if (loading) {
     return (
-      <div style={{ margin: "20% 50%" }}>
+      <div className="loading__spinners">
         <BounceLoader color="#5f2eea" />
       </div>
     );
