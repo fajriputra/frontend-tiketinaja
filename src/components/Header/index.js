@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import propTypes from "prop-types";
-import axios from "helpers/axios";
+
+import DefaultImage from "assets/images/bg-auth.png";
 
 import LogoBrand from "assets/images/logo-tickitz-blue.png";
 // icons
@@ -11,40 +13,35 @@ import Button from "components/UI/Button";
 import UserProfile from "components/UserProfile";
 
 import "./header.scss";
+import { apiHost } from "config";
+import { getDataUser } from "store/user/action";
 
 const Header = (props) => {
   const [isCollapse, setIsCollapse] = useState(true);
   const [isAdmin, setIsAdmin] = useState(false);
   const [loading, setLoading] = useState(false);
 
-  const isLogin = localStorage.getItem("token")
-    ? localStorage.getItem("token")
-    : null;
+  const user = useSelector((state) => state.user);
+  const dispatch = useDispatch();
 
   const getNavLinkClass = (path) => {
     return props.location.pathname === path ? " active" : "";
   };
 
   useEffect(() => {
-    const getUserRole = async () => {
-      try {
+    dispatch(getDataUser())
+      .then((res) => {
         setLoading(true);
-        const res = await axios.get("/user");
 
-        const { data } = res.data;
-
-        if (data[0].role === "admin") {
-          setIsAdmin(data);
+        if (res.value.data.data[0].role === "admin") {
+          setIsAdmin(!isAdmin);
         }
-
         setLoading(false);
-      } catch (err) {
+      })
+      .catch((err) => {
         setLoading(false);
-        console.log(err.response.data.message);
-      }
-    };
-
-    getUserRole();
+        new Error(err.response.data.message);
+      });
   }, []);
 
   const handleCollapse = () => setIsCollapse(!isCollapse);
@@ -148,8 +145,14 @@ const Header = (props) => {
                 alt="Icon Search"
                 className="icon-search my-2 my-md-0 mx-md-5"
               />
-              {isLogin ? (
-                <UserProfile />
+              {user.userData.data ? (
+                <UserProfile
+                  srcImage={
+                    user.userData.data[0].image
+                      ? `${apiHost}/uploads/images/user/${user.userData.data[0].image}`
+                      : `${DefaultImage}`
+                  }
+                />
               ) : (
                 <Button
                   className="

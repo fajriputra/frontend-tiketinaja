@@ -10,10 +10,10 @@ import axios from "helpers/axios";
 
 import useScrollTop from "hooks/useScrollTop";
 import { BounceLoader } from "react-spinners";
+import { useSelector } from "react-redux";
 
 export default function Homepage(props) {
   useScrollTop();
-
   const [loading, setLoading] = useState(false);
   const [page, setPage] = useState(1);
   const [limit, setLimit] = useState(6);

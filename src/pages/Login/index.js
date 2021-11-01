@@ -21,24 +21,21 @@ import axios from "helpers/axios";
 
 import "./login.scss";
 import { showError, showSuccess } from "helpers/notification";
+import { useDispatch, useSelector } from "react-redux";
+import { userLogin } from "store/auth/action";
 
 const initialState = {
   error: "",
   success: "",
 };
 
-const statusList = {
-  idle: "idle",
-  process: "process",
-  success: "success",
-  error: "error",
-};
-
 export default function LoginPage() {
   const history = useHistory();
   const [notif, setNotif] = useState(initialState);
-  const [status, setStatus] = useState(statusList.idle);
   const [inputType, Icon] = useTogglePassword();
+  const { isLoading } = useSelector((state) => state.auth);
+
+  const dispatch = useDispatch();
 
   const { error, success } = notif;
 
@@ -55,29 +52,26 @@ export default function LoginPage() {
     window.scrollTo(0, 0);
   });
 
-  const onSubmit = async (data) => {
-    setStatus(statusList.process);
-    try {
-      const res = await axios.post("/auth/login", data);
-      setNotif({ ...notif, error: "", success: res.data.message });
+  const onSubmit = async (email, password) => {
+    dispatch(userLogin(email, password))
+      .then((res) => {
+        setNotif({ ...notif, error: "", success: res.value.data.message });
 
-      localStorage.setItem("token", res.data.data.token);
+        localStorage.setItem("token", res.value.data.data.token);
 
-      setTimeout(() => {
-        setNotif("");
-        history.push("/");
-      }, 3000);
-    } catch (err) {
-      err.response.data.message &&
-        setNotif({ ...notif, error: err.response.data.message, success: "" });
-
-      setTimeout(() => {
-        setNotif("");
-        reset({ ...data, email: "", password: "" });
-      }, 3000);
-      setStatus(statusList.error);
-    }
-    setStatus(statusList.success);
+        setTimeout(() => {
+          setNotif("");
+          history.push("/");
+        }, 3000);
+      })
+      .catch((err) => {
+        err.response.data.message &&
+          setNotif({ ...notif, error: err.response.data.message, success: "" });
+        setTimeout(() => {
+          setNotif("");
+          reset({ email: "", password: "" });
+        }, 3000);
+      });
   };
 
   return (
@@ -172,7 +166,7 @@ export default function LoginPage() {
               <Button
                 className="btn btn-signin w-100"
                 isPrimary
-                isLoading={status === statusList.process}
+                isLoading={isLoading}
               >
                 Sign In
               </Button>
