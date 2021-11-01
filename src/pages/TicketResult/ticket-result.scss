@@ -26,6 +26,7 @@
           padding: 0;
           border: 1px solid $line;
           margin-right: 0;
+          margin-bottom: $size-48;
 
           .ticket__content--inner {
             margin-right: 0;
@@ -111,6 +112,44 @@
                 row-gap: $size-16;
               }
             }
+          }
+        }
+      }
+
+      .button__wrapper {
+        justify-content: center;
+
+        .btn__download {
+          position: relative;
+          border: 1px solid $body;
+          min-width: 187px;
+          max-width: 187px;
+          height: $size-50;
+          .icon__action {
+            position: absolute;
+            left: 20px;
+          }
+
+          span.text {
+            padding-left: $size-16;
+            color: $body;
+          }
+        }
+
+        .btn__print {
+          position: relative;
+          border: 1px solid $body;
+          min-width: 143px;
+          height: $size-50;
+
+          .icon__action {
+            position: absolute;
+            left: 20px;
+          }
+
+          span.text {
+            padding-left: $size-16;
+            color: $body;
           }
         }
       }
