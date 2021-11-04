@@ -29,7 +29,16 @@
       height: $size-50;
 
       &.select {
-        width: 132px;
+        width: 150px;
+        border-radius: 6px;
+        color: #aaaaaa;
+        border: 1px solid $line;
+        padding: $size-12 $size-20;
+
+        &:focus {
+          border: 1px solid $line;
+          box-shadow: none;
+        }
       }
 
       &.search {
@@ -54,11 +63,39 @@
       margin-bottom: 0;
 
       .data__movie--image {
-        height: 300px;
+        height: 250px;
         border-radius: inherit;
 
         img {
           border-radius: inherit;
+        }
+      }
+    }
+  }
+
+  .pagination {
+    margin-top: $size-50;
+    margin-bottom: 0;
+
+    .page-item {
+      margin-right: 0.46875rem;
+
+      &.active .page-link {
+        background-color: $primaryColor;
+        border: none;
+        outline: none;
+        color: $white;
+      }
+
+      .page-link {
+        padding: 0.5rem $size-16;
+        border-radius: 0.5rem !important;
+        color: $body;
+        font-size: $size-18;
+        border-color: $line;
+
+        &:focus {
+          box-shadow: none;
         }
       }
     }

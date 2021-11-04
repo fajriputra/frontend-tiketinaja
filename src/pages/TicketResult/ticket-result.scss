@@ -90,26 +90,37 @@
             .ticket__content--body {
               padding: $size-30 $size-56 $size-43;
 
-              .info__name {
-                margin-bottom: $size-20;
-              }
-
-              .ticket__movie--title {
-                color: #aaaaaa;
-                margin-bottom: 0.5rem;
-              }
-
-              .ticket__movie--subtitle {
-                font-weight: 600;
-                color: $title;
-                margin-bottom: 0;
-              }
-
-              .info__detail--wrapper {
+              .ticket__movie--info {
                 position: relative;
-                display: grid;
-                grid-template-columns: repeat(3, 185px);
-                row-gap: $size-16;
+
+                .info__name {
+                  margin-bottom: $size-20;
+                }
+
+                .ticket__movie--title {
+                  color: #aaaaaa;
+                  margin-bottom: 0.5rem;
+                }
+
+                .ticket__movie--subtitle {
+                  font-weight: 600;
+                  color: $title;
+                  margin-bottom: 0;
+                }
+
+                .info__detail--wrapper {
+                  position: relative;
+                  display: grid;
+                  grid-template-columns: repeat(3, 185px);
+                  row-gap: $size-16;
+                }
+              }
+
+              .qr__code {
+                position: absolute;
+                left: 87%;
+                top: 60%;
+                transform: translate(-50%, -50%);
               }
             }
           }

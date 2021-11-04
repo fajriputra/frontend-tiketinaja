@@ -1,8 +1,7 @@
-import React, { useState, useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import React, { useState } from "react";
+import axios from "helpers/axios";
+import { useSelector } from "react-redux";
 import propTypes from "prop-types";
-
-import DefaultImage from "assets/images/bg-auth.png";
 
 import LogoBrand from "assets/images/logo-tickitz-blue.png";
 // icons
@@ -14,37 +13,22 @@ import UserProfile from "components/UserProfile";
 
 import "./header.scss";
 import { apiHost } from "config";
-import { getDataUser } from "store/user/action";
 
 const Header = (props) => {
   const [isCollapse, setIsCollapse] = useState(true);
-  const [isAdmin, setIsAdmin] = useState(false);
-  const [loading, setLoading] = useState(false);
 
   const user = useSelector((state) => state.user);
-  const dispatch = useDispatch();
 
   const getNavLinkClass = (path) => {
     return props.location.pathname === path ? " active" : "";
   };
 
-  useEffect(() => {
-    dispatch(getDataUser())
-      .then((res) => {
-        setLoading(true);
-
-        if (res.value.data.data[0].role === "admin") {
-          setIsAdmin(!isAdmin);
-        }
-        setLoading(false);
-      })
-      .catch((err) => {
-        setLoading(false);
-        new Error(err.response.data.message);
-      });
-  }, []);
-
   const handleCollapse = () => setIsCollapse(!isCollapse);
+
+  const handleLogout = () => {
+    axios.post("/auth/logout");
+    localStorage.clear();
+  };
 
   return (
     <header className={["header-nav", props.className].join(" ")}>
@@ -58,7 +42,29 @@ const Header = (props) => {
           </Button>
           <div className={`${isCollapse ? "collapse" : ""} navbar-collapse`}>
             <ul className="navbar-nav me-auto">
-              {isAdmin ? (
+              {user?.userData?.data[0].role !== "admin" ? (
+                <>
+                  <li className={`nav-item mx-md-4${getNavLinkClass("/")}`}>
+                    <Button className="nav-link" type="link" href="/">
+                      Home
+                    </Button>
+                  </li>
+                  <li
+                    className={`nav-item mx-md-4${getNavLinkClass("/payment")}`}
+                  >
+                    <Button className="nav-link" type="link" href="/payment">
+                      Payment
+                    </Button>
+                  </li>
+                  <li
+                    className={`nav-item mx-md-4${getNavLinkClass("/order")}`}
+                  >
+                    <Button className="nav-link" type="link" href="/order">
+                      Order
+                    </Button>
+                  </li>
+                </>
+              ) : (
                 <>
                   <li
                     className={`nav-item mx-md-4${getNavLinkClass(
@@ -83,28 +89,6 @@ const Header = (props) => {
                   >
                     <Button className="nav-link" type="link" href="/schedule">
                       Manage Schedule
-                    </Button>
-                  </li>
-                </>
-              ) : (
-                <>
-                  <li className={`nav-item mx-md-4${getNavLinkClass("/")}`}>
-                    <Button className="nav-link" type="link" href="/">
-                      Home
-                    </Button>
-                  </li>
-                  <li
-                    className={`nav-item mx-md-4${getNavLinkClass("/payment")}`}
-                  >
-                    <Button className="nav-link" type="link" href="/payment">
-                      Payment
-                    </Button>
-                  </li>
-                  <li
-                    className={`nav-item mx-md-4${getNavLinkClass("/order")}`}
-                  >
-                    <Button className="nav-link" type="link" href="/order">
-                      Order
                     </Button>
                   </li>
                 </>
@@ -143,16 +127,30 @@ const Header = (props) => {
               <img
                 src={IconSearch}
                 alt="Icon Search"
-                className="icon-search my-2 my-md-0 mx-md-5"
+                className="icon-search my-2 my-md-0 mx-md-3"
               />
               {user.userData.data ? (
-                <UserProfile
-                  srcImage={
-                    user.userData.data[0].image
-                      ? `${apiHost}/uploads/images/user/${user.userData.data[0].image}`
-                      : `${DefaultImage}`
-                  }
-                />
+                <>
+                  <UserProfile
+                    srcImage={
+                      user.userData.data[0].image
+                        ? `${apiHost}/uploads/images/user/${user.userData.data[0].image}`
+                        : "https://www.a1hosting.net/wp-content/themes/arkahost/assets/images/default.jpg"
+                    }
+                    className="me-4"
+                  />
+                  <Button
+                    className="
+                  btn btn-primary
+                  my-2 my-md-0             
+                  d-block d-md-inline-block
+                "
+                    onClick={handleLogout}
+                    style={{ padding: "0.625rem 1.875rem" }}
+                  >
+                    Logout
+                  </Button>
+                </>
               ) : (
                 <Button
                   className="

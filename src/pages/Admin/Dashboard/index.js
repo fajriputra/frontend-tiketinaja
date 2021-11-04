@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Line } from "react-chartjs-2";
 
 import Card from "components/Card";
@@ -9,8 +9,25 @@ import InputSelect from "components/UI/Form/InputSelect";
 import Button from "components/UI/Button";
 
 import "./dashboard.scss";
+import axios from "helpers/axios";
 
 export default function Dashboard(props) {
+  // const [filterDashboard, setFilterDashboard] = useState({
+  //   movieId: "",
+  //   premier: "",
+  //   location: "",
+  // });
+
+  // const [dataDashboard, setDataDashboard] = useState([]);
+
+  // useEffect(() => {
+  //   axios
+  //     .get(
+  //       `/dashboard?movieId=${filterDashboard.movieId}&premier=${filterDashboard.premier}&location=${filterDashboard.location}`
+  //     )
+  //     .then((res) => console.log(res));
+  // });
+
   return (
     <>
       <Header {...props} className="mb-0" />

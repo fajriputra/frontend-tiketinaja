@@ -18,6 +18,11 @@ import ScheduleForm from "parts/Admin/CrudSchedule/ScheduleForm";
 import "./schedule.scss";
 
 export default function Schedule(props) {
+  // const [showInput, setShowInput] = useState(false)
+
+  // setShowInput = true
+  // showInput ? input : button
+
   return (
     <>
       <Header {...props} className="mb-0" />
@@ -47,108 +52,6 @@ export default function Schedule(props) {
                 <Image
                   className="data__schedule--image"
                   srcImage={Sponsor1}
-                  altImage="Sponsor Image"
-                  imgClass="img-cover"
-                />
-
-                <div className="data__schedule__text">
-                  <h5 className="data__schedule__text--title">Ebv.id</h5>
-                  <p className="data__schedule__text--subtitle">
-                    Jakarta Timur
-                  </p>
-                </div>
-              </div>
-              <hr className="line w-100" />
-
-              <div className="data__schedule__time">
-                <div className="data__schedule__time--content">
-                  <Button className="btn time__schedules p-0">08:30am</Button>
-                </div>
-                <div className="data__schedule__time--content">
-                  <Button className="btn time__schedules p-0">08:30am</Button>
-                </div>
-                <div className="data__schedule__time--content">
-                  <Button className="btn time__schedules p-0">08:30am</Button>
-                </div>
-                <div className="data__schedule__time--content">
-                  <Button className="btn time__schedules p-0">08:30am</Button>
-                </div>
-                <div className="data__schedule__time--content">
-                  <Button className="btn time__schedules p-0">08:30am</Button>
-                </div>
-                <div className="data__schedule__time--content">
-                  <Button className="btn time__schedules p-0">08:30am</Button>
-                </div>
-              </div>
-
-              <div className="data__schedule--price">
-                <p className="data__schedule--text">Price</p>
-                <p className="data__schedule--seat">30000</p>
-              </div>
-
-              <div className="d-flex align-items-center">
-                <Button className="btn btn__admin update w-100 me-3">
-                  Update
-                </Button>
-                <Button className="btn btn__admin delete w-100 ">Delete</Button>
-              </div>
-            </Card>
-            <Card className="card__schedule--content">
-              <div className="card__schedule--head">
-                <Image
-                  className="data__schedule--image"
-                  srcImage={Sponsor2}
-                  altImage="Sponsor Image"
-                  imgClass="img-cover"
-                />
-
-                <div className="data__schedule__text">
-                  <h5 className="data__schedule__text--title">Ebv.id</h5>
-                  <p className="data__schedule__text--subtitle">
-                    Jakarta Timur
-                  </p>
-                </div>
-              </div>
-              <hr className="line w-100" />
-
-              <div className="data__schedule__time">
-                <div className="data__schedule__time--content">
-                  <Button className="btn time__schedules p-0">08:30am</Button>
-                </div>
-                <div className="data__schedule__time--content">
-                  <Button className="btn time__schedules p-0">08:30am</Button>
-                </div>
-                <div className="data__schedule__time--content">
-                  <Button className="btn time__schedules p-0">08:30am</Button>
-                </div>
-                <div className="data__schedule__time--content">
-                  <Button className="btn time__schedules p-0">08:30am</Button>
-                </div>
-                <div className="data__schedule__time--content">
-                  <Button className="btn time__schedules p-0">08:30am</Button>
-                </div>
-                <div className="data__schedule__time--content">
-                  <Button className="btn time__schedules p-0">08:30am</Button>
-                </div>
-              </div>
-
-              <div className="data__schedule--price">
-                <p className="data__schedule--text">Price</p>
-                <p className="data__schedule--seat">30000</p>
-              </div>
-
-              <div className="d-flex align-items-center">
-                <Button className="btn btn__admin update w-100 me-3">
-                  Update
-                </Button>
-                <Button className="btn btn__admin delete w-100 ">Delete</Button>
-              </div>
-            </Card>
-            <Card className="card__schedule--content">
-              <div className="card__schedule--head">
-                <Image
-                  className="data__schedule--image"
-                  srcImage={Sponsor3}
                   altImage="Sponsor Image"
                   imgClass="img-cover"
                 />

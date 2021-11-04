@@ -15,16 +15,18 @@ form {
   }
 
   .alert {
-    display: flex;
-    align-items: center;
-    height: 50px;
-    margin-bottom: 0;
-    background-color: #fae0ae;
+    .personal__info--alert {
+      display: flex;
+      align-items: center;
+      height: 50px;
+      margin-bottom: 0;
+      background-color: #fae0ae;
 
-    .icon-warning {
-      width: $size-20;
-      height: $size-20;
-      margin-right: $size-18;
+      .icon-warning {
+        width: $size-20;
+        height: $size-20;
+        margin-right: $size-18;
+      }
     }
   }
 }

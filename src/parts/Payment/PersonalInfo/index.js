@@ -55,7 +55,7 @@ const PersonalInfo = (props) => {
       </div>
 
       <div
-        className="alert alert-warning d-flex align-items-center"
+        className="alert personal__info--alert alert-warning d-flex align-items-center"
         role="alert"
       >
         <IconWarning className="icon-warning" />

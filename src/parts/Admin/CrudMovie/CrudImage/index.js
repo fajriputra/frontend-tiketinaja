@@ -10,7 +10,7 @@ const CrudImage = (props) => {
     <>
       <Card className="crud__card--wrapper">
         <Image
-          srcImage={props.srcImage}
+          srcImage={props.movieImage}
           altImage="Movie Image"
           className="crud__image"
           imgClass="img-cover"

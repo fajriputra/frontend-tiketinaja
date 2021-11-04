@@ -1,6 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { useHistory } from "react-router-dom";
-import { useForm } from "react-hook-form";
 
 import LogoTickitzAuth from "assets/images/logo-tickitz-white.png";
 import LogoTickitz from "assets/images/logo-tickitz-blue.png";
@@ -24,13 +22,12 @@ import axios from "helpers/axios";
 import "./register.scss";
 import Stepper from "components/Stepper";
 
-// firstName:fajri
-// lastName:admin
-// email:tugasmikrotik@gmail.com
-// password:test123
-// phoneNumber:123456789
-
 const initialState = {
+  firstName: "",
+  lastName: "",
+  email: "",
+  password: "",
+  phoneNumber: "",
   error: "",
   success: "",
 };
@@ -43,45 +40,64 @@ const statusList = {
 };
 
 export default function RegisterPage() {
-  const history = useHistory();
-  const [notif, setNotif] = useState(initialState);
+  const [user, setUser] = useState(initialState);
   const [status, setStatus] = useState(statusList.idle);
   const [inputType, Icon] = useTogglePassword();
 
-  const { error, success } = notif;
-
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-    trigger,
-    reset,
-  } = useForm();
+  const { firstName, lastName, email, password, phoneNumber, error, success } =
+    user;
 
   useEffect(() => {
     document.title = "Ticketing | Sign up";
     window.scrollTo(0, 0);
   });
 
-  const onSubmit = async (data) => {
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setUser({ ...user, [name]: value });
+  };
+
+  const onSubmit = async (e) => {
+    e.preventDefault();
     setStatus(statusList.process);
     try {
-      // const res = await axios.post("/auth/login", data);
-      // setNotif({ ...notif, error: "", success: res.data.message });
-      // localStorage.setItem("token", res.data.data.token);
-      // setTimeout(() => {
-      //   setNotif("");
-      //   history.push("/");
-      // }, 3000);
+      const res = await axios.post("/auth/register", {
+        firstName,
+        lastName,
+        email,
+        password,
+        phoneNumber,
+      });
+
+      setUser({ ...user, error: "", success: res.data.message });
+
+      setTimeout(() => {
+        setUser({
+          firstName: "",
+          lastName: "",
+          email: "",
+          password: "",
+          phoneNumber: "",
+          error: "",
+        });
+      }, 3000);
+      setStatus(statusList.error);
     } catch (err) {
-      // err.response.data.message &&
-      //   setNotif({ ...notif, error: err.response.data.message, success: "" });
-      // setTimeout(() => {
-      //   setNotif("");
-      //   reset({ ...data, email: "", password: "" });
-      // }, 3000);
-      // setStatus(statusList.error);
+      err.response.data.message &&
+        setUser({ ...user, error: err.response.data.message, success: "" });
+
+      setTimeout(() => {
+        setUser({
+          firstName: "",
+          lastName: "",
+          email: "",
+          password: "",
+          phoneNumber: "",
+          error: "",
+        });
+      }, 3000);
     }
+
     setStatus(statusList.success);
   };
 
@@ -129,7 +145,7 @@ export default function RegisterPage() {
         </div>
         <div className="col-md-5 m-0">
           <div className="signup__form d-md-flex justify-content-md-center align-items-md-center">
-            <form onSubmit={handleSubmit(onSubmit)}>
+            <form onSubmit={onSubmit}>
               <div className="signup__text">
                 <h4 className="signup__text--heading">
                   Fill your additional details
@@ -138,52 +154,28 @@ export default function RegisterPage() {
               {error && showError(error)}
               {success && showSuccess(success)}
               <div className="form-group position-relative">
-                <label htmlFor="firstname" className="form-label">
+                <label htmlFor="firstName" className="form-label">
                   Firstname
                 </label>
                 <InputText
-                  inputClassName={errors?.firstname && "invalid"}
                   type="text"
-                  name="firstname"
+                  name="firstName"
                   placeholder="Write your firstname"
-                  {...register("firstname", {
-                    required: "Firstname is required",
-                    minLength: {
-                      value: 3,
-                      message: "Firstname must be at least 3 characters",
-                    },
-                  })}
-                  onKeyUp={() => {
-                    trigger("firstname");
-                  }}
+                  onChange={handleChange}
+                  value={user.firstName}
                 />
-                {errors?.firstname && (
-                  <p className="error-helpers">{errors?.firstname?.message}</p>
-                )}
               </div>
               <div className="form-group position-relative">
-                <label htmlFor="lastname" className="form-label">
+                <label htmlFor="lastName" className="form-label">
                   Lastname
                 </label>
                 <InputText
-                  inputClassName={errors?.lastname && "invalid"}
                   type="text"
-                  name="lastname"
+                  name="lastName"
                   placeholder="Write your lastname"
-                  {...register("lastname", {
-                    required: "Lastname is required",
-                    minLength: {
-                      value: 3,
-                      message: "Lastname must be at least 3 characters",
-                    },
-                  })}
-                  onKeyUp={() => {
-                    trigger("lastname");
-                  }}
+                  onChange={handleChange}
+                  value={user.lastName}
                 />
-                {errors?.lastname && (
-                  <p className="error-helpers">{errors?.lastname?.message}</p>
-                )}
               </div>
 
               <div className="form-group position-relative">
@@ -191,61 +183,45 @@ export default function RegisterPage() {
                   Email
                 </label>
                 <InputText
-                  inputClassName={errors?.email && "invalid"}
-                  type="email"
+                  type="text"
                   name="email"
                   placeholder="Write your email"
-                  {...register("email", {
-                    required: "Email is required",
-                    pattern: {
-                      value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
-                      message: "Must be a valid email address",
-                    },
-                  })}
-                  onKeyUp={() => {
-                    trigger("email");
-                  }}
+                  onChange={handleChange}
+                  value={user.email}
                 />
-                {errors?.email && (
-                  <p className="error-helpers">{errors?.email?.message}</p>
-                )}
               </div>
               <div className="form-group position-relative">
                 <label htmlFor="password" className="form-label">
                   Password
                 </label>
                 <InputText
-                  inputClassName={errors?.password && "invalid"}
                   type={inputType}
                   name="password"
                   placeholder="Write your password"
-                  {...register("password", {
-                    required: "Password is required",
-                    minLength: {
-                      value: 6,
-                      message: "Password must be at least 6 characters",
-                    },
-                    maxLength: {
-                      value: 16,
-                      message: "Password already exceeds 16 characters",
-                    },
-                  })}
-                  onKeyUp={() => {
-                    trigger("password");
-                  }}
+                  onChange={handleChange}
+                  value={user.password}
                 />
-                {errors?.password && (
-                  <p className="error-helpers">{errors?.password.message}</p>
-                )}
+
                 <span className="eye-pass">{Icon}</span>
               </div>
+              <div className="form-group position-relative">
+                <label htmlFor="phoneNumber" className="form-label">
+                  Phone Number
+                </label>
+                <InputText
+                  name="phoneNumber"
+                  placeholder="Your Phone Number"
+                  onChange={handleChange}
+                  value={user.phoneNumber}
+                />
+              </div>
 
-              <div className="form-check">
+              {/* <div className="form-check">
                 <input className="form-check-input" type="checkbox" value="" />
                 <label className="form-check-label" htmlFor="checkbox">
                   I agree to terms & conditions
                 </label>
-              </div>
+              </div> */}
 
               <Button
                 className="btn btn-signup w-100"
@@ -257,7 +233,7 @@ export default function RegisterPage() {
 
               <Button
                 type="link"
-                href="/forgot-password"
+                href="/sign-in"
                 style={{ textDecoration: "none" }}
               >
                 <p className="have__account text-center">

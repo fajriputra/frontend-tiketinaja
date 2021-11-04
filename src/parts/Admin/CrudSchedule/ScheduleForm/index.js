@@ -1,6 +1,4 @@
-import React from "react";
-
-import { useForm } from "react-hook-form";
+import React, { useEffect, useState } from "react";
 import InputText from "components/UI/Form/InputText";
 
 import Sponsor1 from "assets/images/sponsor/logo-ebvid.png";
@@ -9,17 +7,39 @@ import Sponsor3 from "assets/images/sponsor/logo-hiflix.png";
 
 import "./schedule-form.scss";
 import Button from "components/UI/Button";
-import InputSelect from "components/UI/Form/InputSelect";
 import Image from "components/Image";
+import { useSelector, useDispatch } from "react-redux";
+import { getLocation } from "store/location/action";
+import { getMovie } from "store/admin/movie/action";
 
 export default function ScheduleForm(props) {
-  const {
-    register,
-    // handleSubmit,
-    formState: { errors },
-    trigger,
-    // reset,
-  } = useForm();
+  const [dataMovie, setDataMovie] = useState({
+    page: "",
+    limit: "",
+    keyword: "",
+    sortBy: "",
+    sortType: "",
+  });
+
+  const movie = useSelector((state) => state.movie);
+
+  console.log(movie);
+
+  const location = useSelector((state) => state.location);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(
+      getMovie(
+        dataMovie.page,
+        dataMovie.limit,
+        dataMovie.keyword,
+        dataMovie.sortBy,
+        dataMovie.sortType
+      )
+    );
+    dispatch(getLocation());
+  }, [dispatch]);
 
   return (
     <>
@@ -28,37 +48,44 @@ export default function ScheduleForm(props) {
           <label htmlFor="movie" className="form-label">
             Movie
           </label>
-          <InputSelect className="form__input" />
+          <select
+            name="sorting"
+            className="form__input select"
+            // onChange={handleSort}
+          >
+            <option value="movie">Movie Name</option>
+            <option value="name asc">A-Z</option>
+            <option value="name desc">Z-A</option>
+          </select>
         </div>
         <div className="form-group position-relative">
           <label htmlFor="location" className="form-label">
             Location
           </label>
-          <InputSelect className="form__input" />
+
+          <select
+            name="sorting"
+            className="form__input select"
+            onChange={props.handleLocation}
+          >
+            <option value="location">Location</option>
+            {location?.data?.map((item) => (
+              <option value={item.nama} key={item.id}>
+                {item.nama}
+              </option>
+            ))}
+          </select>
         </div>
         <div className="form-group position-relative">
           <label htmlFor="director" className="form-label">
             Price
           </label>
           <InputText
-            inputClassName={`${errors?.director && "invalid"} form__input`}
             type="number"
             name="price"
             placeholder="Price"
-            {...register("price", {
-              required: "Price is required",
-              minLength: {
-                value: 3,
-                message: "Price must be at least 3 characters",
-              },
-            })}
-            onKeyUp={() => {
-              trigger("price");
-            }}
+            onChange={props.handleChange}
           />
-          {errors?.price && (
-            <p className="error-helpers">{errors?.price?.message}</p>
-          )}
         </div>
         <div className="date__startend">
           <div className="form-group position-relative">
@@ -69,6 +96,7 @@ export default function ScheduleForm(props) {
               type="date"
               name="date__start"
               placeholder="Date Start"
+              onChange={props.handleChange}
             />
           </div>
           <div className="form-group position-relative">
@@ -79,6 +107,7 @@ export default function ScheduleForm(props) {
               type="date"
               name="date__start"
               placeholder="Date Start"
+              onChange={props.handleChange}
             />
           </div>
         </div>
@@ -89,7 +118,7 @@ export default function ScheduleForm(props) {
             className="form-label"
             style={{ marginBottom: 12 }}
           >
-            Price
+            Cinema
           </label>
 
           <div className="d-flex justify-content-between">
@@ -131,15 +160,8 @@ export default function ScheduleForm(props) {
           <div className="content__time">
             <Button className="btn btn__add--time p-0">+</Button>
 
-            <div className="time">
-              <Button className="btn btn__time p-0">08:30am</Button>
-            </div>
-            <div className="time">
-              <Button className="btn btn__time p-0">08:30am</Button>
-            </div>
-            <div className="time">
-              <Button className="btn btn__time p-0">08:30am</Button>
-            </div>
+            {/* <InputText name="add__time" placeholder="Input a time" /> */}
+
             <div className="time">
               <Button className="btn btn__time p-0">08:30am</Button>
             </div>

@@ -253,7 +253,9 @@ p,
   }
 }
 
-.page-error {
+.page-error,
+.activation,
+.loading__spinners {
   position: absolute;
   left: 50%;
   top: 50%;
@@ -261,12 +263,12 @@ p,
   text-align: center;
 }
 
-.loading__spinners {
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  transform: translate(-50%, -50%);
-}
+// .loading__spinners {
+//   position: absolute;
+//   left: 50%;
+//   top: 50%;
+//   transform: translate(-50%, -50%);
+// }
 
 .content__heading {
   font-family: "Mulish", sans-serif;

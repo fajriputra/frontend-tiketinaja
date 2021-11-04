@@ -10,7 +10,6 @@ import axios from "helpers/axios";
 
 import useScrollTop from "hooks/useScrollTop";
 import { BounceLoader } from "react-spinners";
-import { useSelector } from "react-redux";
 
 export default function Homepage(props) {
   useScrollTop();

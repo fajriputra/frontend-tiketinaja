@@ -1,4 +1,5 @@
 import React, { useEffect } from "react";
+import QRCode from "react-qr-code";
 
 import { ReactComponent as IconDownload } from "assets/images/icons/icon-download.svg";
 import { ReactComponent as IconPrint } from "assets/images/icons/icon-print.svg";
@@ -87,6 +88,9 @@ export default function Homepage(props) {
                             <h5 className="ticket__movie--subtitle">$30.00</h5>
                           </div>
                         </div>
+                      </div>
+                      <div className="qr__code">
+                        <QRCode value="test" size={130} />
                       </div>
                     </div>
                     <div className="circle bottom rounded-circle"></div>

@@ -9,10 +9,19 @@
 
   .form-group {
     margin-bottom: 0;
+    display: flex;
+    flex-flow: column;
 
     .form__input {
       height: $size-50;
-      background-color: #fcfdfe;
+      background-color: #eff0f6;
+      color: $body;
+
+      &.select {
+        border: 1px solid $line;
+        border-radius: 6px;
+        padding: $size-12 $size-20;
+      }
     }
 
     .form-label {
@@ -34,6 +43,7 @@
       grid-template-columns: repeat(4, 1fr);
       gap: $size-20 $size-36;
       align-items: center;
+      position: relative;
 
       .btn__add--time {
         border: 1px solid $primaryColor;

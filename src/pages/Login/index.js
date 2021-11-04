@@ -17,12 +17,11 @@ import LineBreak from "components/LineBreak";
 import InputText from "components/UI/Form/InputText";
 import Button from "components/UI/Button";
 
-import axios from "helpers/axios";
-
 import "./login.scss";
 import { showError, showSuccess } from "helpers/notification";
 import { useDispatch, useSelector } from "react-redux";
 import { userLogin } from "store/auth/action";
+import { getDataUser } from "store/user/action";
 
 const initialState = {
   error: "",
@@ -34,6 +33,8 @@ export default function LoginPage() {
   const [notif, setNotif] = useState(initialState);
   const [inputType, Icon] = useTogglePassword();
   const { isLoading } = useSelector((state) => state.auth);
+
+  // const user = useSelector((state) => state.user);
 
   const dispatch = useDispatch();
 
@@ -57,12 +58,22 @@ export default function LoginPage() {
       .then((res) => {
         setNotif({ ...notif, error: "", success: res.value.data.message });
 
-        localStorage.setItem("token", res.value.data.data.token);
+        dispatch(getDataUser()).then((res) => {
+          const role = res.value.data.data[0].role;
 
-        setTimeout(() => {
-          setNotif("");
-          history.push("/");
-        }, 3000);
+          if (role === "admin") {
+            history.push("/movie");
+          } else {
+            history.push("/");
+          }
+        });
+
+        localStorage.setItem("token", res.value.data.data.token);
+        localStorage.setItem("refreshToken", res.value.data.data.refreshToken);
+
+        // setTimeout(() => {
+        //   history.push("/");
+        // }, 3000);
       })
       .catch((err) => {
         err.response.data.message &&

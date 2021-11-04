@@ -14,6 +14,9 @@ import PublicRoute from "components/PublicRoute";
 import Movie from "pages/Admin/CrudMovie";
 import Schedule from "pages/Admin/Schedule";
 import Dashboard from "pages/Admin/Dashboard";
+import ActivateEmail from "pages/ActivateEmail";
+import AdminRoute from "components/AdminRoute";
+import { ToastContainer } from "react-toastify";
 
 function App() {
   return (
@@ -26,6 +29,12 @@ function App() {
             restricted={true}
             exact
             component={RegisterPage}
+          />
+          <PublicRoute
+            path="/auth/activation/:activation_token"
+            restricted={true}
+            exact
+            component={ActivateEmail}
           />
           <PublicRoute
             path="/sign-in"
@@ -55,11 +64,12 @@ function App() {
           <PrivateRoute path="/profile" exact component={ProfilePage} />
 
           {/* admin route */}
-          <Route path="/movie" exact component={Movie} />
-          <Route path="/schedule" exact component={Schedule} />
-          <Route path="/dashboard" exact component={Dashboard} />
+          <AdminRoute path="/movie" exact component={Movie} />
+          <AdminRoute path="/schedule" exact component={Schedule} />
+          <AdminRoute path="/dashboard" exact component={Dashboard} />
         </Switch>
       </Router>
+      <ToastContainer pauseOnHover={false} autoClose={3000} />
     </div>
   );
 }
