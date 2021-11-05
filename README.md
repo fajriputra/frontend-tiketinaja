@@ -43,8 +43,10 @@ To build a project that I created requires several dependencies / packages, such
 * [react-router-dom](https://www.npmjs.com/package/react-router-dom)
 * [react-redux](https://www.npmjs.com/package/react-redux)
 * [redux](https://www.npmjs.com/package/redux)
-* [redux-thunk](https://www.npmjs.com/package/react-thunk)
+* [redux-persist](https://www.npmjs.com/package/redux-persist)
+* [redux-promise-middleware](https://www.npmjs.com/package/redux-promise-middleware)
 * [react-spinners](https://www.npmjs.com/package/react-spinners)
+* [react-toastify](https://www.npmjs.com/package/react-toastify)
 
 ## Getting Started
 
