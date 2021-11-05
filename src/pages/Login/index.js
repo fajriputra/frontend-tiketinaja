@@ -17,11 +17,12 @@ import LineBreak from "components/LineBreak";
 import InputText from "components/UI/Form/InputText";
 import Button from "components/UI/Button";
 
-import "./login.scss";
 import { showError, showSuccess } from "helpers/notification";
 import { useDispatch, useSelector } from "react-redux";
 import { userLogin } from "store/auth/action";
 import { getDataUser } from "store/user/action";
+
+import "./login.scss";
 
 const initialState = {
   error: "",
@@ -33,8 +34,6 @@ export default function LoginPage() {
   const [notif, setNotif] = useState(initialState);
   const [inputType, Icon] = useTogglePassword();
   const { isLoading } = useSelector((state) => state.auth);
-
-  // const user = useSelector((state) => state.user);
 
   const dispatch = useDispatch();
 
@@ -62,7 +61,10 @@ export default function LoginPage() {
           const role = res.value.data.data[0].role;
 
           if (role === "admin") {
-            history.push("/movie");
+            setTimeout(() => {
+              setNotif("");
+              history.push("/dashboard");
+            }, 3000);
           } else {
             history.push("/");
           }
@@ -70,10 +72,6 @@ export default function LoginPage() {
 
         localStorage.setItem("token", res.value.data.data.token);
         localStorage.setItem("refreshToken", res.value.data.data.refreshToken);
-
-        // setTimeout(() => {
-        //   history.push("/");
-        // }, 3000);
       })
       .catch((err) => {
         err.response.data.message &&
