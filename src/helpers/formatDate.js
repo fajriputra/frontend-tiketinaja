@@ -30,3 +30,45 @@ export const formatDate = (date) => {
     month[parse.getMonth()]
   } ${parse.getFullYear()}`;
 };
+
+export const getOnlyMonth = (date) => {
+  const parse = new Date(date);
+
+  const month = [
+    "January",
+    "February",
+    "March",
+    "April",
+    "May",
+    "June",
+    "July",
+    "August",
+    "September",
+    "October",
+    "November",
+    "December",
+  ];
+
+  return `${month[parse.getMonth()]}`;
+};
+
+export const getOnlyDateMonth = (date) => {
+  const parse = new Date(date);
+
+  const month = [
+    "January",
+    "February",
+    "March",
+    "April",
+    "May",
+    "June",
+    "July",
+    "August",
+    "September",
+    "October",
+    "November",
+    "December",
+  ];
+
+  return `${parse.getDate()} ${month[parse.getMonth()]}`;
+};

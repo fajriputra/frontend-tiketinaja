@@ -24,7 +24,7 @@ const NowMovies = ({ data }) => {
         <div className="now__movies--list">
           {data?.map((item) => {
             return (
-              <Card className="card-hover" key={item.id}>
+              <Card className="width-223 card-hover" key={item.id}>
                 <Image
                   className="now__movies--image"
                   srcImage={
@@ -42,19 +42,11 @@ const NowMovies = ({ data }) => {
                   className="hover-state mt-3"
                 >
                   <Button
-                    className="btn btn-details w-100 me-0 mb-3"
+                    className="btn btn-details w-100 me-0"
                     type="link"
                     href={`/detail-movie/${item?.id}`}
                   >
                     Details
-                  </Button>
-                  <Button
-                    className="btn btn-book w-100 me-0"
-                    type="link"
-                    href="/order"
-                    isPrimary
-                  >
-                    Book now
                   </Button>
                 </MetaWrapper>
               </Card>

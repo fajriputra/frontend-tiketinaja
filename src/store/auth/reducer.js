@@ -5,7 +5,6 @@ const initialState = {
   isError: false,
   isLoading: false,
   message: "",
-  token: null,
 };
 
 const auth = (state = initialState, action) => {

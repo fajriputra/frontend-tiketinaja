@@ -5,11 +5,19 @@ import Button from "components/UI/Button";
 
 import "./tab-profile.scss";
 
-export default function TabProfile({ className }) {
+export default function TabProfile({ className, account, history, active }) {
   return (
     <Card className={["tab__profile d-none d-md-block", className].join(" ")}>
-      <Button className="btn btn__tab account p-0">Account Settings</Button>
-      <Button className="btn btn__tab order__history p-0 ">
+      <Button
+        className={`btn btn__tab account ${!active ? "active" : ""} p-0`}
+        onClick={account}
+      >
+        Account Settings
+      </Button>
+      <Button
+        className={`btn btn__tab order__history ${active ? "active" : ""} p-0`}
+        onClick={history}
+      >
         Order History
       </Button>
     </Card>

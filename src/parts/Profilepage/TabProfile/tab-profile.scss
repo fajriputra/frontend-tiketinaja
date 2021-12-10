@@ -21,9 +21,43 @@
 
     &.account {
       margin-right: $size-20;
+      position: relative;
 
       @media (min-width: 768px) {
         margin-right: $size-56;
+      }
+
+      &.active {
+        color: $title;
+        border-radius: 0;
+
+        &::after {
+          border-bottom: 2px solid #5f2eea;
+          position: absolute;
+          content: "";
+          top: 0;
+          display: block;
+          width: 100%;
+          height: 50px;
+        }
+      }
+    }
+
+    &.order__history {
+      position: relative;
+      &.active {
+        color: $title;
+        border-radius: 0;
+
+        &::after {
+          border-bottom: 2px solid #5f2eea;
+          position: absolute;
+          content: "";
+          top: 0;
+          display: block;
+          width: 100%;
+          height: 50px;
+        }
       }
     }
 

@@ -9,6 +9,7 @@ const Card = (props) => {
       className={["movies__card", props.className].join(" ")}
       onMouseEnter={props.onMouseEnter}
       onMouseLeave={props.onMouseLeave}
+      // key={props.key}
     >
       {props.children}
     </div>

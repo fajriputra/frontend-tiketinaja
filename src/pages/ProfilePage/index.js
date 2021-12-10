@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useState, useEffect } from "react";
 
 import Header from "components/Header";
 import Sitelink from "components/Sitelink";
@@ -16,6 +16,8 @@ export default function ProfilePage(props) {
     window.scrollTo(0, 0);
   });
 
+  const [show, setShow] = useState(false);
+
   return (
     <>
       <Header {...props} className="mb-0" />
@@ -27,9 +29,13 @@ export default function ProfilePage(props) {
               <ProfileInfo />
             </div>
             <div className="col-sm-12 col-md-8">
-              <TabProfile />
-              <ProfileDetail />
-              {/* <OrderHistory /> */}
+              <TabProfile
+                account={() => setShow(false)}
+                history={() => setShow(true)}
+                active={show}
+              />
+
+              {show ? <OrderHistory /> : <ProfileDetail />}
             </div>
           </div>
         </div>

@@ -8,11 +8,11 @@ export const postMovie = (data) => {
   };
 };
 
-export const getMovie = (page, limit, keyword, sortBy, sortType) => {
+export const getMovie = (page, limit, keyword, month, sortBy, sortType) => {
   return {
     type: GET_MOVIE,
     payload: axios.get(
-      `/movies?page=${page}&limit=${limit}&keyword=${keyword}&sortBy=${sortBy}&sortType=${sortType}`
+      `/movies?page=${page}&limit=${limit}&month=${month}&keyword=${keyword}&sortBy=${sortBy}&sortType=${sortType}`
     ),
   };
 };

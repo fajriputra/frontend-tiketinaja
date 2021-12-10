@@ -3,7 +3,7 @@ import { createStore, applyMiddleware, combineReducers } from "redux";
 import logger from "redux-logger";
 import promiseMiddleware from "redux-promise-middleware";
 import { persistStore, persistReducer } from "redux-persist";
-import AsyncStorage from "@react-native-async-storage/async-storage";
+import storage from "redux-persist/lib/storage";
 
 import authReducers from "store/auth/reducer";
 import userReducers from "store/user/reducer";
@@ -12,7 +12,7 @@ import locationReducers from "store/location/reducer";
 
 const persistConfig = {
   key: "root",
-  storage: AsyncStorage,
+  storage,
   whitelist: ["auth", "user", "movie", "location"],
   blacklist: [],
 };

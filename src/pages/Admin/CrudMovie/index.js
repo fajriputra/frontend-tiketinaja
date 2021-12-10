@@ -41,6 +41,7 @@ export default function Movie(props) {
     page: 1,
     limit: 4,
     keyword: "",
+    month: "",
     sortBy: "name",
     sortType: "asc",
   });
@@ -61,6 +62,7 @@ export default function Movie(props) {
         dataMovie.page,
         dataMovie.limit,
         dataMovie.keyword,
+        dataMovie.month,
         dataMovie.sortBy,
         dataMovie.sortType
       )

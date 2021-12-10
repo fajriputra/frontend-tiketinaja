@@ -20,7 +20,7 @@ const user = (state = initialState, action) => {
       return {
         ...state,
         userLoading: false,
-        userData: action.payload.data,
+        userData: action.payload.data.data[0],
         userFailFetch: initialState.userFailFetch,
       };
     }

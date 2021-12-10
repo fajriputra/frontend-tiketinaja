@@ -6,9 +6,7 @@ import InputText from "components/UI/Form/InputText";
 
 import "./personal.scss";
 
-const PersonalInfo = (props) => {
-  const { value, isDisabled } = props;
-
+const PersonalInfo = ({ data, isDisabled }) => {
   return (
     <form>
       <div className="form-group">
@@ -19,7 +17,7 @@ const PersonalInfo = (props) => {
           readOnly
           type="text"
           name="fullname"
-          value={`${value?.firstName} ${value?.lastName}`}
+          value={`${data?.firstName} ${data?.lastName}`}
           isDisabled={isDisabled}
           placeholder="Your fullname"
           inputClassName="form-person"
@@ -33,7 +31,7 @@ const PersonalInfo = (props) => {
           readOnly
           type="email"
           name="email"
-          value={value?.email}
+          value={data?.email}
           isDisabled={isDisabled}
           placeholder="Your email address"
           inputClassName="form-person"
@@ -47,7 +45,7 @@ const PersonalInfo = (props) => {
           readOnly
           type="tel"
           name="phone"
-          value={value?.phoneNumber}
+          value={data?.phoneNumber}
           isDisabled={isDisabled}
           placeholder="Your phone number"
           inputClassName="form-person"

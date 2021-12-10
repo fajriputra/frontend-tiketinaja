@@ -18,7 +18,7 @@ import { apiHost } from "config";
 const Header = (props) => {
   const [isCollapse, setIsCollapse] = useState(true);
 
-  const user = useSelector((state) => state.user);
+  const { userData } = useSelector((state) => state.user);
 
   const getNavLinkClass = (path) => {
     return props.location.pathname === path ? " active" : "";
@@ -43,7 +43,7 @@ const Header = (props) => {
           </Button>
           <div className={`${isCollapse ? "collapse" : ""} navbar-collapse`}>
             <ul className="navbar-nav me-auto">
-              {user?.userData?.data[0].role !== "admin" ? (
+              {userData.role !== "admin" ? (
                 <>
                   <li className={`nav-item mx-md-4${getNavLinkClass("/")}`}>
                     <Button className="nav-link" type="link" href="/">
@@ -62,6 +62,13 @@ const Header = (props) => {
                   >
                     <Button className="nav-link" type="link" href="/order">
                       Order
+                    </Button>
+                  </li>
+                  <li
+                    className={`nav-item mx-md-4${getNavLinkClass("/profile")}`}
+                  >
+                    <Button className="nav-link" type="link" href="/profile">
+                      Profile
                     </Button>
                   </li>
                 </>
@@ -96,46 +103,17 @@ const Header = (props) => {
               )}
             </ul>
             <form className="d-md-flex justify-content-md-start align-items-md-center">
-              <li className="nav-item dropdown">
-                <Button
-                  className="nav-link dropdown-toggle ps-0 px-md-3"
-                  type="link"
-                  href="/location"
-                >
-                  Location
-                </Button>
-                <ul className="dropdown-menu" aria-labelledby="navbarDropdown">
-                  <li>
-                    <Button className="dropdown-item" type="link" href="/">
-                      Action
-                    </Button>
-                  </li>
-                  <li>
-                    <Button className="dropdown-item" type="link" href="/">
-                      Another action
-                    </Button>
-                  </li>
-                  <li>
-                    <hr className="dropdown-divider" />
-                  </li>
-                  <li>
-                    <Button className="dropdown-item" type="link" href="/">
-                      Something else here
-                    </Button>
-                  </li>
-                </ul>
-              </li>
               <img
                 src={IconSearch}
                 alt="Icon Search"
                 className="icon-search my-2 my-md-0 mx-md-3"
               />
-              {user.userData.data ? (
+              {userData ? (
                 <>
                   <UserProfile
                     srcImage={
-                      user.userData.data[0].image
-                        ? `${apiHost}/uploads/images/user/${user.userData.data[0].image}`
+                      userData.avatar
+                        ? `${apiHost}/uploads/user/${userData.avatar}`
                         : "https://www.a1hosting.net/wp-content/themes/arkahost/assets/images/default.jpg"
                     }
                     className="me-4"

@@ -1,23 +1,106 @@
-import React from "react";
-import { useForm } from "react-hook-form";
-
+/* eslint-disable no-mixed-operators */
+import React, { useState, useEffect } from "react";
+import { useDispatch } from "react-redux";
 import Card from "components/Card";
 import InputText from "components/UI/Form/InputText";
+import axios from "helpers/axios";
+import { getDataUser } from "store/user/action";
 
 import useTogglePassword from "hooks/useTogglePassword";
 
 import "./profile-detail.scss";
 import Button from "components/UI/Button";
+import { toast } from "react-toastify";
+
+const initialState = {
+  firstName: "",
+  lastName: "",
+  email: "",
+  phoneNumber: "",
+  newPassword: "",
+  confirmPassword: "",
+  // loading: false,
+};
 
 export default function ProfileDetail(props) {
+  const dispatch = useDispatch();
+
   const [inputType, Icon] = useTogglePassword();
-  const {
-    register,
-    // handleSubmit,
-    formState: { errors },
-    trigger,
-    // reset,
-  } = useForm();
+  const [form, setForm] = useState(initialState);
+  const [loading, setLoading] = useState(false);
+
+  const { firstName, lastName, phoneNumber, newPassword, confirmPassword } =
+    form;
+
+  useEffect(() => {
+    dispatch(getDataUser()).then((res) => {
+      setForm({
+        ...form,
+        firstName: res.value.data.data[0].firstName,
+        lastName: res.value.data.data[0].lastName,
+        email: res.value.data.data[0].email,
+        phoneNumber: res.value.data.data[0].phoneNumber,
+      });
+    });
+  }, [dispatch]);
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+
+    setForm({ ...form, [name]: value });
+  };
+
+  const handleUpdateProfile = () => {
+    // setForm({ ...form, loading: true });
+
+    // if (
+    //   firstName.split("").length === firstName.split("").length < 1 ||
+    //   lastName.split("").length === lastName.split("").length < 1 ||
+    //   phoneNumber.split("").length === phoneNumber.split("").length < 1
+    // ) {
+    //   toast.error("Silahkan update salah satu field");
+
+    //   return setForm({ ...form, loading: false });
+    // }
+    setLoading(true);
+
+    axios
+      .patch("/user/update-profile", {
+        firstName,
+        lastName,
+        phoneNumber,
+      })
+      .then((res) => {
+        toast.success(res.data.message);
+
+        dispatch(getDataUser());
+      })
+      .catch((err) => {
+        err.response.data.message && toast.error(err.response.data.message);
+      })
+      .finally(() => {
+        // setForm({ ...form, loading: false });
+        setLoading(false);
+      });
+  };
+
+  const handleUpdatePassword = () => {
+    setLoading(true);
+
+    axios
+      .patch("/user/update-password", { newPassword, confirmPassword })
+      .then((res) => {
+        toast.success(res.data.message);
+      })
+      .catch((err) => {
+        err.response.data.message && toast.error(err.response.data.message);
+
+        setForm({ ...form, newPassword: "", confirmPassword: "" });
+      })
+      .finally(() => {
+        setLoading(false);
+      });
+  };
 
   return (
     <>
@@ -33,48 +116,23 @@ export default function ProfileDetail(props) {
               Firstname
             </label>
             <InputText
-              inputClassName={errors?.firstname && "invalid"}
               type="text"
-              name="firstname"
-              placeholder="Write your firstname"
-              {...register("firstname", {
-                required: "Firstname is required",
-                minLength: {
-                  value: 3,
-                  message: "Firstname must be at least 3 characters",
-                },
-              })}
-              onKeyUp={() => {
-                trigger("firstname");
-              }}
+              name="firstName"
+              onChange={handleChange}
+              value={firstName}
             />
-            {errors?.firstname && (
-              <p className="error-helpers">{errors?.firstname?.message}</p>
-            )}
           </div>
           <div className="form-group position-relative">
             <label htmlFor="lastname" className="form-label">
               Lastname
             </label>
             <InputText
-              inputClassName={errors?.lastname && "invalid"}
               type="text"
-              name="lastname"
+              name="lastName"
               placeholder="Write your lastname"
-              {...register("lastname", {
-                required: "Lastname is required",
-                minLength: {
-                  value: 3,
-                  message: "Lastname must be at least 3 characters",
-                },
-              })}
-              onKeyUp={() => {
-                trigger("lastname");
-              }}
+              onChange={handleChange}
+              value={lastName}
             />
-            {errors?.lastname && (
-              <p className="error-helpers">{errors?.lastname?.message}</p>
-            )}
           </div>
 
           <div className="form-group position-relative">
@@ -82,58 +140,35 @@ export default function ProfileDetail(props) {
               Email
             </label>
             <InputText
-              inputClassName={errors?.email && "invalid"}
               type="email"
               name="email"
+              readOnly
               placeholder="Write your email"
-              {...register("email", {
-                required: "Email is required",
-                pattern: {
-                  value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
-                  message: "Must be a valid email address",
-                },
-              })}
-              onKeyUp={() => {
-                trigger("email");
-              }}
+              onChange={handleChange}
+              value={form.email}
             />
-            {errors?.email && (
-              <p className="error-helpers">{errors?.email?.message}</p>
-            )}
           </div>
           <div className="form-group position-relative">
-            <label htmlFor="password" className="form-label">
-              Password
+            <label htmlFor="phoneNumber" className="form-label">
+              Phone Number
             </label>
             <InputText
-              inputClassName={errors?.password && "invalid"}
-              type={inputType}
-              name="password"
-              placeholder="Write your password"
-              {...register("password", {
-                required: "Password is required",
-                minLength: {
-                  value: 6,
-                  message: "Password must be at least 6 characters",
-                },
-                maxLength: {
-                  value: 16,
-                  message: "Password already exceeds 16 characters",
-                },
-              })}
-              onKeyUp={() => {
-                trigger("password");
-              }}
+              type="number"
+              name="phoneNumber"
+              placeholder="Write your phone number"
+              onChange={handleChange}
+              value={phoneNumber}
             />
-            {errors?.password && (
-              <p className="error-helpers">{errors?.password.message}</p>
-            )}
-            <span className="eye-pass">{Icon}</span>
           </div>
         </div>
       </Card>
 
-      <Button className="btn btn__updates d-none d-md-block" isPrimary>
+      <Button
+        className="btn btn__updates d-none d-md-block"
+        isPrimary
+        isLoading={loading}
+        onClick={handleUpdateProfile}
+      >
         Update changes
       </Button>
 
@@ -145,69 +180,42 @@ export default function ProfileDetail(props) {
 
         <div className="profile__detail--body">
           <div className="form-group position-relative">
-            <label htmlFor="password" className="form-label">
-              Password
+            <label htmlFor="newPassword" className="form-label">
+              New Password
             </label>
             <InputText
-              inputClassName={errors?.password && "invalid"}
               type={inputType}
-              name="password"
+              name="newPassword"
               placeholder="Write your password"
-              {...register("password", {
-                required: "Password is required",
-                minLength: {
-                  value: 6,
-                  message: "Password must be at least 6 characters",
-                },
-                maxLength: {
-                  value: 16,
-                  message: "Password already exceeds 16 characters",
-                },
-              })}
-              onKeyUp={() => {
-                trigger("password");
-              }}
+              onChange={handleChange}
+              value={newPassword}
             />
-            {errors?.password && (
-              <p className="error-helpers">{errors?.password.message}</p>
-            )}
+
             <span className="eye-pass">{Icon}</span>
           </div>
           <div className="form-group position-relative">
-            <label htmlFor="confirmatin_password" className="form-label">
+            <label htmlFor="confirmPassword" className="form-label">
               Confirm Password
             </label>
             <InputText
-              inputClassName={errors?.password && "invalid"}
               type={inputType}
-              name="confirmatin_password"
+              name="confirmPassword"
               placeholder="Confirm your password"
-              {...register("confirmatin_password", {
-                required: "Password is required",
-                minLength: {
-                  value: 6,
-                  message: "Password must be at least 6 characters",
-                },
-                maxLength: {
-                  value: 16,
-                  message: "Password already exceeds 16 characters",
-                },
-              })}
-              onKeyUp={() => {
-                trigger("confirmatin_password");
-              }}
+              onChange={handleChange}
+              value={confirmPassword}
             />
-            {errors?.confirmatin_password && (
-              <p className="error-helpers">
-                {errors?.confirmatin_password.message}
-              </p>
-            )}
+
             <span className="eye-pass">{Icon}</span>
           </div>
         </div>
       </Card>
 
-      <Button className="btn btn__updates" isPrimary>
+      <Button
+        className="btn btn__updates"
+        isPrimary
+        isLoading={loading}
+        onClick={handleUpdatePassword}
+      >
         Update changes
       </Button>
     </>

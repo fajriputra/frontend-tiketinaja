@@ -1,7 +1,8 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
+import { useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { BounceLoader } from "react-spinners";
-
+import { toast } from "react-toastify";
 import Header from "components/Header";
 import Sitelink from "components/Sitelink";
 import Card from "components/Card";
@@ -15,24 +16,13 @@ import axios from "helpers/axios";
 
 import "./payment.scss";
 
-const statusList = {
-  idle: "idle",
-  process: "process",
-  success: "success",
-  error: "error",
-};
-
 export default function PaymentPage(props) {
   useScrollTop();
 
   const [loading, setLoading] = useState(false);
-  const [isLogin, setIsLogin] = useState("");
-  const [status, setStatus] = useState(statusList);
-  const [dataBooking, setDataBooking] = useState([]);
   const history = useHistory();
 
-  // const { dateSchedule, movieId, schedule, seat, timeSchedule } =
-  //   props.location.state;
+  const { userData } = useSelector((state) => state.user);
 
   const dateSchedule = props.location.state
     ? props.location.state.dateSchedule
@@ -44,52 +34,39 @@ export default function PaymentPage(props) {
     ? props.location.state.timeSchedule
     : "";
 
-  useEffect(() => {
-    const getUserLogin = async () => {
-      try {
-        setLoading(true);
-        const res = await axios.get("/user");
+  const handlePayOrder = () => {
+    setLoading(true);
 
-        const { data } = res.data;
-
-        setIsLogin(data);
-
-        setLoading(false);
-      } catch (err) {
-        setLoading(false);
-        new Error(err.response.data.message);
-      }
+    const postBooking = {
+      dateBooking: dateSchedule,
+      movieId: movieId[0].id,
+      scheduleId: schedule?.id,
+      seat,
+      timeBooking: timeSchedule,
     };
 
-    getUserLogin();
-  }, []);
+    axios
+      .post("/booking", postBooking)
+      .then((res) => {
+        toast.success(res.data.message);
 
-  const handlePayOrder = async () => {
-    setStatus(statusList.process);
-    try {
-      const postBooking = {
-        dateBooking: dateSchedule,
-        movieId: movieId[0]?.id,
-        scheduleId: schedule?.id,
-        seat,
-        timeBooking: timeSchedule,
-      };
+        window.open(
+          `${res.data.data.urlRedirect}`,
+          "_blank",
+          "noopener noreferrer"
+        );
 
-      const res = await axios.post("/booking", postBooking);
+        const newData = {
+          ...res.data.data,
+          movieId: movieId[0],
+          seat,
+        };
 
-      const { data } = res.data;
-
-      window.open(`${data?.urlRedirect}`, "_blank", "noopener noreferrer");
-
-      setDataBooking(data);
-
-      history.push("/");
-
-      setStatus(statusList.error);
-    } catch (error) {
-      console.log(error.response);
-    }
-    setStatus(statusList.success);
+        history.push("/ticket", newData);
+      })
+      .finally(() => {
+        setLoading(false);
+      });
   };
 
   if (loading) {
@@ -104,9 +81,11 @@ export default function PaymentPage(props) {
     <>
       {!props.location.state ? (
         <div className="page-error">
-          <h5>Kamu belum ada pembayaran, pilih movie dulu yu!</h5>
-          <Button className="btn" isPrimary onClick={() => history.goBack()}>
-            balik
+          <h5 className="mb-4">
+            You don't have a payment yet, choose a movie first!
+          </h5>
+          <Button className="btn" isPrimary onClick={() => history.push("/")}>
+            Back to Home
           </Button>
         </div>
       ) : (
@@ -139,7 +118,7 @@ export default function PaymentPage(props) {
                     <Button
                       className="btn btn__action order"
                       onClick={handlePayOrder}
-                      isLoading={status === statusList.process}
+                      isLoading={loading}
                     >
                       Pay your order
                     </Button>
@@ -148,7 +127,7 @@ export default function PaymentPage(props) {
                 <div className="col-md-4">
                   <h5 className="content__heading">Personal Info</h5>
                   <Card className="content__info--person">
-                    <PersonalInfo value={isLogin[0]} isDisabled={isLogin} />
+                    <PersonalInfo data={userData} isDisabled={userData} />
                   </Card>
                 </div>
               </div>

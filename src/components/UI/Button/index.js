@@ -15,6 +15,10 @@ const Button = (props) => {
     if (props.onClick) props.onClick();
   };
 
+  const onChange = () => {
+    if (props.onChange) props.onChange();
+  };
+
   if (props.isDisabled || props.isLoading) {
     if (props.isDisabled) className.push("disabled");
     return (
@@ -64,6 +68,7 @@ const Button = (props) => {
       className={className.join(" ")}
       style={props.style}
       onClick={onClick}
+      onChange={onChange}
     >
       {props.children}
     </button>

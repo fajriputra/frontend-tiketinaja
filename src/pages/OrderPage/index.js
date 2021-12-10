@@ -101,9 +101,11 @@ export default function OrderPage(props) {
     <>
       {!props.location.state ? (
         <div className="page-error">
-          <h5>Kamu belum memilih movie nich, pilih dulu yu baru order!</h5>
-          <Button className="btn" isPrimary onClick={() => history.goBack()}>
-            balik
+          <h5 className="mb-4">
+            You haven't chosen a movie yet, choose first, then order!
+          </h5>
+          <Button className="btn" isPrimary onClick={() => history.push("/")}>
+            Back to Home
           </Button>
         </div>
       ) : (
