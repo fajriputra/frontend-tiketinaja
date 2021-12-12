@@ -119,6 +119,7 @@ export default function CrudForm(props) {
           className="btn btn__action--admin submit"
           isPrimary
           onClick={props.handleSubmit}
+          isLoading={props.isLoading}
         >
           {props.submitUpdate}
         </Button>

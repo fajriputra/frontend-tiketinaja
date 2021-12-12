@@ -31,10 +31,15 @@
     .btn__sponsor {
       box-shadow: 0px 8px 16px rgba(17, 17, 17, 0.08);
       width: 100px;
+      height: 100%;
 
       .sponsor__image {
         padding: 5px;
         margin-bottom: 0;
+      }
+
+      &.active {
+        background-color: aliceblue;
       }
     }
 

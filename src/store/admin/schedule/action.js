@@ -13,18 +13,11 @@ export const postSchedule = (data) => {
   };
 };
 
-export const getSchedule = (
-  page,
-  limit,
-  location,
-  movieId,
-  sortBy,
-  sortType
-) => {
+export const getSchedule = (page, limit, movieId, location, sortType) => {
   return {
     type: GET_SCHEDULE,
     payload: axios.get(
-      `/schedule?page=${page}&limit=${limit}&location=${location}&movieId=${movieId}&sortBy=${sortBy}&sortType=${sortType}`
+      `/schedule?page=${page}&limit=${limit}&movieId=${movieId}&location=${location}&sortType=${sortType}`
     ),
   };
 };

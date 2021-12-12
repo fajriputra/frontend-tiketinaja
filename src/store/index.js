@@ -8,19 +8,19 @@ import storage from "redux-persist/lib/storage";
 import authReducers from "store/auth/reducer";
 import userReducers from "store/user/reducer";
 import movieReducers from "store/admin/movie/reducer";
+import scheduleReducers from "store/admin/schedule/reducer";
 import locationReducers from "store/location/reducer";
 
 const persistConfig = {
   key: "root",
   storage,
-  whitelist: ["auth", "user", "movie", "location"],
-  blacklist: [],
 };
 
 const rootReducers = combineReducers({
   auth: authReducers,
   user: userReducers,
   movie: movieReducers,
+  schedule: scheduleReducers,
   location: locationReducers,
 });
 

@@ -1,6 +1,8 @@
 import React from "react";
 
-import CineOne from "assets/images/sponsor/logo-cineone.png";
+import ebvid from "assets/images/sponsor/logo-ebvid.png";
+import cineone21 from "assets/images/sponsor/logo-cineone.png";
+import hiflix from "assets/images/sponsor/logo-hiflix.png";
 
 import Card from "components/Card";
 import Image from "components/Image";
@@ -18,7 +20,15 @@ const OrderInfo = (props) => {
       <div className="content__info--head">
         <Image
           className="content__info--image"
-          srcImage={CineOne}
+          srcImage={
+            schedule.premier === "CineOne21"
+              ? cineone21
+              : schedule.premier === "ebv.id"
+              ? ebvid
+              : schedule.premier === "hiflix Cinema"
+              ? hiflix
+              : "https://www.a1hosting.net/wp-content/themes/arkahost/assets/images/default.jpg"
+          }
           altImage="CineOne21"
           imgClass="img-cover"
         />

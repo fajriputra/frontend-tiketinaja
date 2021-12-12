@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { toast } from "react-toastify";
 import { useHistory } from "react-router";
 import { BounceLoader } from "react-spinners";
-import Pagination from "react-paginate";
+import ReactPaginate from "react-paginate";
 import { apiHost } from "config";
 
 import Card from "components/Card";
@@ -50,6 +50,7 @@ export default function Movie(props) {
   const [isUpdate, setIsUpdate] = useState(false);
   const [movieId, setMovieId] = useState("");
   const [loading, setLoading] = useState(false);
+  const [spinner, setSpinner] = useState(false);
 
   const movie = useSelector((state) => state.movie);
 
@@ -112,6 +113,8 @@ export default function Movie(props) {
       formData.append(data, form[data]);
     }
 
+    setSpinner(true);
+
     dispatch(postMovie(formData))
       .then((res) => {
         toast.success(res.value.data.message);
@@ -129,8 +132,11 @@ export default function Movie(props) {
       })
       .catch((err) => {
         err.response.data.message && toast.error(err.response.data.message);
+      })
+      .finally(() => {
+        setSpinner(false);
+        resetForm();
       });
-    resetForm();
   };
 
   const handleDelete = (id) => {
@@ -265,6 +271,7 @@ export default function Movie(props) {
                   updateReleaseDate={form.releaseDate}
                   updateDuration={form.duration}
                   updateSynopsis={form.synopsis}
+                  isLoading={spinner}
                 />
               </div>
             </div>
@@ -338,7 +345,7 @@ export default function Movie(props) {
           </Card>
 
           <div className="d-flex justify-content-center align-items-center">
-            <Pagination
+            <ReactPaginate
               previousLabel={false}
               nextLabel={false}
               breakLabel={"..."}

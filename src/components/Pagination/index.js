@@ -4,7 +4,7 @@ import Button from "components/UI/Button";
 
 import "./pagination.scss";
 
-const Pagination = ({ pagination, page, setPage }) => {
+const Pagination = ({ pagination, page, onClick }) => {
   const loopPagination = () => {
     const number = [];
 
@@ -14,7 +14,7 @@ const Pagination = ({ pagination, page, setPage }) => {
           className={["page-item", page === i + 1 ? "active" : ""].join(" ")}
           key={i}
         >
-          <Button className="page-link" onClick={() => setPage(i + 1)}>
+          <Button className="page-link" onClick={onClick}>
             {i + 1}
           </Button>
         </li>

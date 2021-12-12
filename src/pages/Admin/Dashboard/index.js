@@ -1,5 +1,8 @@
 import React, { useState, useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
 import { Line } from "react-chartjs-2";
+import { toast } from "react-toastify";
+import axios from "helpers/axios";
 
 import Card from "components/Card";
 import Header from "components/Header";
@@ -7,26 +10,92 @@ import Sitelink from "components/Sitelink";
 
 import InputSelect from "components/UI/Form/InputSelect";
 import Button from "components/UI/Button";
+import { getMovie } from "store/admin/movie/action";
 
 import "./dashboard.scss";
-import axios from "helpers/axios";
+
+const dataPremier = [
+  {
+    id: 1,
+    premier: "CineOne21",
+  },
+  {
+    id: 2,
+    premier: "ebv.id",
+  },
+  {
+    id: 3,
+    premier: "hiflix Cinema",
+  },
+];
+
+const queryMovie = {
+  page: 1,
+  limit: 5000,
+  keyword: "",
+  month: "",
+  sortBy: "name",
+  sortType: "asc",
+};
 
 export default function Dashboard(props) {
-  // const [filterDashboard, setFilterDashboard] = useState({
-  //   movieId: "",
-  //   premier: "",
-  //   location: "",
-  // });
+  const dispatch = useDispatch();
+  const movie = useSelector((state) => state.movie);
+  const location = useSelector((state) => state.location);
 
-  // const [dataDashboard, setDataDashboard] = useState([]);
+  const [filter, setFilter] = useState({
+    movieId: "",
+    premier: "",
+    location: "",
+  });
 
-  // useEffect(() => {
-  //   axios
-  //     .get(
-  //       `/dashboard?movieId=${filterDashboard.movieId}&premier=${filterDashboard.premier}&location=${filterDashboard.location}`
-  //     )
-  //     .then((res) => console.log(res));
-  // });
+  const [dataDashboard, setDataDashboard] = useState([]);
+
+  useEffect(() => {
+    dispatch(
+      getMovie(
+        queryMovie.page,
+        queryMovie.limit,
+        queryMovie.keyword,
+        queryMovie.month,
+        queryMovie.sortBy,
+        queryMovie.sortType
+      )
+    );
+  }, [dispatch, filter.movieId, filter.premier, filter.location]);
+
+  const resetForm = () => {
+    setFilter({ movieId: "", premier: "", location: "" });
+    setDataDashboard([]);
+  };
+
+  const filterMovie = (e) => {
+    const filtered = e.target.value;
+    setFilter({ ...filter, movieId: filtered });
+  };
+
+  const filterPremier = (e) => {
+    const filtered = e.target.value;
+    setFilter({ ...filter, premier: filtered });
+  };
+
+  const filterLocation = (e) => {
+    const filtered = e.target.value;
+    setFilter({ ...filter, location: filtered });
+  };
+
+  // console.log(filter);
+
+  const getDashboard = () => {
+    axios
+      .get(
+        `/dashboard?movieId=${filter.movieId}&premier=${filter.premier}&location=${filter.location}`
+      )
+      .then((res) => setDataDashboard(res.data.data))
+      .catch((err) => {
+        err.response.data.message && toast.error(err.response.data.message);
+      });
+  };
 
   return (
     <>
@@ -139,11 +208,48 @@ export default function Dashboard(props) {
             <div className="col-md-3">
               <h5 className="content__heading">Filtered</h5>
               <Card className="dashboard__card filtered">
-                <InputSelect className="form__input" />
-                <InputSelect className="form__input" />
-                <InputSelect className="form__input" />
-                <Button className="btn btn__action filter">Filter</Button>
-                <Button className="btn btn__action reset">Reset</Button>
+                <InputSelect
+                  selectDefault="Select Movie"
+                  className="form__input"
+                  options={movie.data.map((item) => ({
+                    label: item.name,
+                    value: item.id,
+                  }))}
+                  onChange={filterMovie}
+                  name="movieId"
+                  value={filter.movieId}
+                />
+                <InputSelect
+                  selectDefault="Select Premiere"
+                  className="form__input"
+                  options={dataPremier.map((item) => ({
+                    label: item.premier,
+                    value: item.premier,
+                  }))}
+                  onChange={filterPremier}
+                  name="premier"
+                  value={filter.premier}
+                />
+                <InputSelect
+                  selectDefault="Select Location"
+                  className="form__input"
+                  options={location.data.map((item) => ({
+                    label: item.nama,
+                    value: item.nama,
+                  }))}
+                  onChange={filterLocation}
+                  name="location"
+                  value={filter.location}
+                />
+                <Button
+                  className="btn btn__action filter"
+                  onClick={getDashboard}
+                >
+                  Filter
+                </Button>
+                <Button className="btn btn__action reset" onClick={resetForm}>
+                  Reset
+                </Button>
               </Card>
             </div>
           </div>

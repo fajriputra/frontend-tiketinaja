@@ -1,10 +1,11 @@
-import { GET_MOVIE, POST_MOVIE, UPDATE_MOVIE } from "./constans";
+import { GET_MOVIE, GET_MOVIEBYID, POST_MOVIE, UPDATE_MOVIE } from "./constans";
 
 const initialState = {
   isLoading: false,
   isError: false,
   message: "",
   data: [],
+  dataById: {},
   pageInfo: {},
 };
 
@@ -35,6 +36,34 @@ const crudMovie = (state = initialState, action) => {
         isError: true,
         message: action.payload.response.data.message,
         data: [],
+        pageInfo: {},
+      };
+    }
+    case `${GET_MOVIEBYID}_PENDING`: {
+      return {
+        ...state,
+        isLoading: true,
+        isError: false,
+        message: "",
+      };
+    }
+    case `${GET_MOVIEBYID}_FULFILLED`: {
+      return {
+        ...state,
+        isLoading: false,
+        isError: false,
+        message: action.payload.data.message,
+        dataById: action.payload.data.data,
+        pageInfo: action.payload.data.pagination,
+      };
+    }
+    case `${GET_MOVIEBYID}_REJECTED`: {
+      return {
+        ...state,
+        isLoading: false,
+        isError: true,
+        message: action.payload.response.data.message,
+        dataById: {},
         pageInfo: {},
       };
     }

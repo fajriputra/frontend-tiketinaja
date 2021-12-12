@@ -1,45 +1,37 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
+
 import InputText from "components/UI/Form/InputText";
-
-import Sponsor1 from "assets/images/sponsor/logo-ebvid.png";
-import Sponsor2 from "assets/images/sponsor/logo-cineone.png";
-import Sponsor3 from "assets/images/sponsor/logo-hiflix.png";
-
-import "./schedule-form.scss";
 import Button from "components/UI/Button";
 import Image from "components/Image";
-import { useSelector, useDispatch } from "react-redux";
-import { getLocation } from "store/location/action";
-import { getMovie } from "store/admin/movie/action";
+
+import { formatAMPM } from "helpers/formatTime";
+
+import "./schedule-form.scss";
 
 export default function ScheduleForm(props) {
-  const [dataMovie, setDataMovie] = useState({
-    page: "",
-    limit: "",
-    keyword: "",
-    sortBy: "",
-    sortType: "",
-  });
+  const {
+    movieId,
+    location,
+    price,
+    dateStart,
+    dateEnd,
+    premier,
+    dataPremier,
+    handleClickPremier,
+    handleTime,
+    handleChangeInput,
+    dataMovie,
+    dataLocation,
+    time,
+    showInput,
+    resetForm,
+    handleSubmit,
+    isUpdate,
+    isLoading,
+    onChange,
+  } = props;
 
-  const movie = useSelector((state) => state.movie);
-
-  console.log(movie);
-
-  const location = useSelector((state) => state.location);
-  const dispatch = useDispatch();
-
-  useEffect(() => {
-    dispatch(
-      getMovie(
-        dataMovie.page,
-        dataMovie.limit,
-        dataMovie.keyword,
-        dataMovie.sortBy,
-        dataMovie.sortType
-      )
-    );
-    dispatch(getLocation());
-  }, [dispatch]);
+  // console.log(time);
 
   return (
     <>
@@ -49,13 +41,19 @@ export default function ScheduleForm(props) {
             Movie
           </label>
           <select
-            name="sorting"
             className="form__input select"
-            // onChange={handleSort}
+            name="movieId"
+            value={movieId}
+            onChange={onChange}
           >
-            <option value="movie">Movie Name</option>
-            <option value="name asc">A-Z</option>
-            <option value="name desc">Z-A</option>
+            <option value="">Movie Name</option>
+            {dataMovie.map((item) => {
+              return (
+                <option value={item.id} key={item.id}>
+                  {item.name}
+                </option>
+              );
+            })}
           </select>
         </div>
         <div className="form-group position-relative">
@@ -64,12 +62,13 @@ export default function ScheduleForm(props) {
           </label>
 
           <select
-            name="sorting"
             className="form__input select"
-            onChange={props.handleLocation}
+            name="location"
+            value={location}
+            onChange={onChange}
           >
             <option value="location">Location</option>
-            {location?.data?.map((item) => (
+            {dataLocation.map((item) => (
               <option value={item.nama} key={item.id}>
                 {item.nama}
               </option>
@@ -84,30 +83,33 @@ export default function ScheduleForm(props) {
             type="number"
             name="price"
             placeholder="Price"
-            onChange={props.handleChange}
+            value={price}
+            onChange={onChange}
           />
         </div>
         <div className="date__startend">
           <div className="form-group position-relative">
-            <label htmlFor="date__start" className="form-label">
+            <label htmlFor="dateStart" className="form-label">
               Date Start
             </label>
             <InputText
               type="date"
-              name="date__start"
+              name="dateStart"
               placeholder="Date Start"
-              onChange={props.handleChange}
+              value={dateStart}
+              onChange={onChange}
             />
           </div>
           <div className="form-group position-relative">
-            <label htmlFor="date__start" className="form-label">
-              Date Start
+            <label htmlFor="dateEnd" className="form-label">
+              Date End
             </label>
             <InputText
               type="date"
-              name="date__start"
-              placeholder="Date Start"
-              onChange={props.handleChange}
+              name="dateEnd"
+              placeholder="Date End"
+              value={dateEnd}
+              onChange={onChange}
             />
           </div>
         </div>
@@ -122,30 +124,25 @@ export default function ScheduleForm(props) {
           </label>
 
           <div className="d-flex justify-content-between">
-            <Button className="btn btn__sponsor p-0">
-              <Image
-                srcImage={Sponsor1}
-                altImage="Image Sponsor"
-                className="sponsor__image"
-                imgClass="img-contain"
-              />
-            </Button>
-            <Button className="btn btn__sponsor p-0">
-              <Image
-                srcImage={Sponsor2}
-                altImage="Image Sponsor"
-                className="sponsor__image"
-                imgClass="img-contain"
-              />
-            </Button>
-            <Button className="btn btn__sponsor p-0">
-              <Image
-                srcImage={Sponsor3}
-                altImage="Image Sponsor"
-                className="sponsor__image"
-                imgClass="img-contain"
-              />
-            </Button>
+            {dataPremier.map((item) => {
+              return (
+                <div key={item.id}>
+                  <Button
+                    className={`btn btn__sponsor ${
+                      item.premier === premier ? "active" : ""
+                    } p-0`}
+                    onClick={() => handleClickPremier(item.premier)}
+                  >
+                    <Image
+                      srcImage={item.image}
+                      altImage={item.premier}
+                      className="sponsor__image"
+                      imgClass="img-contain"
+                    />
+                  </Button>
+                </div>
+              );
+            })}
           </div>
         </div>
 
@@ -158,23 +155,50 @@ export default function ScheduleForm(props) {
             Time
           </label>
           <div className="content__time">
-            <Button className="btn btn__add--time p-0">+</Button>
+            {showInput ? (
+              <InputText
+                type="time"
+                name="add__time"
+                placeholder="Input a time"
+                onKeyPress={handleTime}
+              />
+            ) : (
+              <Button
+                className="btn btn__add--time p-0"
+                onClick={handleChangeInput}
+              >
+                +
+              </Button>
+            )}
 
-            {/* <InputText name="add__time" placeholder="Input a time" /> */}
-
-            <div className="time">
-              <Button className="btn btn__time p-0">08:30am</Button>
-            </div>
+            {time.map((item, index) => {
+              return (
+                <div className="time" key={index}>
+                  <Button className="btn btn__time p-0">
+                    {formatAMPM(item)}
+                  </Button>
+                </div>
+              );
+            })}
           </div>
         </div>
       </div>
 
       <div className="d-flex justify-content-end">
-        <Button className="btn btn__action--admin reset" isPrimary>
+        <Button
+          className="btn btn__action--admin reset"
+          isPrimary
+          onClick={resetForm}
+        >
           Reset
         </Button>
-        <Button className="btn btn__action--admin submit" isPrimary>
-          Submit
+        <Button
+          className="btn btn__action--admin submit"
+          isPrimary
+          onClick={handleSubmit}
+          isLoading={isLoading}
+        >
+          {isUpdate}
         </Button>
       </div>
     </>

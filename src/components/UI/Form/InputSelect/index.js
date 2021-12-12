@@ -1,7 +1,15 @@
 import React from "react";
 import propTypes from "prop-types";
 
-const InputSelect = ({ className, isDisabled, onChange, options, value }) => {
+export default function InputSelect({
+  isDisabled,
+  onChange,
+  options,
+  value,
+  name,
+  className,
+  selectDefault,
+}) {
   return (
     <select
       className={["form-select", className, isDisabled ? "disabled" : ""].join(
@@ -10,20 +18,24 @@ const InputSelect = ({ className, isDisabled, onChange, options, value }) => {
       disabled={isDisabled}
       onChange={onChange}
       value={value}
+      name={name}
     >
-      {options?.map((item, index) => (
-        <option value={item.id} key={index}>
-          {item.value}
-        </option>
+      <option value="">{selectDefault}</option>
+      {options.map((item, index) => (
+        <option {...item} key={index} />
       ))}
     </select>
   );
-};
-
-export default InputSelect;
+}
 
 InputSelect.propTypes = {
   isDisabled: propTypes.oneOfType([propTypes.bool, propTypes.string]),
   isLoading: propTypes.bool,
   onChange: propTypes.func,
+  options: propTypes.arrayOf(
+    propTypes.shape({
+      label: propTypes.string,
+      value: propTypes.oneOfType([propTypes.string, propTypes.number]),
+    })
+  ),
 };

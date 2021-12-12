@@ -29,71 +29,74 @@
       height: $size-50;
 
       &.select {
-        width: 132px;
+        width: 160px;
       }
     }
   }
 
-  .card__data--schedule {
+  .card_wrapper--schedule {
     margin-right: 0;
+    background-color: #ffffff;
     border: none;
-    background-color: $white;
-    padding: $size-34 $size-26;
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: $size-20 $size-30;
+    padding: $size-34 $size-40;
 
-    .card__schedule--content {
-      padding: $size-20;
-      margin-right: 0;
+    .card__data--schedule {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: $size-20 $size-30;
 
-      .card__schedule--head {
-        display: flex;
+      .card__schedule--content {
+        padding: $size-20;
+        margin-right: 0;
 
-        .data__schedule--image {
-          min-width: 100px;
-          max-width: 100px;
-          margin-right: $size-40;
-          margin-bottom: 0;
+        .card__schedule--head {
+          display: flex;
 
-          > img {
-            height: auto;
+          .data__schedule--image {
+            min-width: 100px;
+            max-width: 100px;
+            margin-right: $size-40;
+            margin-bottom: 0;
+
+            > img {
+              height: auto;
+            }
+          }
+
+          .data__schedule__text {
+            &--title {
+              font-weight: 600;
+              color: #000;
+            }
+
+            &--subtitle {
+              color: $label;
+              font-size: $size-14;
+              font-weight: 300;
+            }
           }
         }
 
-        .data__schedule__text {
-          &--title {
-            font-weight: 600;
-            color: #000;
-          }
+        .data__schedule__time {
+          display: grid;
+          grid-template-columns: repeat(4, 1fr);
+          gap: $size-16;
+          margin-bottom: $size-20;
 
-          &--subtitle {
+          .time__schedules {
             color: $label;
+            font-weight: 600;
             font-size: $size-14;
-            font-weight: 300;
           }
         }
-      }
 
-      .data__schedule__time {
-        display: grid;
-        grid-template-columns: repeat(4, 1fr);
-        gap: $size-16;
-        margin-bottom: $size-20;
-
-        .time__schedules {
-          color: $label;
-          font-weight: 600;
-          font-size: $size-14;
+        .data__schedule--price {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          color: #6b6b6b;
+          margin-bottom: $size-30;
         }
-      }
-
-      .data__schedule--price {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        color: #6b6b6b;
-        margin-bottom: $size-30;
       }
     }
   }
