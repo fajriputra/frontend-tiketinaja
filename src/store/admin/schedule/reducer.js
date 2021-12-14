@@ -38,6 +38,7 @@ const crudSchedule = (state = initialState, action) => {
         pageInfo: {},
       };
     }
+
     // post Schedule
     case `${POST_SCHEDULE}_PENDING`: {
       return {

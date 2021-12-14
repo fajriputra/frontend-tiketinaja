@@ -26,12 +26,12 @@ import {
   getSchedule,
   updateSchedule,
 } from "store/admin/schedule/action";
-// import Pagination from "components/Pagination";
 
 import "./schedule.scss";
 import { toast } from "react-toastify";
 import { formatRp } from "helpers/formatRp";
 import ReactPaginate from "react-paginate";
+import { apiHost } from "config";
 
 const initialState = {
   movieId: "",
@@ -63,8 +63,9 @@ export default function Schedule(props) {
   const [showInput, setShowInput] = useState(false);
   const [scheduleId, setScheduleId] = useState("");
   const [form, setForm] = useState(initialState);
-  const [filtered, setFiltered] = useState(schedule.data);
-  // const [imagePreview, setImagePreview] = useState("");
+  const [filtered, setFiltered] = useState([]);
+  const [imagePreview, setImagePreview] = useState("");
+
   const [queryMovie, setQueryMovie] = useState({
     page: 1,
     limit: 5000,
@@ -93,7 +94,6 @@ export default function Schedule(props) {
       )
     );
     dispatch(getLocation());
-    // dispatch(getMovieById(form.movieId));
     dispatch(
       getSchedule(
         querySchedule.page,
@@ -102,7 +102,9 @@ export default function Schedule(props) {
         querySchedule.location,
         querySchedule.sortType
       )
-    );
+    ).then((res) => {
+      setFiltered(res.value.data.data);
+    });
   }, [
     dispatch,
     querySchedule.page,
@@ -130,12 +132,16 @@ export default function Schedule(props) {
   const handleChange = (e) => {
     const { name, value } = e.target;
     setForm({ ...form, [name]: value });
-    // setImagePreview(e.target.value && movie.dataById[0].image);
+    if (name === "movieId") {
+      dispatch(getMovieById(value)).then((res) => {
+        setImagePreview(res.value.data.data[0].image);
+      });
+    }
   };
 
   const resetForm = () => {
     setForm(initialState);
-    // setImage("");
+    setImagePreview("");
     setShowInput(false);
     setIsUpdate(false);
   };
@@ -153,57 +159,61 @@ export default function Schedule(props) {
     }
   };
 
+  const deleteTime = (index) => {
+    setForm({ ...form, time: form.time.filter((item) => item !== index) });
+  };
+
   const handleSortPrice = (e) => {
     const terfilter = e.target.value;
-    setQuerySchedule({ ...querySchedule, sortType: terfilter, page: 1 });
-
-    dispatch(
-      getSchedule(
-        1,
-        querySchedule.limit,
-        querySchedule.movieId,
-        querySchedule.location,
-        terfilter
-      )
-    ).then((res) => {
-      setFiltered(res.value.data.data);
-
-      history.push(`?sortType=${terfilter}`);
+    setQuerySchedule({
+      ...querySchedule,
+      sortType: terfilter,
+      page: 1,
+      movieId: "",
+      location: "",
     });
+
+    dispatch(getSchedule(1, querySchedule.limit, "", "", terfilter)).then(
+      (res) => {
+        setFiltered(res.value.data.data);
+        history.push(`?sortType=${terfilter}`);
+      }
+    );
   };
 
   const handleSortLocation = (e) => {
     const terfilter = e.target.value;
     setQuerySchedule({
       ...querySchedule,
-      location: terfilter,
       page: 1,
+      movieId: "",
+      location: terfilter,
+      sortType: "",
     });
-    dispatch(
-      getSchedule(1, querySchedule.limit, querySchedule.movieId, terfilter)
-    ).then((res) => {
-      setFiltered(res.value.data.data);
-
-      history.push(`?location=${terfilter}`);
-    });
+    dispatch(getSchedule(1, querySchedule.limit, "", terfilter, "")).then(
+      (res) => {
+        setFiltered(res.value.data.data);
+        history.push(`?location=${terfilter}`);
+      }
+    );
   };
 
   const handleSortMovie = (e) => {
     const terfilter = e.target.value;
-    setQuerySchedule({ ...querySchedule, movieId: terfilter, page: 1 });
-    dispatch(
-      getSchedule(
-        1,
-        querySchedule.limit,
-        terfilter,
-        querySchedule.location,
-        querySchedule.sortType
-      )
-    ).then((res) => {
-      setFiltered(res.value.data.data);
-
-      history.push(`?movieId=${terfilter}`);
+    setQuerySchedule({
+      ...querySchedule,
+      page: 1,
+      movieId: terfilter,
+      location: "",
+      sortType: "",
     });
+    dispatch(getSchedule(1, querySchedule.limit, terfilter, "", "")).then(
+      (res) => {
+        setFiltered(res.value.data.data);
+
+        history.push(`?movieId=${terfilter}`);
+      }
+    );
   };
 
   const handlePagination = (e) => {
@@ -227,10 +237,9 @@ export default function Schedule(props) {
   const handleSubmit = () => {
     const setData = {
       ...form,
-      time: form.time.join(", "),
+      time: form.time.join(),
     };
     setSpinner(true);
-    // setLoading(true);
 
     axios
       .post("/schedule", setData)
@@ -251,7 +260,6 @@ export default function Schedule(props) {
         err.response.data.message && toast.error(err.response.data.message);
       })
       .finally(() => {
-        // setLoading(false);
         setSpinner(false);
         resetForm();
       });
@@ -259,6 +267,8 @@ export default function Schedule(props) {
 
   const setUpdate = (data) => {
     setScheduleId(data.id);
+    setImagePreview(data.image);
+
     setForm({
       ...form,
       movieId: data.movieId,
@@ -273,20 +283,20 @@ export default function Schedule(props) {
   };
 
   const handleUpdate = () => {
-    // const formData = new FormData();
+    setSpinner(true);
+    const setData = {
+      ...form,
+      time: form.time.join(),
+    };
 
-    // for (const data in form) {
-    //   formData.append(data, form[data]);
-    // }
+    if (form.time.length === 0) {
+      toast.error("Add time first to update");
+      return setSpinner(false);
+    }
 
-    setLoading(true);
-
-    dispatch(updateSchedule(scheduleId, form))
+    dispatch(updateSchedule(scheduleId, setData))
       .then((res) => {
-        console.log(res);
-
-        // toast.success(res.value.data.message);
-        // setImage("");
+        toast.success(res.value.data.message);
 
         dispatch(
           getSchedule(
@@ -296,17 +306,18 @@ export default function Schedule(props) {
             querySchedule.location,
             querySchedule.sortType
           )
-        );
+        ).then((res) => {
+          setFiltered(res.value.data.data);
+        });
       })
       .catch((err) => {
         err.response.data.message && toast.error(err.response.data.message);
         setForm(initialState);
       })
       .finally(() => {
-        setLoading(false);
-        setForm(initialState);
+        setSpinner(false);
+        resetForm();
       });
-    resetForm();
   };
 
   const handleDelete = (id) => {
@@ -346,11 +357,11 @@ export default function Schedule(props) {
           <Card className="crud__card--schedule">
             <div className="d-flex">
               <CrudImage
-              // movieImage={
-              //   imagePreview
-              //     ? imagePreview
-              //     : "https://www.a1hosting.net/wp-content/themes/arkahost/assets/images/default.jpg"
-              // }
+                movieImage={
+                  imagePreview
+                    ? `${apiHost}/uploads/movie/${imagePreview}`
+                    : "https://www.a1hosting.net/wp-content/themes/arkahost/assets/images/default.jpg"
+                }
               />
 
               <div className="w-100">
@@ -368,6 +379,7 @@ export default function Schedule(props) {
                   dataLocation={location.data}
                   showInput={handleChangeInput}
                   handleTime={handleTime}
+                  deleteTime={(item) => deleteTime(item)}
                   handleChangeInput={handleChangeInput}
                   resetForm={resetForm}
                   handleSubmit={handleSubmit}
@@ -387,6 +399,7 @@ export default function Schedule(props) {
               name="price"
               className="form-select form__input select ms-auto me-3"
               onChange={handleSortPrice}
+              value={querySchedule.sortType}
             >
               <option value="">Sort by price</option>
               <option value="asc">Lowest price</option>
@@ -428,8 +441,11 @@ export default function Schedule(props) {
                     transform: "translate(-50%, -50%)",
                   }}
                 >
-                  Schedule is not available at{" "}
-                  {querySchedule.location || querySchedule.movieId}
+                  Schedule is not available{" "}
+                  {`at ${
+                    querySchedule.location ||
+                    `movie id ${querySchedule.movieId}`
+                  }`}
                 </h5>
               ) : (
                 filtered.map((item) => {
@@ -503,14 +519,14 @@ export default function Schedule(props) {
                 })
               )}
             </div>
-            {filtered.length === 0 ? null : (
+            {filtered.length > 0 && (
               <div className="d-flex justify-content-center align-items-center">
                 <ReactPaginate
                   previousLabel={false}
                   nextLabel={false}
                   breakLabel={"..."}
                   forcePage={querySchedule.page - 1}
-                  pageCount={schedule.pageInfo.totalData}
+                  pageCount={schedule.pageInfo.totalPage}
                   onPageChange={handlePagination}
                   containerClassName={"pagination"}
                   pageClassName={"page-item"}
@@ -523,7 +539,6 @@ export default function Schedule(props) {
           </Card>
         </div>
       </section>
-      {/* <Pagination /> */}
       <Sitelink />
     </>
   );

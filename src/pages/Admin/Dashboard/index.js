@@ -13,6 +13,7 @@ import Button from "components/UI/Button";
 import { getMovie } from "store/admin/movie/action";
 
 import "./dashboard.scss";
+import { getLocation } from "store/location/action";
 
 const dataPremier = [
   {
@@ -51,6 +52,12 @@ export default function Dashboard(props) {
 
   const [dataDashboard, setDataDashboard] = useState([]);
 
+  let dataMonth = [];
+  dataDashboard.map((item) => dataMonth.push(item.month));
+
+  let dataIncome = [];
+  dataDashboard.map((item) => dataIncome.push(item.total));
+
   useEffect(() => {
     dispatch(
       getMovie(
@@ -62,6 +69,7 @@ export default function Dashboard(props) {
         queryMovie.sortType
       )
     );
+    dispatch(getLocation());
   }, [dispatch, filter.movieId, filter.premier, filter.location]);
 
   const resetForm = () => {
@@ -84,16 +92,19 @@ export default function Dashboard(props) {
     setFilter({ ...filter, location: filtered });
   };
 
-  // console.log(filter);
-
   const getDashboard = () => {
     axios
       .get(
         `/dashboard?movieId=${filter.movieId}&premier=${filter.premier}&location=${filter.location}`
       )
-      .then((res) => setDataDashboard(res.data.data))
+      .then((res) => {
+        setDataDashboard(res.data.data);
+      })
       .catch((err) => {
         err.response.data.message && toast.error(err.response.data.message);
+      })
+      .finally(() => {
+        setFilter({ movieId: "", premier: "", location: "" });
       });
   };
 
@@ -103,30 +114,15 @@ export default function Dashboard(props) {
       <section className="dashboard">
         <div className="container">
           <div className="row">
-            <div className="col-md-9">
+            <div className="col-md-9 order-2 order-lg-2">
               <h5 className="content__heading">Dashboard</h5>
               <Card className="dashboard__card">
                 <Line
                   data={{
-                    labels: [
-                      "Jan",
-                      "Feb",
-                      "Mar",
-                      "Apr",
-                      "May",
-                      "Jun",
-                      "Jul",
-                      "Aug",
-                      "Sep",
-                      "Oct",
-                      "Nov",
-                      "Des",
-                    ],
+                    labels: dataMonth,
                     datasets: [
                       {
-                        data: [
-                          50, 300, 26, 55, 120, 33, 22, 11, 150, 500, 230, 74,
-                        ],
+                        data: dataIncome,
                         backgroundColor: [
                           "rgba(255, 99, 132, 0.2)",
                           "rgba(54, 162, 235, 0.2)",
@@ -205,7 +201,7 @@ export default function Dashboard(props) {
                 />
               </Card>
             </div>
-            <div className="col-md-3">
+            <div className="col-md-3 order-1 order-lg-2">
               <h5 className="content__heading">Filtered</h5>
               <Card className="dashboard__card filtered">
                 <InputSelect

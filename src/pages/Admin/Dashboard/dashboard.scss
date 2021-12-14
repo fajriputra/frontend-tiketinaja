@@ -11,6 +11,10 @@
     background-color: $white;
     padding: $size-27 $size-18;
 
+    @media (max-width: 992px) {
+      margin-bottom: 1.875rem;
+    }
+
     &.filtered {
       .form__input {
         height: $size-50;

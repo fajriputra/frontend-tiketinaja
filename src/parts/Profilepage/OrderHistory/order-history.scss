@@ -9,8 +9,7 @@
   position: relative;
   margin-top: $size-30;
   padding: $size-24;
-  height: 650px;
-  overflow-y: scroll;
+  height: auto;
 
   &::-webkit-scrollbar {
     display: none;

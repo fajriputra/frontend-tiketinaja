@@ -1,5 +1,5 @@
 import React from "react";
-
+import { ReactComponent as IconClose } from "assets/images/icons/icon-close.svg";
 import InputText from "components/UI/Form/InputText";
 import Button from "components/UI/Button";
 import Image from "components/Image";
@@ -19,6 +19,7 @@ export default function ScheduleForm(props) {
     dataPremier,
     handleClickPremier,
     handleTime,
+    deleteTime,
     handleChangeInput,
     dataMovie,
     dataLocation,
@@ -30,8 +31,6 @@ export default function ScheduleForm(props) {
     isLoading,
     onChange,
   } = props;
-
-  // console.log(time);
 
   return (
     <>
@@ -173,10 +172,16 @@ export default function ScheduleForm(props) {
 
             {time.map((item, index) => {
               return (
-                <div className="time" key={index}>
+                <div className="time position-relative" key={index}>
                   <Button className="btn btn__time p-0">
                     {formatAMPM(item)}
                   </Button>
+                  <IconClose
+                    width={15}
+                    height={15}
+                    style={{ position: "absolute", top: "-0.625rem" }}
+                    onClick={() => deleteTime(item, index)}
+                  />
                 </div>
               );
             })}

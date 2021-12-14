@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { BounceLoader } from "react-spinners";
 import { useHistory } from "react-router-dom";
+import { toast } from "react-toastify";
+import ReactPaginate from "react-paginate";
 
 import ebvid from "assets/images/sponsor/logo-ebvid.png";
 import cineone21 from "assets/images/sponsor/logo-cineone.png";
@@ -17,7 +19,6 @@ import InputSelect from "components/UI/Form/InputSelect";
 import { formatAMPM } from "helpers/formatTime";
 import { formatRp } from "helpers/formatRp";
 import { getSchedule } from "store/admin/schedule/action";
-import ReactPaginate from "react-paginate";
 import { getLocation } from "store/location/action";
 
 const date = new Date().toISOString().split("T")[0];
@@ -65,13 +66,12 @@ const Showtimes = (props) => {
     querySchedule.sortType,
   ]);
 
-  const handleBooking = (data) => {
-    history.push("/order", {
-      movieId,
-      schedule: { ...data, movieId: movieId[0].id },
-      dateSchedule,
-      timeSchedule: timeSchedule.timeSchedule,
-    });
+  const handleChangeDate = (e) => {
+    const change = e.target.value;
+
+    if (change < date) return toast.error("You can't select previous date");
+
+    setDateSchedule(change);
   };
 
   const handleChangeLocation = (e) => {
@@ -117,6 +117,15 @@ const Showtimes = (props) => {
     });
   };
 
+  const handleBooking = (data) => {
+    history.push("/order", {
+      movieId,
+      schedule: { ...data, movieId: movieId[0].id },
+      dateSchedule,
+      timeSchedule: timeSchedule.timeSchedule,
+    });
+  };
+
   if (loading) {
     return (
       <div style={{ margin: "5% 50%", paddingBottom: 100 }}>
@@ -138,7 +147,7 @@ const Showtimes = (props) => {
               type="date"
               name="date"
               value={dateSchedule}
-              onChange={(e) => setDateSchedule(e.target.value)}
+              onChange={handleChangeDate}
               placeholder="Set a date"
               inputClassName="input__control mb-3 mb-md-0"
             />
@@ -245,7 +254,7 @@ const Showtimes = (props) => {
             nextLabel={false}
             breakLabel={"..."}
             forcePage={querySchedule.page - 1}
-            pageCount={schedule.pageInfo.totalData}
+            pageCount={schedule.pageInfo.totalPage}
             onPageChange={handlePagination}
             containerClassName={"pagination"}
             pageClassName={"page-item"}
