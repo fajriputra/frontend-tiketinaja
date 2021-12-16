@@ -3,7 +3,11 @@
 
 .movie {
   background-color: #e5e5e5;
-  padding: $size-56 $size-40;
+  padding: $size-40 0;
+
+  @media (min-width: 992px) {
+    padding: $size-56 $size-40;
+  }
 
   .content__heading {
     padding-bottom: $size-24;
@@ -14,36 +18,54 @@
     background-color: $white;
     border: none;
     margin-right: 0;
-    padding: $size-56 $size-40;
     margin-bottom: 60px;
+    padding: $size-30 $size-16;
+
+    @media (min-width: 992px) {
+      padding: $size-56 $size-40;
+    }
   }
 
   .data__movie--head {
-    display: flex;
-    // justify-content: space-between;
-    align-items: center;
-    margin-bottom: $size-15;
+    margin-bottom: $size-30;
+
+    @media (min-width: 992px) {
+      display: flex;
+      // justify-content: space-between;
+      margin-bottom: $size-15;
+      align-items: center;
+    }
 
     .form__input {
       background-color: #fcfdfe;
       height: $size-50;
 
       &.select {
-        width: 150px;
+        width: 100%;
         border-radius: 6px;
         color: #aaaaaa;
         border: 1px solid $line;
         padding: $size-12 $size-20;
+        margin-bottom: 0.5rem;
 
         &:focus {
           border: 1px solid $line;
           box-shadow: none;
         }
+
+        @media (min-width: 992px) {
+          width: 150px;
+          margin-bottom: 0;
+        }
       }
 
       &.search {
-        width: 313px;
-        margin-left: $size-12;
+        width: 100%;
+
+        @media (min-width: 992px) {
+          width: 313px;
+          margin-left: $size-12;
+        }
       }
     }
   }
@@ -52,15 +74,40 @@
     margin-right: 0;
     border: none;
     background-color: $white;
-    padding: $size-45;
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(1, 1fr);
     gap: $size-20 $size-30;
+    padding: $size-30 $size-40;
+
+    @media (min-width: 768px) {
+      grid-template-columns: repeat(2, 250px);
+      justify-content: center;
+    }
+
+    @media (min-width: 992px) {
+      grid-template-columns: repeat(4, 1fr);
+    }
 
     .card__image--wrapper {
       margin-right: 0;
+      width: 228px;
       height: 100%;
+      margin-left: auto;
+      margin-right: auto;
       margin-bottom: 0;
+
+      @media (min-width: 768px) {
+        width: 100%;
+      }
+
+      @media (min-width: 768px) {
+        padding: $size-18;
+      }
+
+      @media (min-width: 1200px) {
+        padding: $size-32;
+        width: 228px;
+      }
 
       .data__movie--image {
         height: 250px;
@@ -69,33 +116,13 @@
         img {
           border-radius: inherit;
         }
-      }
-    }
-  }
 
-  .pagination {
-    margin-top: $size-50;
-    margin-bottom: 0;
+        @media (min-width: 768px) {
+          height: 300px;
+        }
 
-    .page-item {
-      margin-right: 0.46875rem;
-
-      &.active .page-link {
-        background-color: $primaryColor;
-        border: none;
-        outline: none;
-        color: $white;
-      }
-
-      .page-link {
-        padding: 0.5rem $size-16;
-        border-radius: 0.5rem !important;
-        color: $body;
-        font-size: $size-18;
-        border-color: $line;
-
-        &:focus {
-          box-shadow: none;
+        @media (min-width: 992px) {
+          height: 250px;
         }
       }
     }

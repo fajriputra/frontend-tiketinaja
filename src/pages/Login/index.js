@@ -142,7 +142,7 @@ export default function LoginPage() {
                   <p className="error-helpers">{errors?.email?.message}</p>
                 )}
               </div>
-              <div className="form-group position-relative">
+              <div className="form-group position-relative mb-2">
                 <label htmlFor="password" className="form-label">
                   Password
                 </label>
@@ -182,11 +182,11 @@ export default function LoginPage() {
 
               <Button
                 type="link"
-                href="/forgot-password"
+                href="/sign-up"
                 style={{ textDecoration: "none" }}
               >
-                <p className="forgot-password text-center">
-                  Forgot your password? <span>Reset now </span>
+                <p className="sign-up-p text-center">
+                  Don't have an account? <span>Sign up </span>
                 </p>
               </Button>
 

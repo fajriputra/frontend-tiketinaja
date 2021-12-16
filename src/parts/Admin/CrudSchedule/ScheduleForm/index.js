@@ -154,20 +154,20 @@ export default function ScheduleForm(props) {
             Time
           </label>
           <div className="content__time">
-            {showInput ? (
-              <InputText
-                type="time"
-                name="add__time"
-                placeholder="Input a time"
-                onKeyPress={handleTime}
-              />
-            ) : (
+            {!showInput ? (
               <Button
                 className="btn btn__add--time p-0"
                 onClick={handleChangeInput}
               >
                 +
               </Button>
+            ) : (
+              <InputText
+                type="time"
+                name="add__time"
+                placeholder="Input a time"
+                onKeyPress={handleTime}
+              />
             )}
 
             {time.map((item, index) => {

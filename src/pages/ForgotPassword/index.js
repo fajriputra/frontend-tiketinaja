@@ -13,16 +13,7 @@ import Button from "components/UI/Button";
 import Image from "components/Image";
 import { showError, showSuccess } from "helpers/notification";
 
-import axios from "helpers/axios";
-
 import "./forgot.scss";
-import Stepper from "components/Stepper";
-
-// firstName:fajri
-// lastName:admin
-// email:tugasmikrotik@gmail.com
-// password:test123
-// phoneNumber:123456789
 
 const initialState = {
   error: "",

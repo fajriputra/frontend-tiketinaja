@@ -29,7 +29,7 @@ export default function OrderPage(props) {
     : "";
 
   const [loading, setLoading] = useState(false);
-  const [seatAlpha, setSeatAlpha] = useState(["A", "B", "C"]);
+  const seatAlpha = ["A", "B", "C"];
   const [selectSeat, setSelectSeat] = useState([]);
   const [reversedSeat, setReversedSeat] = useState([]);
 

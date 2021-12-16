@@ -164,7 +164,7 @@ export default function ProfileDetail(props) {
       </Card>
 
       <Button
-        className="btn btn__updates d-none d-md-block"
+        className="btn btn__updates"
         isPrimary
         isLoading={loading}
         onClick={handleUpdateProfile}

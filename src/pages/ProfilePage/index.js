@@ -21,7 +21,12 @@ export default function ProfilePage(props) {
   return (
     <>
       <Header {...props} className="mb-0" />
-      <TabProfile className="tab__profile--mobile" />
+      <TabProfile
+        className="tab__profile--mobile"
+        account={() => setShow(false)}
+        history={() => setShow(true)}
+        active={show}
+      />
       <section className="profile">
         <div className="container">
           <div className="row">

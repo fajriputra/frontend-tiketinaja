@@ -1,29 +1,39 @@
 @import "assets/scss/_colorVariables.scss";
 @import "assets/scss/_fontVariables.scss";
 
+.tab__profile--mobile {
+  display: flex !important;
+  // margin: 0;
+  align-items: center;
+  justify-content: space-around;
+  margin-right: 0;
+  border: none;
+  outline: none;
+  margin-bottom: 0 !important;
+
+  @media (min-width: 992px) {
+    display: none !important;
+  }
+}
+
 .tab__profile {
   font-family: "Mulish", sans-serif;
   margin-right: 0;
   padding: $size-24 $size-32;
   background-color: $white;
+  outline: none;
   border: none;
   margin-bottom: $size-48;
 
   .btn__tab {
     color: #aaaaaa;
     font-size: $size-16;
-    width: 130px;
-    margin: auto;
-
-    @media (min-width: 768px) {
-      width: 142px;
-    }
 
     &.account {
       margin-right: $size-20;
       position: relative;
 
-      @media (min-width: 768px) {
+      @media (min-width: 992px) {
         margin-right: $size-56;
       }
 
@@ -61,7 +71,7 @@
       }
     }
 
-    @media (min-width: 768px) {
+    @media (min-width: 992px) {
       font-size: $size-18;
     }
   }

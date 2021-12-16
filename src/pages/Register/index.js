@@ -216,13 +216,6 @@ export default function RegisterPage() {
                 />
               </div>
 
-              {/* <div className="form-check">
-                <input className="form-check-input" type="checkbox" value="" />
-                <label className="form-check-label" htmlFor="checkbox">
-                  I agree to terms & conditions
-                </label>
-              </div> */}
-
               <Button
                 className="btn btn-signup w-100"
                 isPrimary
@@ -237,7 +230,7 @@ export default function RegisterPage() {
                 style={{ textDecoration: "none" }}
               >
                 <p className="have__account text-center">
-                  Do you already have an account? <span> Sign in </span>
+                  Already have an account? <span> Sign in </span>
                 </p>
               </Button>
 

@@ -19,13 +19,12 @@ import { formatRp } from "helpers/formatRp";
 import { toast } from "react-toastify";
 
 import "./ticket-result.scss";
+import { apiHost } from "config";
 
 export default function Homepage(props) {
   const dataBooking = props.location.state;
   const history = useHistory();
   const [loading, setLoading] = useState(false);
-
-  console.log(dataBooking);
 
   const seats = dataBooking.seat.map((item) => item);
 
@@ -137,7 +136,10 @@ export default function Homepage(props) {
                             </div>
                           </div>
                           <div className="qr__code">
-                            <QRCode value="test" size={130} />
+                            <QRCode
+                              value={`${apiHost}/booking/status-ticket/${dataBooking.id}`}
+                              size={130}
+                            />
                           </div>
                         </div>
                         <div className="circle bottom rounded-circle"></div>

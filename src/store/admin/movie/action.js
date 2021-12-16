@@ -2,6 +2,7 @@ import {
   DELETE_MOVIE,
   GET_MOVIE,
   GET_MOVIEBYID,
+  GET_MOVIE_FILTER,
   POST_MOVIE,
   UPDATE_MOVIE,
 } from "./constans";
@@ -17,6 +18,22 @@ export const postMovie = (data) => {
 export const getMovie = (page, limit, keyword, month, sortBy, sortType) => {
   return {
     type: GET_MOVIE,
+    payload: axios.get(
+      `/movies?page=${page}&limit=${limit}&month=${month}&keyword=${keyword}&sortBy=${sortBy}&sortType=${sortType}`
+    ),
+  };
+};
+
+export const getMovieFilter = (
+  page,
+  limit,
+  keyword,
+  month,
+  sortBy,
+  sortType
+) => {
+  return {
+    type: GET_MOVIE_FILTER,
     payload: axios.get(
       `/movies?page=${page}&limit=${limit}&month=${month}&keyword=${keyword}&sortBy=${sortBy}&sortType=${sortType}`
     ),

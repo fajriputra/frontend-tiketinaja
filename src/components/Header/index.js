@@ -1,11 +1,9 @@
 import React, { useState } from "react";
-import { useHistory } from "react-router-dom";
 import axios from "helpers/axios";
 import { useSelector } from "react-redux";
 import propTypes from "prop-types";
 
 import LogoBrand from "assets/images/logo-tickitz-blue.png";
-// icons
 import IconToggle from "assets/images/icons/icon-toggler.svg";
 import IconSearch from "assets/images/icons/icon-search.svg";
 
@@ -102,12 +100,7 @@ const Header = (props) => {
                 </>
               )}
             </ul>
-            <form className="d-md-flex justify-content-md-start align-items-md-center">
-              <img
-                src={IconSearch}
-                alt="Icon Search"
-                className="icon-search my-2 my-md-0 mx-md-3"
-              />
+            <form className="d-flex align-items-center">
               {userData ? (
                 <>
                   <UserProfile
@@ -116,7 +109,7 @@ const Header = (props) => {
                         ? `${apiHost}/uploads/user/${userData.avatar}`
                         : "https://www.a1hosting.net/wp-content/themes/arkahost/assets/images/default.jpg"
                     }
-                    className="me-4"
+                    className="mx-4"
                   />
                   <Button
                     className="

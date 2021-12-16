@@ -3,33 +3,59 @@
 
 .schedule {
   background-color: #e5e5e5;
-  padding: $size-56 $size-40;
-  font-family: "Mulish", sans-serif;
+  padding: $size-40 0;
+
+  @media (min-width: 992px) {
+    padding: $size-56 $size-40;
+  }
 
   .content__heading {
     padding-bottom: $size-24;
-    margin-bottom: 0;
+    margin-bottom: $size-15;
+
+    @media (min-width: 992px) {
+      margin-bottom: 0;
+    }
   }
 
   .crud__card--schedule {
     background-color: $white;
     border: none;
     margin-right: 0;
-    padding: $size-56 $size-40;
+    padding: $size-30 $size-16;
     margin-bottom: 60px;
+
+    @media (min-width: 992px) {
+      padding: $size-56 $size-40;
+    }
   }
 
   .data__schedule--head {
     display: flex;
-    align-items: center;
     margin-bottom: $size-15;
+    flex-flow: column;
+
+    @media (min-width: 992px) {
+      flex-flow: row;
+      align-items: center;
+    }
 
     .form__input {
       background-color: #fcfdfe;
       height: $size-50;
 
       &.select {
-        width: 160px;
+        width: 100%;
+        margin-bottom: 0.5rem;
+
+        &:last-child {
+          margin-bottom: 0;
+        }
+
+        @media (min-width: 992px) {
+          width: 160px;
+          margin-bottom: 0;
+        }
       }
     }
   }
@@ -38,12 +64,20 @@
     margin-right: 0;
     background-color: #ffffff;
     border: none;
-    padding: $size-34 $size-40;
+    padding: $size-34 $size-16;
+
+    @media (min-width: 992px) {
+      padding: $size-34 $size-40;
+    }
 
     .card__data--schedule {
       display: grid;
-      grid-template-columns: repeat(3, 1fr);
+      grid-template-columns: repeat(1, 1fr);
       gap: $size-20 $size-30;
+
+      @media (min-width: 992px) {
+        grid-template-columns: repeat(3, 1fr);
+      }
 
       .card__schedule--content {
         padding: $size-20;

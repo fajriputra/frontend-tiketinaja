@@ -64,6 +64,10 @@
     .upcoming__movies--image {
       width: 160px;
       border-radius: inherit;
+
+      img {
+        border-radius: inherit;
+      }
     }
   }
 }

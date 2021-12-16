@@ -16,7 +16,6 @@ import InputSelect from "components/UI/Form/InputSelect";
 import Image from "components/Image";
 import Button from "components/UI/Button";
 
-import axios from "helpers/axios";
 import ScheduleForm from "parts/Admin/CrudSchedule/ScheduleForm";
 import { formatAMPM } from "helpers/formatTime";
 import { getLocation } from "store/location/action";
@@ -24,6 +23,7 @@ import { getMovie, getMovieById } from "store/admin/movie/action";
 import {
   deleteSchedule,
   getSchedule,
+  postSchedule,
   updateSchedule,
 } from "store/admin/schedule/action";
 
@@ -33,14 +33,25 @@ import { formatRp } from "helpers/formatRp";
 import ReactPaginate from "react-paginate";
 import { apiHost } from "config";
 
+const date = new Date().toISOString().split("T")[0];
+
 const initialState = {
   movieId: "",
   location: "",
   price: 0,
-  dateStart: "",
-  dateEnd: "",
+  dateStart: date,
+  dateEnd: date,
   premier: "",
   time: [],
+};
+
+const queryMovie = {
+  page: 1,
+  limit: 5000,
+  keyword: "",
+  month: "",
+  sortBy: "name",
+  sortType: "asc",
 };
 
 const dataPremier = [
@@ -65,15 +76,6 @@ export default function Schedule(props) {
   const [form, setForm] = useState(initialState);
   const [filtered, setFiltered] = useState([]);
   const [imagePreview, setImagePreview] = useState("");
-
-  const [queryMovie, setQueryMovie] = useState({
-    page: 1,
-    limit: 5000,
-    keyword: "",
-    month: "",
-    sortBy: "name",
-    sortType: "asc",
-  });
   const [querySchedule, setQuerySchedule] = useState({
     page: 1,
     limit: 6,
@@ -83,6 +85,8 @@ export default function Schedule(props) {
   });
 
   useEffect(() => {
+    document.title = "Ticketing | Schedule";
+    setLoading(true);
     dispatch(
       getMovie(
         queryMovie.page,
@@ -102,9 +106,13 @@ export default function Schedule(props) {
         querySchedule.location,
         querySchedule.sortType
       )
-    ).then((res) => {
-      setFiltered(res.value.data.data);
-    });
+    )
+      .then((res) => {
+        setFiltered(res.value.data.data);
+      })
+      .finally(() => {
+        setLoading(false);
+      });
   }, [
     dispatch,
     querySchedule.page,
@@ -112,22 +120,7 @@ export default function Schedule(props) {
     querySchedule.movieId,
     querySchedule.location,
     querySchedule.sortType,
-    queryMovie.page,
-    queryMovie.limit,
-    queryMovie.keyword,
-    queryMovie.month,
-    queryMovie.sortBy,
-    queryMovie.sortType,
   ]);
-
-  useEffect(() => {
-    document.title = "Ticketing | Schedule";
-    setLoading(true);
-
-    setTimeout(() => {
-      setLoading(false);
-    }, 2000);
-  }, []);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -239,22 +232,26 @@ export default function Schedule(props) {
       ...form,
       time: form.time.join(),
     };
+
     setSpinner(true);
 
-    axios
-      .post("/schedule", setData)
+    dispatch(postSchedule(setData))
       .then((res) => {
-        toast.success(res.data.message);
+        toast.success(res.value.data.message);
+
+        setQuerySchedule({ ...querySchedule, page: 1 });
 
         dispatch(
           getSchedule(
-            querySchedule.page,
+            1,
             querySchedule.limit,
             querySchedule.movieId,
             querySchedule.location,
             querySchedule.sortType
           )
-        );
+        ).then((res) => {
+          setFiltered(res.value.data.data);
+        });
       })
       .catch((err) => {
         err.response.data.message && toast.error(err.response.data.message);
@@ -298,9 +295,11 @@ export default function Schedule(props) {
       .then((res) => {
         toast.success(res.value.data.message);
 
+        setQuerySchedule({ ...querySchedule, page: 1 });
+
         dispatch(
           getSchedule(
-            querySchedule.page,
+            1,
             querySchedule.limit,
             querySchedule.movieId,
             querySchedule.location,
@@ -327,26 +326,22 @@ export default function Schedule(props) {
       dispatch(deleteSchedule(id)).then((res) => {
         toast.success(res.value.data.message);
 
+        setQuerySchedule({ ...querySchedule, page: 1 });
+
         dispatch(
           getSchedule(
-            querySchedule.page,
+            1,
             querySchedule.limit,
             querySchedule.movieId,
             querySchedule.location,
             querySchedule.sortType
           )
-        );
+        ).then((res) => {
+          setFiltered(res.value.data.data);
+        });
       });
     }
   };
-
-  if (loading) {
-    return (
-      <div className="loading__spinners">
-        <BounceLoader color="#5f2eea" />
-      </div>
-    );
-  }
 
   return (
     <>
@@ -355,7 +350,7 @@ export default function Schedule(props) {
         <div className="container">
           <h5 className="content__heading">Form Schedule</h5>
           <Card className="crud__card--schedule">
-            <div className="d-flex">
+            <div className="d-flex flex-column flex-lg-row">
               <CrudImage
                 movieImage={
                   imagePreview
@@ -378,6 +373,8 @@ export default function Schedule(props) {
                   dataMovie={movie.data}
                   dataLocation={location.data}
                   showInput={handleChangeInput}
+                  // eslint-disable-next-line react/jsx-no-duplicate-props
+                  showInput={showInput}
                   handleTime={handleTime}
                   deleteTime={(item) => deleteTime(item)}
                   handleChangeInput={handleChangeInput}
@@ -397,16 +394,15 @@ export default function Schedule(props) {
             <h5 className="content__heading pb-0">Data Schedule</h5>
             <select
               name="price"
-              className="form-select form__input select ms-auto me-3"
+              className="form-select form__input select ms-lg-auto me-lg-3"
               onChange={handleSortPrice}
               value={querySchedule.sortType}
             >
-              <option value="">Sort by price</option>
               <option value="asc">Lowest price</option>
               <option value="desc">Highest price</option>
             </select>
             <InputSelect
-              className="form__input select me-3"
+              className="form__input select me-lg-3"
               selectDefault="Select Location"
               options={location.data.map((loc) => ({
                 value: loc.nama,
@@ -430,24 +426,16 @@ export default function Schedule(props) {
           </div>
 
           <Card className="card_wrapper--schedule">
-            <div className="card__data--schedule position-relative">
-              {filtered.length === 0 ? (
-                <h5
-                  style={{
-                    margin: "auto",
-                    position: "absolute",
-                    top: "50%",
-                    left: "50%",
-                    transform: "translate(-50%, -50%)",
-                  }}
-                >
-                  Schedule is not available{" "}
-                  {`at ${
-                    querySchedule.location ||
-                    `movie id ${querySchedule.movieId}`
-                  }`}
-                </h5>
-              ) : (
+            <div
+              className={`${
+                loading ? "" : "card__data--schedule position-relative"
+              }`}
+            >
+              {loading ? (
+                <div className="d-flex justify-content-center align-items-center">
+                  <BounceLoader color="#5f2eea" />
+                </div>
+              ) : filtered.length > 0 ? (
                 filtered.map((item) => {
                   return (
                     <Card className="card__schedule--content" key={item.id}>
@@ -517,6 +505,24 @@ export default function Schedule(props) {
                     </Card>
                   );
                 })
+              ) : (
+                <h5
+                  style={{
+                    margin: "auto",
+                    position: "absolute",
+                    top: "50%",
+                    left: "50%",
+                    transform: "translate(-50%, -50%)",
+                    width: "fit-content",
+                    textAlign: "center",
+                  }}
+                >
+                  Schedule is not available{" "}
+                  {`at ${
+                    querySchedule.location ||
+                    `movie id ${querySchedule.movieId}`
+                  }`}
+                </h5>
               )}
             </div>
             {filtered.length > 0 && (

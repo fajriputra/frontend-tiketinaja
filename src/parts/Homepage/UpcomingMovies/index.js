@@ -7,11 +7,12 @@ import MetaWrapper from "components/MetaWrapper";
 
 import "./upcoming.scss";
 import { apiHost } from "config";
-import { getMovie } from "store/admin/movie/action";
+import { getMovieFilter } from "store/admin/movie/action";
+import { BounceLoader } from "react-spinners";
 
 const initialState = {
   page: 1,
-  limit: 6,
+  limit: 5000,
   keyword: "",
   month: "",
   sortBy: "name",
@@ -33,22 +34,25 @@ const monthNames = [
   "December",
 ];
 
-const UpcomingMovies = ({ data }) => {
+const UpcomingMovies = () => {
   const dispatch = useDispatch();
 
   const [upcoming, setUpcoming] = useState(initialState);
-  const [filtered, setFiltered] = useState(data);
+  const [loading, setLoading] = useState(false);
+  const [filtered, setFiltered] = useState([]);
 
-  const { page, limit, keyword, sortBy, sortType } = upcoming;
+  const { page, limit, keyword, month, sortBy, sortType } = upcoming;
 
   const handleCategory = (mth) => {
     setUpcoming({ ...upcoming, month: mth });
-
-    dispatch(getMovie(page, limit, keyword, mth, sortBy, sortType)).then(
-      (res) => {
+    setLoading(true);
+    dispatch(getMovieFilter(page, limit, keyword, mth, sortBy, sortType))
+      .then((res) => {
         setFiltered(res.value.data.data);
-      }
-    );
+      })
+      .finally(() => {
+        setLoading(false);
+      });
   };
 
   return (
@@ -56,7 +60,7 @@ const UpcomingMovies = ({ data }) => {
       <div className="container">
         <div className="upcoming__movies--text">
           <h4>Upcoming Movies</h4>
-          <Button type="link" href="/all-movies" className="btn-view">
+          <Button type="link" href="/" className="btn-view">
             view all
           </Button>
         </div>
@@ -66,9 +70,9 @@ const UpcomingMovies = ({ data }) => {
             return (
               <Button
                 className={`btn btn-category ${
-                  item === index + 1 ? "active" : ""
+                  month === index ? "active" : ""
                 }`}
-                onClick={() => handleCategory(index + 1)}
+                onClick={() => handleCategory(index)}
                 key={index}
               >
                 {item}
@@ -77,10 +81,16 @@ const UpcomingMovies = ({ data }) => {
           })}
         </div>
 
-        <div className="upcoming__movies--list">
-          {filtered.length === 0 ? (
-            <h6 className="mx-auto">Data not found</h6>
-          ) : (
+        <div
+          className={`upcoming__movies--list ${
+            loading ? "justify-content-center" : ""
+          }`}
+        >
+          {loading ? (
+            <div className="d-flex justify-content-center align-items-center">
+              <BounceLoader color="#5f2eea" />
+            </div>
+          ) : filtered.length > 0 ? (
             filtered?.map((item) => {
               return (
                 <Card key={item.id} className="width-223">
@@ -109,6 +119,12 @@ const UpcomingMovies = ({ data }) => {
                 </Card>
               );
             })
+          ) : (
+            <h6 className="mx-auto">
+              {month
+                ? `Data by month ${monthNames[month]} is not found`
+                : "Select a month to see the upcoming movies"}
+            </h6>
           )}
         </div>
       </div>

@@ -43,10 +43,10 @@ const Showtimes = (props) => {
 
   const [timeSchedule, setTimeSchedule] = useState("");
   const [dateSchedule, setDateSchedule] = useState(date);
-  const [filtered, setFiltered] = useState(schedule.data);
+  const [filtered, setFiltered] = useState([]);
 
   useEffect(() => {
-    // setLoading(true);
+    setLoading(true);
     dispatch(getLocation());
     dispatch(
       getSchedule(
@@ -56,7 +56,13 @@ const Showtimes = (props) => {
         querySchedule.location,
         querySchedule.sortType
       )
-    );
+    )
+      .then((res) => {
+        setFiltered(res.value.data.data);
+      })
+      .finally(() => {
+        setLoading(false);
+      });
   }, [
     dispatch,
     querySchedule.page,
@@ -126,14 +132,6 @@ const Showtimes = (props) => {
     });
   };
 
-  if (loading) {
-    return (
-      <div style={{ margin: "5% 50%", paddingBottom: 100 }}>
-        <BounceLoader color="#5f2eea" />
-      </div>
-    );
-  }
-
   return (
     <section className="showtimes" id={props.movieId}>
       <div className="container">
@@ -167,11 +165,11 @@ const Showtimes = (props) => {
           />
         </div>
 
-        {filtered.length === 0 ? (
-          <h5 className="text-center">
-            Schedule is not available at {querySchedule.location}
-          </h5>
-        ) : (
+        {loading ? (
+          <div className="d-flex justify-content-center align-items-center">
+            <BounceLoader color="#5f2eea" />
+          </div>
+        ) : filtered.length > 0 ? (
           <div className="showtimes__list">
             {filtered.map((item) => {
               return (
@@ -246,6 +244,10 @@ const Showtimes = (props) => {
               );
             })}
           </div>
+        ) : (
+          <h5 className="text-center">
+            Schedule is not available at {querySchedule.location}
+          </h5>
         )}
 
         <div className="d-flex justify-content-center align-items-center">

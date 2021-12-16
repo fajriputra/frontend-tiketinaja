@@ -95,7 +95,7 @@ export default function PaymentPage(props) {
             <TotalMobile seats={seat} schedule={schedule} />
             <div className="container">
               <div className="row">
-                <div className="col-md-8">
+                <div className="col-md-8 order-2 order-lg-1">
                   <h5 className="content__heading d-none d-md-block">
                     Payment Info
                   </h5>
@@ -108,7 +108,7 @@ export default function PaymentPage(props) {
                       timeSchedule={timeSchedule}
                     />
                   </Card>
-                  <div className="button__wrapper d-none d-md-flex">
+                  <div className="button__wrapper order-2 order-lg-1">
                     <Button
                       className="btn btn__action prev"
                       onClick={() => history.goBack()}
@@ -124,9 +124,9 @@ export default function PaymentPage(props) {
                     </Button>
                   </div>
                 </div>
-                <div className="col-md-4">
+                <div className="col-md-4 order-1 order-lg-2">
                   <h5 className="content__heading">Personal Info</h5>
-                  <Card className="content__info--person">
+                  <Card className="content__info--person mb-4 mb-lg-0">
                     <PersonalInfo data={userData} isDisabled={userData} />
                   </Card>
                 </div>

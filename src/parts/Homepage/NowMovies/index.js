@@ -16,7 +16,7 @@ const NowMovies = ({ data }) => {
       <div className="container">
         <div className="now__movies--text">
           <h4>Now Showing</h4>
-          <Button type="link" href="/all-movies" className="btn-view">
+          <Button type="link" href="/" className="btn-view">
             view all
           </Button>
         </div>

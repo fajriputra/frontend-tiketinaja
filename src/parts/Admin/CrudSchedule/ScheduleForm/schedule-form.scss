@@ -3,9 +3,13 @@
 
 .schedule__form {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: repeat(1, 1fr);
   gap: $size-25 $size-30;
   font-family: "Mulish", sans-serif;
+
+  @media (min-width: 992px) {
+    grid-template-columns: repeat(2, 1fr);
+  }
 
   .form-group {
     margin-bottom: 0;
@@ -45,10 +49,18 @@
 
     .content__time {
       display: grid;
-      grid-template-columns: repeat(4, 1fr);
+      grid-template-columns: repeat(3, 1fr);
       gap: $size-20 $size-36;
       align-items: center;
       position: relative;
+
+      &::-webkit-scrollbar {
+        display: none;
+      }
+
+      @media (min-width: 992px) {
+        grid-template-columns: repeat(4, 1fr);
+      }
 
       .btn__add--time {
         border: 1px solid $primaryColor;
@@ -72,7 +84,12 @@
 
   .date__startend {
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    column-gap: $size-10;
+    grid-template-columns: repeat(1, 1fr);
+    row-gap: $size-25;
+
+    @media (min-width: 992px) {
+      grid-template-columns: repeat(2, 1fr);
+      column-gap: $size-10;
+    }
   }
 }

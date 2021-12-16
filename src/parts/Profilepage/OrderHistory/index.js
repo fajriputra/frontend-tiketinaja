@@ -33,8 +33,6 @@ export default function OrderHistory(props) {
       });
   }, [dispatch, userData.id]);
 
-  console.log(dataBooking);
-
   return (
     <Card className="card__order--history">
       {loading ? (
@@ -75,16 +73,34 @@ export default function OrderHistory(props) {
               <hr className="line w-100" />
 
               <div className="button__wrapper">
-                <Button className="btn btn__ticket">Ticket in active</Button>
-                <Button className="btn btn__ticket show d-none d-md-block">
-                  Show Details
+                <Button
+                  className={`btn btn__ticket ${
+                    item.statusTicket === "inProcess"
+                      ? "not-paid"
+                      : item.statusTicket === "notActive"
+                      ? "not-used"
+                      : item.statusTicket === "Active"
+                      ? "used"
+                      : ""
+                  }`}
+                >
+                  {item.statusTicket === "inProcess"
+                    ? "Not paid"
+                    : item.statusTicket === "notActive"
+                    ? "Ticket in Active"
+                    : item.statusTicket === "Active"
+                    ? "Ticket used"
+                    : ""}
                 </Button>
+                {/* <Button className="btn btn__ticket show d-none d-md-block">
+                  Show Details
+                </Button> */}
               </div>
             </div>
           );
         })
       ) : (
-        <h5 className="d-flex justify-content-center align-items-center">
+        <h5 className="d-flex justify-content-center align-items-center text-center">
           You don't have order history yet
         </h5>
       )}

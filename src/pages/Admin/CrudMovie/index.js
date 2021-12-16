@@ -25,10 +25,12 @@ import {
 
 import "./crud-movie.scss";
 
+const date = new Date().toISOString().split("T")[0];
+
 const stateForm = {
   name: "",
   category: "",
-  releaseDate: "",
+  releaseDate: date,
   synopsis: "",
   cast: "",
   director: "",
@@ -51,6 +53,7 @@ export default function Movie(props) {
   const [movieId, setMovieId] = useState("");
   const [loading, setLoading] = useState(false);
   const [spinner, setSpinner] = useState(false);
+  const [filtered, setFiltered] = useState([]);
 
   const movie = useSelector((state) => state.movie);
 
@@ -58,6 +61,8 @@ export default function Movie(props) {
   const history = useHistory();
 
   useEffect(() => {
+    document.title = "Ticketing | Movie";
+    setLoading(true);
     dispatch(
       getMovie(
         dataMovie.page,
@@ -67,21 +72,18 @@ export default function Movie(props) {
         dataMovie.sortBy,
         dataMovie.sortType
       )
-    );
+    )
+      .then((res) => {
+        setFiltered(res.value.data.data);
+      })
+      .finally(() => {
+        setLoading(false);
+      });
   }, [dispatch, dataMovie]);
-
-  useEffect(() => {
-    setLoading(true);
-
-    setTimeout(() => {
-      setLoading(false);
-    }, 2000);
-  }, []);
 
   const handleText = (e) => {
     const { name, value } = e.target;
     setForm({ ...form, [name]: value });
-    setDataMovie({ ...dataMovie, [name]: value });
   };
 
   const handleFile = (e) => {
@@ -120,15 +122,20 @@ export default function Movie(props) {
         toast.success(res.value.data.message);
         setImage("");
 
+        setDataMovie({ ...dataMovie, page: 1 });
+
         dispatch(
           getMovie(
-            dataMovie.page,
+            1,
             dataMovie.limit,
             dataMovie.keyword,
+            dataMovie.month,
             dataMovie.sortBy,
             dataMovie.sortType
           )
-        );
+        ).then((res) => {
+          setFiltered(res.value.data.data);
+        });
       })
       .catch((err) => {
         err.response.data.message && toast.error(err.response.data.message);
@@ -146,24 +153,48 @@ export default function Movie(props) {
       dispatch(deleteMovie(id)).then((res) => {
         toast.success(res.value.data.message);
 
+        setDataMovie({ ...dataMovie, page: 1 });
+
         dispatch(
           getMovie(
-            dataMovie.page,
+            1,
             dataMovie.limit,
             dataMovie.keyword,
+            dataMovie.month,
             dataMovie.sortBy,
             dataMovie.sortType
           )
-        );
+        ).then((res) => {
+          setFiltered(res.value.data.data);
+        });
       });
     }
   };
 
   const handleSort = (e) => {
     const sort = e.target.value.split(" ");
-    setDataMovie({ ...dataMovie, sortBy: sort[0], sortType: sort[1] });
+    setDataMovie({
+      ...dataMovie,
+      page: 1,
+      sortBy: sort[0],
+      sortType: sort[1],
+      keyword: "",
+    });
 
-    history.push(`/movie?sortBy=${sort[0]}&sortType=${sort[1]}`);
+    dispatch(
+      getMovie(
+        1,
+        dataMovie.limit,
+        "",
+        dataMovie.month,
+        dataMovie.sortBy,
+        dataMovie.sortType
+      )
+    ).then((res) => {
+      setFiltered(res.value.data.data);
+
+      history.push(`/movie?sortBy=${sort[0]}&sortType=${sort[1]}`);
+    });
   };
 
   const handleSearch = (e) => {
@@ -172,7 +203,20 @@ export default function Movie(props) {
         ...dataMovie,
         keyword: e.target.value,
       });
-      history.push(`/movie?keyword=${e.target.value}`);
+
+      dispatch(
+        getMovie(
+          1,
+          dataMovie.limit,
+          dataMovie.keyword,
+          dataMovie.month,
+          dataMovie.sortBy,
+          dataMovie.sortType
+        )
+      ).then((res) => {
+        setFiltered(res.value.data.data);
+        history.push(`/movie?keyword=${e.target.value}`);
+      });
     }
   };
 
@@ -184,7 +228,20 @@ export default function Movie(props) {
       page: selected,
     });
 
-    history.push(`/movie?page=${selected}&limit=${dataMovie.limit}`);
+    dispatch(
+      getMovie(
+        selected,
+        dataMovie.limit,
+        dataMovie.keyword,
+        dataMovie.month,
+        dataMovie.sortBy,
+        dataMovie.sortType
+      )
+    ).then((res) => {
+      setFiltered(res.value.data.data);
+
+      history.push(`?page=${selected}&limit=${dataMovie.limit}`);
+    });
   };
 
   const setUpdate = (data) => {
@@ -215,29 +272,26 @@ export default function Movie(props) {
         toast.success(res.value.data.message);
         setImage("");
 
+        setDataMovie({ ...dataMovie, page: 1 });
+
         dispatch(
           getMovie(
-            dataMovie.page,
+            1,
             dataMovie.limit,
             dataMovie.keyword,
+            dataMovie.month,
             dataMovie.sortBy,
             dataMovie.sortType
           )
-        );
+        ).then((res) => {
+          setFiltered(res.value.data.data);
+        });
       })
       .catch((err) => {
         err.response.data.message && toast.error(err.response.data.message);
       });
     resetForm();
   };
-
-  if (loading) {
-    return (
-      <div className="loading__spinners">
-        <BounceLoader color="#5f2eea" />
-      </div>
-    );
-  }
 
   return (
     <>
@@ -246,7 +300,7 @@ export default function Movie(props) {
         <div className="container">
           <h5 className="content__heading">Form Movie</h5>
           <Card className="crud__card--movie">
-            <div className="d-flex">
+            <div className="d-flex flex-column flex-lg-row">
               <CrudImage
                 movieImage={
                   image
@@ -284,7 +338,7 @@ export default function Movie(props) {
               className="form__input select ms-auto"
               onChange={handleSort}
             >
-              <option value="Sort">Sort by</option>
+              <option value="">Sort by</option>
               <option value="name asc">A-Z</option>
               <option value="name desc">Z-A</option>
             </select>
@@ -297,18 +351,17 @@ export default function Movie(props) {
               defaultValue={dataMovie.keyword}
             />
           </div>
-          <Card className="card__data--movie position-relative">
-            {movie?.data?.length === 0 ? (
-              <div
-                className="text-center position-absolute"
-                style={{ top: "32%", left: "21%" }}
-              >
-                <h3 className="text-uppercase">
-                  the data are you looking for was not found
-                </h3>
+          <Card
+            className={`${
+              loading ? "bg-white" : "card__data--movie position-relative"
+            }`}
+          >
+            {loading ? (
+              <div className="d-flex justify-content-center align-items-center">
+                <BounceLoader color="#5f2eea" />
               </div>
-            ) : (
-              movie?.data?.map((item) => (
+            ) : filtered.length > 0 ? (
+              filtered.map((item) => (
                 <Card className="card__image--wrapper" key={item.id}>
                   <Image
                     className="data__movie--image"
@@ -341,6 +394,20 @@ export default function Movie(props) {
                   </MetaWrapper>
                 </Card>
               ))
+            ) : (
+              <h5
+                style={{
+                  margin: "auto",
+                  position: "absolute",
+                  top: "50%",
+                  left: "50%",
+                  transform: "translate(-50%, -50%)",
+                  width: "fit-content",
+                  textAlign: "center",
+                }}
+              >
+                Movie are you looking for was not found
+              </h5>
             )}
           </Card>
 
@@ -349,6 +416,7 @@ export default function Movie(props) {
               previousLabel={false}
               nextLabel={false}
               breakLabel={"..."}
+              forcePage={dataMovie.page - 1}
               pageCount={movie.pageInfo.totalPage}
               onPageChange={handlePagination}
               containerClassName={"pagination"}
