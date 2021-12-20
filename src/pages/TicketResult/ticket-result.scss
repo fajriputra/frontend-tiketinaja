@@ -43,12 +43,12 @@
             }
 
             .circle.top {
-              right: 24.5%;
+              right: 25%;
               top: -$size-20;
             }
 
             .circle.bottom {
-              right: 24.5%;
+              right: 25%;
               bottom: -$size-20;
               border: 1px solid $line;
             }
@@ -166,4 +166,18 @@
       }
     }
   }
+}
+
+.ticket__component--mobile {
+  padding: 48px 40px 72px 40px;
+}
+
+.ticket__item--mobile--header {
+  padding-bottom: $size-40;
+}
+
+.ticket__item--mobile--total {
+  border: 1px solid #dedede;
+  padding: $size-10 $size-24;
+  border-radius: 4px;
 }

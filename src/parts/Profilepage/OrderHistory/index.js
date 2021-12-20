@@ -85,16 +85,13 @@ export default function OrderHistory(props) {
                   }`}
                 >
                   {item.statusTicket === "inProcess"
-                    ? "Not paid"
+                    ? "Waiting Payment"
                     : item.statusTicket === "notActive"
                     ? "Ticket in Active"
                     : item.statusTicket === "Active"
                     ? "Ticket used"
                     : ""}
                 </Button>
-                {/* <Button className="btn btn__ticket show d-none d-md-block">
-                  Show Details
-                </Button> */}
               </div>
             </div>
           );

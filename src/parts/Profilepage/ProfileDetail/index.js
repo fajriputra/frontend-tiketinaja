@@ -1,16 +1,16 @@
 /* eslint-disable no-mixed-operators */
 import React, { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
+import { toast } from "react-toastify";
+import { getDataUser } from "store/user/action";
+import axios from "helpers/axios";
+
 import Card from "components/Card";
 import InputText from "components/UI/Form/InputText";
-import axios from "helpers/axios";
-import { getDataUser } from "store/user/action";
-
 import useTogglePassword from "hooks/useTogglePassword";
+import Button from "components/UI/Button";
 
 import "./profile-detail.scss";
-import Button from "components/UI/Button";
-import { toast } from "react-toastify";
 
 const initialState = {
   firstName: "",
@@ -19,7 +19,6 @@ const initialState = {
   phoneNumber: "",
   newPassword: "",
   confirmPassword: "",
-  // loading: false,
 };
 
 export default function ProfileDetail(props) {
@@ -51,16 +50,9 @@ export default function ProfileDetail(props) {
   };
 
   const handleUpdateProfile = () => {
-    // setForm({ ...form, loading: true });
-
-    // if (
-    //   firstName.split("").length === firstName.split("").length < 1 ||
-    //   lastName.split("").length === lastName.split("").length < 1 ||
-    //   phoneNumber.split("").length === phoneNumber.split("").length < 1
-    // ) {
+    // if (firstName === ""  && lastName === "" && phoneNumber === "") {
     //   toast.error("Silahkan update salah satu field");
-
-    //   return setForm({ ...form, loading: false });
+    //   return;
     // }
     setLoading(true);
 
@@ -79,7 +71,6 @@ export default function ProfileDetail(props) {
         err.response.data.message && toast.error(err.response.data.message);
       })
       .finally(() => {
-        // setForm({ ...form, loading: false });
         setLoading(false);
       });
   };

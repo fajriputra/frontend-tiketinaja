@@ -5,7 +5,6 @@ import propTypes from "prop-types";
 
 import LogoBrand from "assets/images/logo-tickitz-blue.png";
 import IconToggle from "assets/images/icons/icon-toggler.svg";
-import IconSearch from "assets/images/icons/icon-search.svg";
 
 import Button from "components/UI/Button";
 import UserProfile from "components/UserProfile";

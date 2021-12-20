@@ -121,7 +121,7 @@ const UpcomingMovies = () => {
             })
           ) : (
             <h6 className="mx-auto">
-              {month
+              {monthNames[month]
                 ? `Data by month ${monthNames[month]} is not found`
                 : "Select a month to see the upcoming movies"}
             </h6>

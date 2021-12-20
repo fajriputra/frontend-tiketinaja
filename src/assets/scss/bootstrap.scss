@@ -323,3 +323,14 @@ p,
     padding: 0 0.46875rem !important;
   }
 }
+
+.eye-pass {
+  position: absolute;
+  right: $size-25;
+  top: $size-42;
+  z-index: 9999;
+
+  @media (min-width: 768px) {
+    top: $size-45;
+  }
+}

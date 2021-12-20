@@ -112,18 +112,6 @@
       label.form-label {
         color: $label;
       }
-
-      .eye-pass {
-        position: absolute;
-        width: $size-18;
-        right: $size-25;
-        top: $size-42;
-        z-index: 9999;
-
-        @media (min-width: 768px) {
-          top: $size-45;
-        }
-      }
     }
 
     .form-check {

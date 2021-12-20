@@ -1,24 +1,15 @@
 import React, { useEffect, useState } from "react";
-import { useHistory } from "react-router-dom";
 import { useForm } from "react-hook-form";
 
 import LogoTickitzAuth from "assets/images/logo-tickitz-white.png";
 import LogoTickitz from "assets/images/logo-tickitz-blue.png";
 import Background from "assets/images/bg-auth.png";
 
-// icons
-
 import InputText from "components/UI/Form/InputText";
 import Button from "components/UI/Button";
 import Image from "components/Image";
-import { showError, showSuccess } from "helpers/notification";
 
 import "./forgot.scss";
-
-const initialState = {
-  error: "",
-  success: "",
-};
 
 const statusList = {
   idle: "idle",
@@ -28,11 +19,7 @@ const statusList = {
 };
 
 export default function ForgotPassword() {
-  const history = useHistory();
-  const [notif, setNotif] = useState(initialState);
   const [status, setStatus] = useState(statusList.idle);
-
-  const { error, success } = notif;
 
   const {
     register,
@@ -49,22 +36,7 @@ export default function ForgotPassword() {
   const onSubmit = async (data) => {
     setStatus(statusList.process);
     try {
-      // const res = await axios.post("/auth/login", data);
-      // setNotif({ ...notif, error: "", success: res.data.message });
-      // localStorage.setItem("token", res.data.data.token);
-      // setTimeout(() => {
-      //   setNotif("");
-      //   history.push("/");
-      // }, 3000);
-    } catch (err) {
-      // err.response.data.message &&
-      //   setNotif({ ...notif, error: err.response.data.message, success: "" });
-      // setTimeout(() => {
-      //   setNotif("");
-      //   reset({ ...data, email: "", password: "" });
-      // }, 3000);
-      // setStatus(statusList.error);
-    }
+    } catch (err) {}
     setStatus(statusList.success);
   };
 
@@ -115,8 +87,6 @@ export default function ForgotPassword() {
                   we'll send a link to your email shortly
                 </p>
               </div>
-              {error && showError(error)}
-              {success && showSuccess(success)}
 
               <div className="form-group position-relative">
                 <label htmlFor="email" className="form-label">

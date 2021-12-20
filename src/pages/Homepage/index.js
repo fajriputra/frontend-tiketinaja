@@ -13,7 +13,7 @@ import { getMovie } from "store/admin/movie/action";
 
 const queryMovie = {
   page: 1,
-  limit: 6,
+  limit: 100,
   keyword: "",
   month: "",
   sortBy: "name",
@@ -44,7 +44,7 @@ export default function Homepage(props) {
     ).finally(() => {
       setLoading(false);
     });
-  }, []);
+  }, [dispatch]);
 
   if (loading) {
     return (
