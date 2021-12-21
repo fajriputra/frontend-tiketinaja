@@ -198,24 +198,27 @@ export default function Movie(props) {
   };
 
   const handleSearch = (e) => {
+    const terfilter = e.target.value.toLowerCase();
+
     if (e.key === "Enter") {
       setDataMovie({
         ...dataMovie,
-        keyword: e.target.value,
+        keyword: terfilter,
+        page: 1,
       });
 
       dispatch(
         getMovie(
           1,
           dataMovie.limit,
-          dataMovie.keyword,
+          terfilter,
           dataMovie.month,
           dataMovie.sortBy,
           dataMovie.sortType
         )
       ).then((res) => {
         setFiltered(res.value.data.data);
-        history.push(`/movie?keyword=${e.target.value}`);
+        history.push(`/movie?keyword=${terfilter}`);
       });
     }
   };
@@ -226,13 +229,14 @@ export default function Movie(props) {
     setDataMovie({
       ...dataMovie,
       page: selected,
+      keyword: "",
     });
 
     dispatch(
       getMovie(
         selected,
         dataMovie.limit,
-        dataMovie.keyword,
+        "",
         dataMovie.month,
         dataMovie.sortBy,
         dataMovie.sortType
@@ -338,7 +342,6 @@ export default function Movie(props) {
               className="form__input select ms-auto"
               onChange={handleSort}
             >
-              <option value="">Sort by</option>
               <option value="name asc">A-Z</option>
               <option value="name desc">Z-A</option>
             </select>
@@ -348,7 +351,7 @@ export default function Movie(props) {
               placeholder="Search movie name..."
               name="keyword"
               onKeyPress={handleSearch}
-              defaultValue={dataMovie.keyword}
+              value={dataMovie.keyword}
             />
           </div>
           <Card

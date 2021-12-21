@@ -21,6 +21,8 @@ export default function OrderHistory(props) {
   const [dataBooking, setDataBooking] = useState([]);
   const [loading, setLoading] = useState(false);
 
+  console.log(dataBooking);
+
   useEffect(() => {
     setLoading(true);
     axios
