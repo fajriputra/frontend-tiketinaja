@@ -79,23 +79,29 @@ export default function OrderHistory(props) {
               <div className="button__wrapper">
                 <Button
                   className={`btn btn__ticket ${
-                    item.statusTicket === "inProcess"
-                      ? "not-paid"
-                      : item.statusTicket === "notActive"
-                      ? "not-used"
-                      : item.statusTicket === "Active"
-                      ? "used"
-                      : ""
+                    (item.statusTicket === "inProcess" && "not-paid") ||
+                    (item.statusTicket === "notActive" && "used") ||
+                    (item.statusTicket === "Active" && "not-used")
                   }`}
                 >
-                  {item.statusTicket === "inProcess"
-                    ? "Waiting Payment"
-                    : item.statusTicket === "notActive"
-                    ? "Ticket in Active"
-                    : item.statusTicket === "Active"
-                    ? "Ticket used"
-                    : ""}
+                  {(item.statusTicket === "inProcess" && "Waiting Payment") ||
+                    (item.statusTicket === "notActive" && "Ticket used") ||
+                    (item.statusTicket === "Active" && "Ticket in Active")}
                 </Button>
+                {item.statusPayment === "pending" && (
+                  <Button
+                    className="btn p-0 show"
+                    onClick={() =>
+                      window.location.assign(
+                        `${item.urlRedirect}`,
+                        "_blank",
+                        "noopenner noreferrer"
+                      )
+                    }
+                  >
+                    Continue payment here
+                  </Button>
+                )}
                 {item.statusPayment === "success" && (
                   <Button
                     className="btn p-0 show"

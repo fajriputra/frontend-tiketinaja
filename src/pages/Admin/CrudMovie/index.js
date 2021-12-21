@@ -349,9 +349,7 @@ export default function Movie(props) {
             <InputText
               inputClassName="form__input search"
               placeholder="Search movie name..."
-              name="keyword"
               onKeyPress={handleSearch}
-              value={dataMovie.keyword}
             />
           </div>
           <Card
@@ -414,21 +412,23 @@ export default function Movie(props) {
             )}
           </Card>
 
-          <div className="d-flex justify-content-center align-items-center">
-            <ReactPaginate
-              previousLabel={false}
-              nextLabel={false}
-              breakLabel={"..."}
-              forcePage={dataMovie.page - 1}
-              pageCount={movie.pageInfo.totalPage}
-              onPageChange={handlePagination}
-              containerClassName={"pagination"}
-              pageClassName={"page-item"}
-              pageLinkClassName={"page-link"}
-              disabledClassName={"disabled"}
-              activeClassName={"active"}
-            />
-          </div>
+          {filtered.length > 0 && (
+            <div className="d-flex justify-content-center align-items-center">
+              <ReactPaginate
+                previousLabel={false}
+                nextLabel={false}
+                breakLabel={"..."}
+                forcePage={dataMovie.page - 1}
+                pageCount={movie.pageInfo?.totalPage}
+                onPageChange={handlePagination}
+                containerClassName={"pagination"}
+                pageClassName={"page-item"}
+                pageLinkClassName={"page-link"}
+                disabledClassName={"disabled"}
+                activeClassName={"active"}
+              />
+            </div>
+          )}
         </div>
       </section>
       <Sitelink />
