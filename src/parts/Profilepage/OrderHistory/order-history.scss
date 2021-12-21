@@ -15,6 +15,11 @@
     display: none;
   }
 
+  &.morethan-3 {
+    height: 650px;
+    overflow-y: auto;
+  }
+
   @media (min-width: 768px) {
     padding: $size-32;
   }
@@ -94,11 +99,11 @@
       &.used {
         background-color: #6e7191;
       }
-
-      &.show {
-        background-color: transparent;
-        color: #aaaaaa;
-      }
+    }
+    .show {
+      background-color: transparent;
+      text-decoration: none;
+      color: #aaaaaa;
     }
   }
 }

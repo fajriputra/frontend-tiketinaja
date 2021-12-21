@@ -108,7 +108,7 @@ const Header = (props) => {
                         ? `${apiHost}/uploads/user/${userData.avatar}`
                         : "https://www.a1hosting.net/wp-content/themes/arkahost/assets/images/default.jpg"
                     }
-                    className="mx-4"
+                    className="me-4"
                   />
                   <Button
                     className="

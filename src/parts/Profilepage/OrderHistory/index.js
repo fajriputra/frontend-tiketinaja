@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { BounceLoader } from "react-spinners";
 import { useSelector, useDispatch } from "react-redux";
 import axios from "helpers/axios";
 
@@ -13,15 +14,12 @@ import Image from "components/Image";
 import Button from "components/UI/Button";
 
 import "./order-history.scss";
-import { BounceLoader } from "react-spinners";
 
 export default function OrderHistory(props) {
   const dispatch = useDispatch();
   const { userData } = useSelector((state) => state.user);
   const [dataBooking, setDataBooking] = useState([]);
   const [loading, setLoading] = useState(false);
-
-  console.log(dataBooking);
 
   useEffect(() => {
     setLoading(true);
@@ -36,7 +34,11 @@ export default function OrderHistory(props) {
   }, [dispatch, userData.id]);
 
   return (
-    <Card className="card__order--history">
+    <Card
+      className={`card__order--history ${
+        dataBooking.length > 3 ? "morethan-3" : ""
+      } `}
+    >
       {loading ? (
         <div className="d-flex justify-content-center align-items-center">
           <BounceLoader color="#5f2eea" />
@@ -94,6 +96,15 @@ export default function OrderHistory(props) {
                     ? "Ticket used"
                     : ""}
                 </Button>
+                {item.statusPayment === "success" && (
+                  <Button
+                    className="btn p-0 show"
+                    type="link"
+                    href={`/ticket/${item.id}`}
+                  >
+                    See ticket
+                  </Button>
+                )}
               </div>
             </div>
           );

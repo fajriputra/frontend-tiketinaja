@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { BounceLoader } from "react-spinners";
-import { toast } from "react-toastify";
 import Header from "components/Header";
 import Sitelink from "components/Sitelink";
 import Card from "components/Card";
@@ -48,21 +47,7 @@ export default function PaymentPage(props) {
     axios
       .post("/booking", postBooking)
       .then((res) => {
-        toast.success(res.data.message);
-
-        window.open(
-          `${res.data.data.urlRedirect}`,
-          "_blank",
-          "noopener noreferrer"
-        );
-
-        const newData = {
-          ...res.data.data,
-          movieId: movieId[0],
-          seat,
-        };
-
-        history.push("/ticket", newData);
+        window.location.assign(`${res.data.data.urlRedirect}`);
       })
       .finally(() => {
         setLoading(false);

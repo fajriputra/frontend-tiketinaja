@@ -60,7 +60,11 @@ function App() {
             component={DetailPage}
           />
           <PrivateRoute path="/payment" exact component={PaymentPage} />
-          <PrivateRoute path="/ticket" exact component={TicketResult} />
+          <PrivateRoute
+            path="/ticket/:bookingId"
+            exact
+            component={TicketResult}
+          />
           <PrivateRoute path="/profile" exact component={ProfilePage} />
 
           {/* admin route */}
