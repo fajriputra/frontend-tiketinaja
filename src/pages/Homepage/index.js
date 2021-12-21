@@ -22,10 +22,9 @@ const queryMovie = {
 
 export default function Homepage(props) {
   useScrollTop();
-  const [loading, setLoading] = useState(false);
-
-  // const [dataMovie, setDataMovie] = useState(initialState);
   const dispatch = useDispatch();
+
+  const [loading, setLoading] = useState(false);
   const movie = useSelector((state) => state.movie);
 
   useEffect(() => {

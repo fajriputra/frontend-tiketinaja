@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { BounceLoader } from "react-spinners";
@@ -18,6 +18,7 @@ import "./payment.scss";
 export default function PaymentPage(props) {
   useScrollTop();
 
+  const [spinner, setSpinner] = useState(false);
   const [loading, setLoading] = useState(false);
   const history = useHistory();
 
@@ -33,9 +34,16 @@ export default function PaymentPage(props) {
     ? props.location.state.timeSchedule
     : "";
 
-  const handlePayOrder = () => {
+  useEffect(() => {
     setLoading(true);
 
+    setTimeout(() => {
+      setLoading(false);
+    }, 2000);
+  }, []);
+
+  const handlePayOrder = () => {
+    setSpinner(true);
     const postBooking = {
       dateBooking: dateSchedule,
       movieId: movieId[0].id,
@@ -50,7 +58,7 @@ export default function PaymentPage(props) {
         window.location.assign(`${res.data.data.urlRedirect}`);
       })
       .finally(() => {
-        setLoading(false);
+        setSpinner(false);
       });
   };
 
@@ -103,7 +111,7 @@ export default function PaymentPage(props) {
                     <Button
                       className="btn btn__action order"
                       onClick={handlePayOrder}
-                      isLoading={loading}
+                      isLoading={spinner}
                     >
                       Pay your order
                     </Button>

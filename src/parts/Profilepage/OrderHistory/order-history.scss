@@ -77,16 +77,25 @@
 
   .button__wrapper {
     padding-top: $size-30;
+    justify-content: space-between;
+    align-items: center;
+    flex-flow: row;
 
     @media (min-width: 992px) {
-      align-items: center;
+      // display: flex;
     }
 
     .btn__ticket {
-      width: 196px;
+      width: auto;
       height: $size-40;
       color: #f7f7fc;
       cursor: not-allowed;
+      font-size: $size-14;
+
+      @media (min-width: 992px) {
+        font-size: $size-16;
+        width: 196px;
+      }
 
       &.not-paid {
         background-color: #3134528c;
@@ -104,6 +113,11 @@
       background-color: transparent;
       text-decoration: none;
       color: #aaaaaa;
+      font-size: $size-14;
+
+      @media (min-width: 992px) {
+        font-size: $size-16;
+      }
     }
   }
 }

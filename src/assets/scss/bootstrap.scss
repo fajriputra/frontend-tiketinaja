@@ -266,6 +266,15 @@ p,
   padding: 20px;
 }
 
+@media (max-width: 992px) {
+  .loading__spinners {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+  }
+}
+
 .width-223 {
   width: 223px;
 }

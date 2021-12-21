@@ -49,7 +49,6 @@ export default function RegisterPage() {
 
   useEffect(() => {
     document.title = "Ticketing | Sign up";
-    window.scrollTo(0, 0);
   });
 
   const handleChange = (e) => {

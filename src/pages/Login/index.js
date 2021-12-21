@@ -49,7 +49,6 @@ export default function LoginPage() {
 
   useEffect(() => {
     document.title = "Ticketing | Sign in";
-    window.scrollTo(0, 0);
   });
 
   const onSubmit = async (email, password) => {
