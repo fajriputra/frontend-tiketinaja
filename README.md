@@ -74,6 +74,6 @@ To build a project that I created requires several dependencies / packages, such
 
 AL FAJRI PUTRA PRATAMA 
 - Instagram : [@fjri.p](https://instagram.com/fjri.p)
-- Linkedin : [fajriputra]()
+- Linkedin : [fajriputra](https://www.linkedin.com/in/fajriputra)
 
 PROJECT LINK [here](https://ticketingapp.netlify.app/)
