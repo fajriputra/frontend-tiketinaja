@@ -44,6 +44,7 @@ To build a project that I created requires several dependencies / packages, such
 * [react-redux](https://www.npmjs.com/package/react-redux)
 * [redux](https://www.npmjs.com/package/redux)
 * [redux-persist](https://www.npmjs.com/package/redux-persist)
+* [redux-persist-transform-encrypt](https://www.npmjs.com/package/redux-persist-transform-encrypt)
 * [redux-promise-middleware](https://www.npmjs.com/package/redux-promise-middleware)
 * [react-spinners](https://www.npmjs.com/package/react-spinners)
 * [react-toastify](https://www.npmjs.com/package/react-toastify)
