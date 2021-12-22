@@ -1,7 +1,9 @@
 /* eslint-disable import/no-anonymous-default-export */
 import { createStore, applyMiddleware, combineReducers } from "redux";
-import promiseMiddleware from "redux-promise-middleware";
 import { persistStore, persistReducer } from "redux-persist";
+import { encryptTransform } from "redux-persist-transform-encrypt";
+import { keyEncrypt } from "config";
+import promiseMiddleware from "redux-promise-middleware";
 import storage from "redux-persist/lib/storage";
 
 import authReducers from "store/auth/reducer";
@@ -13,6 +15,11 @@ import locationReducers from "store/location/reducer";
 const persistConfig = {
   key: "root",
   storage,
+  transforms: [
+    encryptTransform({
+      secretKey: `${JSON.stringify(keyEncrypt)}`,
+    }),
+  ],
 };
 
 const rootReducers = combineReducers({
