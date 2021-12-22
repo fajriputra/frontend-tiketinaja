@@ -30,6 +30,7 @@ export default function ActivateEmail(props) {
   };
 
   useEffect(() => {
+    document.title = "Ticketing | Activation Email";
     if (activation_token) {
       axios
         .post("/auth/activation", { activation_token })

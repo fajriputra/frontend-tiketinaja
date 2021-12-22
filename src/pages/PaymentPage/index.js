@@ -35,6 +35,7 @@ export default function PaymentPage(props) {
     : "";
 
   useEffect(() => {
+    document.title = "Ticketing | Payment";
     setLoading(true);
 
     setTimeout(() => {

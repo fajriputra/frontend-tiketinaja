@@ -59,6 +59,7 @@ export default function Dashboard(props) {
   dataDashboard.map((item) => dataIncome.push(item.total));
 
   useEffect(() => {
+    document.title = "Ticketing | Dashboard";
     dispatch(
       getMovie(
         queryMovie.page,
