@@ -7,13 +7,13 @@ import LogoTickitz from "assets/images/logo-tickitz-blue.png";
 import Background from "assets/images/bg-auth.png";
 
 // icons
-import { ReactComponent as IconGoogle } from "assets/images/icons/icon-google.svg";
-import { ReactComponent as IconFacebook } from "assets/images/icons/icon-fb.svg";
+// import { ReactComponent as IconGoogle } from "assets/images/icons/icon-google.svg";
+// import { ReactComponent as IconFacebook } from "assets/images/icons/icon-fb.svg";
 
 // hooks
 import useTogglePassword from "hooks/useTogglePassword";
 
-import LineBreak from "components/LineBreak";
+// import LineBreak from "components/LineBreak";
 import InputText from "components/UI/Form/InputText";
 import Button from "components/UI/Button";
 
