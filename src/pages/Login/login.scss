@@ -8,9 +8,11 @@
   background-color: $mainBg;
   padding: 30px 24px 55px;
   margin-bottom: 0;
+  height: 100vh;
 
   @media (min-width: 768px) {
     padding: 0;
+    height: 100%;
   }
 
   &__logo--mobile {
@@ -32,7 +34,7 @@
 
   &__background {
     width: 100%;
-    min-height: 100vh;
+    height: 100vh;
     object-fit: cover;
   }
 

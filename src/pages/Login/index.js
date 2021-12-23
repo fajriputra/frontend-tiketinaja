@@ -189,7 +189,7 @@ export default function LoginPage() {
                 </p>
               </Button>
 
-              <LineBreak />
+              {/* <LineBreak />
 
               <div
                 className="
@@ -220,7 +220,7 @@ export default function LoginPage() {
                     Facebook
                   </span>
                 </Button>
-              </div>
+              </div> */}
             </form>
           </div>
         </div>
