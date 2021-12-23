@@ -71,8 +71,10 @@
     font-weight: normal;
   }
 
-  &__form {
-    height: 100%;
+  @media (min-width: 992px) {
+    .signup__form {
+      padding-top: 100px;
+    }
   }
 
   form {

@@ -233,9 +233,9 @@ export default function RegisterPage() {
                 </p>
               </Button>
 
-              <LineBreak />
+              {/* <LineBreak /> */}
 
-              <div
+              {/* <div
                 className="
                   d-flex
                   justify-content-evenly
@@ -264,7 +264,7 @@ export default function RegisterPage() {
                     Facebook
                   </span>
                 </Button>
-              </div>
+              </div> */}
             </form>
           </div>
         </div>
