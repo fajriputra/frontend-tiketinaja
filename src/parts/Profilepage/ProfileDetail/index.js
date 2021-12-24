@@ -12,11 +12,14 @@ import Button from "components/UI/Button";
 
 import "./profile-detail.scss";
 
-const initialState = {
+const initProfileState = {
   firstName: "",
   lastName: "",
   email: "",
   phoneNumber: "",
+};
+
+const initPasswordState = {
   newPassword: "",
   confirmPassword: "",
 };
@@ -25,16 +28,17 @@ export default function ProfileDetail(props) {
   const dispatch = useDispatch();
 
   const [inputType, Icon] = useTogglePassword();
-  const [form, setForm] = useState(initialState);
-  const [loading, setLoading] = useState(false);
+  const [profile, setProfile] = useState(initProfileState);
+  const [password, setPassword] = useState(initPasswordState);
+  const [loadingProfile, setLoadingProfile] = useState(false);
+  const [loadingPassword, setLoadingPassword] = useState(false);
 
-  const { firstName, lastName, phoneNumber, newPassword, confirmPassword } =
-    form;
+  const { firstName, email, lastName, phoneNumber } = profile;
 
   useEffect(() => {
     dispatch(getDataUser()).then((res) => {
-      setForm({
-        ...form,
+      setProfile({
+        ...profile,
         firstName: res.value.data.data[0].firstName,
         lastName: res.value.data.data[0].lastName,
         email: res.value.data.data[0].email,
@@ -46,22 +50,14 @@ export default function ProfileDetail(props) {
   const handleChange = (e) => {
     const { name, value } = e.target;
 
-    setForm({ ...form, [name]: value });
+    setProfile({ ...profile, [name]: value });
+    setPassword({ ...password, [name]: value });
   };
 
   const handleUpdateProfile = () => {
-    // if (firstName === ""  && lastName === "" && phoneNumber === "") {
-    //   toast.error("Silahkan update salah satu field");
-    //   return;
-    // }
-    setLoading(true);
-
+    setLoadingProfile(true);
     axios
-      .patch("/user/update-profile", {
-        firstName,
-        lastName,
-        phoneNumber,
-      })
+      .patch("/user/update-profile", { firstName, lastName, phoneNumber })
       .then((res) => {
         toast.success(res.data.message);
 
@@ -71,25 +67,24 @@ export default function ProfileDetail(props) {
         err.response.data.message && toast.error(err.response.data.message);
       })
       .finally(() => {
-        setLoading(false);
+        setLoadingProfile(false);
       });
   };
 
   const handleUpdatePassword = () => {
-    setLoading(true);
+    setLoadingPassword(true);
 
     axios
-      .patch("/user/update-password", { newPassword, confirmPassword })
+      .patch("/user/update-password", password)
       .then((res) => {
         toast.success(res.data.message);
       })
       .catch((err) => {
         err.response.data.message && toast.error(err.response.data.message);
-
-        setForm({ ...form, newPassword: "", confirmPassword: "" });
       })
       .finally(() => {
-        setLoading(false);
+        setLoadingPassword(false);
+        setPassword(initPasswordState);
       });
   };
 
@@ -107,8 +102,8 @@ export default function ProfileDetail(props) {
               Firstname
             </label>
             <InputText
-              type="text"
               name="firstName"
+              placeholder="Write your lastname"
               onChange={handleChange}
               value={firstName}
             />
@@ -118,7 +113,6 @@ export default function ProfileDetail(props) {
               Lastname
             </label>
             <InputText
-              type="text"
               name="lastName"
               placeholder="Write your lastname"
               onChange={handleChange}
@@ -136,7 +130,7 @@ export default function ProfileDetail(props) {
               readOnly
               placeholder="Write your email"
               onChange={handleChange}
-              value={form.email}
+              value={email}
             />
           </div>
           <div className="form-group position-relative">
@@ -157,7 +151,7 @@ export default function ProfileDetail(props) {
       <Button
         className="btn btn__updates"
         isPrimary
-        isLoading={loading}
+        isLoading={loadingProfile}
         onClick={handleUpdateProfile}
       >
         Update changes
@@ -179,7 +173,7 @@ export default function ProfileDetail(props) {
               name="newPassword"
               placeholder="Write your password"
               onChange={handleChange}
-              value={newPassword}
+              value={password.newPassword}
             />
 
             <span className="eye-pass">{Icon}</span>
@@ -193,7 +187,7 @@ export default function ProfileDetail(props) {
               name="confirmPassword"
               placeholder="Confirm your password"
               onChange={handleChange}
-              value={confirmPassword}
+              value={password.confirmPassword}
             />
 
             <span className="eye-pass">{Icon}</span>
@@ -204,7 +198,7 @@ export default function ProfileDetail(props) {
       <Button
         className="btn btn__updates"
         isPrimary
-        isLoading={loading}
+        isLoading={loadingPassword}
         onClick={handleUpdatePassword}
       >
         Update changes

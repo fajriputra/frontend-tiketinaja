@@ -76,7 +76,7 @@ export default function ProfileInfo(props) {
 
         <MetaWrapper
           classTitle="data__profile"
-          title={`${userData.firstName} ${userData.lastName}`}
+          title={`${userData.firstName || ""} ${userData.lastName || ""}`}
           category="Moviegoers"
           classCategory="data__category"
         />

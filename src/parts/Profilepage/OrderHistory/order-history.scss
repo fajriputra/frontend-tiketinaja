@@ -21,11 +21,8 @@
   }
 
   @media (min-width: 768px) {
-    padding: $size-32;
-  }
-
-  @media (min-width: 768px) {
     margin-top: 0;
+    padding: $size-32;
   }
 
   .order__history--content {

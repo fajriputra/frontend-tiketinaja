@@ -15,7 +15,7 @@ import useTogglePassword from "hooks/useTogglePassword";
 import InputText from "components/UI/Form/InputText";
 import Button from "components/UI/Button";
 import Image from "components/Image";
-import { showError, showSuccess } from "helpers/notification";
+import { toast } from "react-toastify";
 
 import axios from "helpers/axios";
 
@@ -28,24 +28,14 @@ const initialState = {
   email: "",
   password: "",
   phoneNumber: "",
-  error: "",
-  success: "",
-};
-
-const statusList = {
-  idle: "idle",
-  process: "process",
-  success: "success",
-  error: "error",
 };
 
 export default function RegisterPage() {
   const [user, setUser] = useState(initialState);
-  const [status, setStatus] = useState(statusList.idle);
+  const [loading, setLoading] = useState(false);
   const [inputType, Icon] = useTogglePassword();
 
-  const { firstName, lastName, email, password, phoneNumber, error, success } =
-    user;
+  const { firstName, lastName, email, password, phoneNumber } = user;
 
   useEffect(() => {
     document.title = "Ticketing | Sign up";
@@ -58,7 +48,7 @@ export default function RegisterPage() {
 
   const onSubmit = async (e) => {
     e.preventDefault();
-    setStatus(statusList.process);
+    setLoading(true);
     try {
       const res = await axios.post("/auth/register", {
         firstName,
@@ -68,36 +58,16 @@ export default function RegisterPage() {
         phoneNumber,
       });
 
-      setUser({ ...user, error: "", success: res.data.message });
+      toast.success(res.data.message);
 
-      setTimeout(() => {
-        setUser({
-          firstName: "",
-          lastName: "",
-          email: "",
-          password: "",
-          phoneNumber: "",
-          error: "",
-        });
-      }, 3000);
-      setStatus(statusList.error);
+      setUser(initialState);
     } catch (err) {
-      err.response.data.message &&
-        setUser({ ...user, error: err.response.data.message, success: "" });
+      err.response.data.message && toast.error(err.response.data.message);
 
-      setTimeout(() => {
-        setUser({
-          firstName: "",
-          lastName: "",
-          email: "",
-          password: "",
-          phoneNumber: "",
-          error: "",
-        });
-      }, 3000);
+      setUser(initialState);
     }
 
-    setStatus(statusList.success);
+    setLoading(false);
   };
 
   return (
@@ -150,8 +120,7 @@ export default function RegisterPage() {
                   Fill your additional details
                 </h4>
               </div>
-              {error && showError(error)}
-              {success && showSuccess(success)}
+
               <div className="form-group position-relative">
                 <label htmlFor="firstName" className="form-label">
                   Firstname
@@ -218,7 +187,7 @@ export default function RegisterPage() {
               <Button
                 className="btn btn-signup w-100"
                 isPrimary
-                isLoading={status === statusList.process}
+                isLoading={loading}
               >
                 Join for free now
               </Button>

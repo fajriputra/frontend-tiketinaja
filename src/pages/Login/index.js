@@ -23,6 +23,7 @@ import { userLogin } from "store/auth/action";
 import { getDataUser } from "store/user/action";
 
 import "./login.scss";
+import { toast } from "react-toastify";
 
 const initialState = {
   error: "",
@@ -54,7 +55,7 @@ export default function LoginPage() {
   const onSubmit = async (email, password) => {
     dispatch(userLogin(email, password))
       .then((res) => {
-        setNotif({ ...notif, error: "", success: res.value.data.message });
+        toast.success(res.value.data.message);
 
         dispatch(getDataUser()).then((res) => {
           const role = res.value.data.data[0].role;
@@ -73,11 +74,11 @@ export default function LoginPage() {
         localStorage.setItem("refreshToken", res.value.data.data.refreshToken);
       })
       .catch((err) => {
-        err.response.data.message &&
-          setNotif({ ...notif, error: err.response.data.message, success: "" });
+        err.response.data.message && toast.error(err.response.data.message);
+
+        reset({ email: "", password: "" });
         setTimeout(() => {
           setNotif("");
-          reset({ email: "", password: "" });
         }, 3000);
       });
   };
@@ -115,8 +116,7 @@ export default function LoginPage() {
                   registration
                 </p>
               </div>
-              {error && showError(error)}
-              {success && showSuccess(success)}
+
               <div className="form-group position-relative">
                 <label htmlFor="email" className="form-label">
                   Email
